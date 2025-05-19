@@ -1,0 +1,54 @@
+mode:
+  name: train
+  optimize_roi_param: false
+  create_templates: true
+dataset:
+  data_root: ${base_dir}/BD_METRO
+  train_mat: Apprentissage.mat
+  test_mat: Test.mat
+  data_format: mat
+  val_split: 0.2
+  random_seed: ${seed}
+  image_format: .JPG
+  image_mode: RGB
+roi_detection: {}
+classification:
+  name: template_classification
+  method: cv2.TM_CCOEFF_NORMED
+  threshold: 0.05
+  template_dir: ${base_dir}/models/templates
+template:
+  name: template_preprocessing
+  use_clache: true
+  use_blur: true
+  use_resize: true
+  resize_size:
+  - 64
+  - 64
+  debug_visualize: true
+  debug_visualize_dir: ${base_dir}/results/template_preprocessing_visualize
+  color_space: rgb
+roi_param_optimizer:
+  name: roi_param_optimizer_preprocessing
+  use_color_constancy: true
+  color_constancy_method: ebner
+  use_resize: false
+  resize_size:
+  - 64
+  - 64
+  debug_visualize: true
+  debug_visualize_dir: ${base_dir}/results/roi_param_optimizer_preprocessing_visualize
+output_dir: ${base_dir}/results
+seed: 42
+debug: false
+verbose: true
+device: cpu
+data_root: dataset
+base_dir: ${oc.env:BASE_DIR}
+model_dispatch:
+  train: src.pipeline.train_pipeline:main
+  test: src.pipeline.test_pipeline:main
+  demo: src.pipeline.demo_pipeline:main
+logging:
+  level: INFO
+  format: '%(asctime)s - %(name)s - %(levelname)s - %(message)s'

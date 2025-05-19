@@ -1,0 +1,26 @@
+name: "multi_color_detector"
+
+params_dir: "${base_dir}/models/roi_detection/"
+
+
+
+min_area: 300
+max_area: 20000
+min_aspect_ratio: 0.8
+max_aspect_ratio: 1.2
+
+threshold_error_dict:
+  "1": 10
+  "2": 10
+  "3": 10
+  "4": 10
+  "5": 10
+  "6": 10
+  "7": 10
+  "8": 10
+  "9": 10
+  "10": 10
+  "11": 10
+  "12": 10
+  "13": 10
+  "14": 10

@@ -1,0 +1,39 @@
+defaults:
+  - mode: train
+  - dataset: default
+  - roi_detection: multi_color
+  - classification: template_classification
+
+  - preprocessing/template: default
+  - preprocessing/roi_param_optimizer: default
+
+  - _self_
+
+
+output_dir: ${base_dir}/results
+seed: 42
+debug: false
+verbose: true
+device: cpu
+data_root: dataset
+base_dir: ${oc.env:BASE_DIR}
+
+
+
+model_dispatch:
+  train: "src.pipeline.train_pipeline:main"
+  test: "src.pipeline.test_pipeline:main"
+  demo: "src.pipeline.demo_pipeline:main"
+
+logging:
+  level: INFO
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+
+hydra:
+  run:
+    dir: outputs/${now:%Y-%m-%d_%H-%M-%S}
+  sweep:
+    dir: multirun/${now:%Y-%m-%d_%H-%M-%S}
+    subdir: ${hydra.job.num}
+  job:
+    chdir: true

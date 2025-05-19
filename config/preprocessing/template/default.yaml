@@ -1,0 +1,11 @@
+name: "template_preprocessing"
+
+use_clache: true
+use_blur: true
+use_resize: true
+resize_size: [64, 64]
+
+debug_visualize: true
+debug_visualize_dir: "${base_dir}/results/template_preprocessing_visualize"
+
+color_space: "bgr"

@@ -1,0 +1,11 @@
+name: "test"
+
+output_dir: "${base_dir}/results"
+
+save_visualization: false
+
+view_images: false
+
+
+
+

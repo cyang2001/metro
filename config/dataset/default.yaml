@@ -1,0 +1,13 @@
+# Default dataset configuration
+
+data_root: "${base_dir}/data/BD_METRO"         
+train_mat: "Apprentissage.mat" 
+test_mat: "Test.mat"           
+data_format: mat
+
+val_split: 0.2   
+random_seed: ${seed}             
+     
+
+image_format: ".JPG"          
+image_mode: "BGR"             
