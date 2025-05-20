@@ -21,7 +21,7 @@ class TemplatePreprocessor(BasePreprocessor):
         self.debug_visualize = cfg.get("debug_visualize", False)
         self.debug_visualize_dir = cfg.get("debug_visualize_dir")
         self.color_space = cfg.get("color_space", "rgb")
-    def preprocess(self, image: np.ndarray, has_visualize: bool = False) -> np.ndarray:
+    def preprocess(self, image: np.ndarray, has_visualize: bool = True) -> np.ndarray:
         if self.debug_visualize and not has_visualize:
             self.logger.info(f"Applying preprocessing")
             original_image = image.copy()

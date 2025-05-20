@@ -85,38 +85,42 @@ class MetroTestPipeline:
         predictions = []
         ground_truth = []
         has_visualize = False
-
+        
         for idx in tqdm(range(len(test_dataset)), total=len(test_dataset), 
                         desc="Processing images", unit="img"):
-            image, annotations = test_dataset.get_image_with_annotations(idx)
-            image_id = test_dataset.df.iloc[idx]['image_id']
+            image, annotations, image_id = test_dataset.get_image_with_annotations(idx)
             self.logger.info(f"Processing image ID: {image_id}")
-            
+            #if image_id != 4:
+            #    continue
             random_int = np.random.randint(0, 1)
             if not has_visualize and random_int == 0:
                 detected_rois = self.multi_color_detector.detect(image, has_visualize=has_visualize)
                 has_visualize = True
             else:
                 detected_rois = self.multi_color_detector.detect(image, has_visualize=has_visualize)
-            
             self.logger.info(f"Detected {len(detected_rois)} ROIs")
+            gt_classes = [(ann[4], ann[:4]) for ann in annotations]
 
-            visualize_detection_steps(self.multi_color_detector, image)
-            
+            #if 7 in [cls for cls, _ in gt_classes]:
+            #    visualize_detection_steps(self.multi_color_detector, image)
+            #visualize_detection_steps(self.multi_color_detector, image)
             detected_classes = []
             for roi in detected_rois:
                 x1, y1, x2, y2 = roi['bbox']
+                detected_classes.append((roi['line_id'], roi['bbox'], roi['confidence']))
+
+                #roi_img = image[y1:y2, x1:x2]
                 
-                roi_img = image[y1:y2, x1:x2]
+                #if roi_img.size == 0 or roi_img.shape[0] == 0 or roi_img.shape[1] == 0:
+                #    self.logger.warning(f"Invalid ROI: {roi}")
+                #    continue
                 
-                if roi_img.size == 0 or roi_img.shape[0] == 0 or roi_img.shape[1] == 0:
-                    self.logger.warning(f"Invalid ROI: {roi}")
-                    continue
-                
-                class_id, confidence = self.template_classifier.predict(roi_img)
-                detected_classes.append((class_id, roi['bbox'], confidence))
+                #class_id, confidence = self.template_classifier.predict(roi_img)
+                #if class_id == -1:
+                #    continue
+                #detected_classes.append((class_id, roi['bbox'], confidence))
+
             
-            gt_classes = [(ann[4], ann[:4]) for ann in annotations]
             
             image_result = {
                 'image_id': int(image_id),
@@ -285,24 +289,24 @@ class MetroTestPipeline:
             
             # Convert to format suitable for MATLAB
             bd_data = []
-            
             for result in results:
                 image_id = result['image_id']
-                # Save detections (optional)
-                if self.cfg.mode.test.get("save_detections", True):
+
+                if self.cfg.mode.get("save_detections", True):
                     for cls, bbox, _ in result['detected']:
-                        x1, y1, x2, y2 = bbox
+                        x1, y1, x2, y2 = map(float, bbox)
                         bd_data.append([image_id, y1, y2, x1, x2, cls])
             
             # Save as MATLAB file
             mat_path = os.path.join(output_dir, "test_results.mat")
-            sio.savemat(mat_path, {'BD': np.array(bd_data)})
+            sio.savemat(mat_path, {'BD': np.array(bd_data, dtype=np.float64)})
             
             self.logger.info(f"Results saved to {mat_path}")
             
             # Save as JSON (more readable)
             json_path = os.path.join(output_dir, "test_results.json")
             
+
             with open(json_path, 'w') as f:
                 import json
                 json.dump(results, f, indent=4, default=lambda x: str(x) if isinstance(x, np.ndarray) else x)
