@@ -54,6 +54,7 @@ class MultiColorDetector(BaseDetector):
     def detect(self, image: np.ndarray, has_visualize: bool = True) -> List[Dict[str, Any]]:
         if isinstance(self.preprocessor, ROIParamOptimizerPreprocessor):
             img_hsv = self.preprocessor.preprocess(image, has_visualize)
+            #img_hsv = cv2.medianBlur(img_hsv, ksize=5)
         else:
             raise ValueError(f"Preprocessor {self.preprocessor} is not a ROIParamOptimizerPreprocessor")
         detections = []
@@ -61,6 +62,7 @@ class MultiColorDetector(BaseDetector):
         for line_id in self.color_params:
             mask = self._extract_line_mask(img_hsv, line_id)
             boxes = self._extract_boxes_from_mask(mask)
+
             for x1, y1, x2, y2, conf in boxes:
                 detections.append({
                     "bbox": [x1, y1, x2, y2],
@@ -71,84 +73,157 @@ class MultiColorDetector(BaseDetector):
         return self._nms_by_line(detections)
 
 
-    def _extract_line_mask(self, img_hsv: np.ndarray, line_id: str) -> np.ndarray:
+    def _extract_line_mask(self, img_color_space: np.ndarray, line_id: str) -> np.ndarray:
+        """
+        Extract mask for a specific line ID.
+        
+        Args:
+            img_color_space: Image in HSV or LAB color space
+            line_id: Line identifier (e.g., '1', '4', etc.)
+        
+        Returns:
+            np.ndarray: Binary mask with white pixels representing the detected color
+        """
+        height, width = img_color_space.shape[:2]
+
+        base_kernel_size = max(3, int(min(height, width) * 0.005))  
+        kernel_small = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (base_kernel_size, base_kernel_size))
+        kernel_medium = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (base_kernel_size*2, base_kernel_size*2))
+        kernel_large = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (base_kernel_size*3, base_kernel_size*3))
+        
         params = self.color_params[line_id]
-        lower = np.maximum(0, np.array(params["hsv_lower"]) - self.threshold_error_dict.get(line_id, 0))
-        upper = np.minimum(255, np.array(params["hsv_upper"]) + self.threshold_error_dict.get(line_id, 0))
-        lower = np.clip(lower, [0, 0, 0], [179, 255, 255])
-        upper = np.clip(upper, [0, 0, 0], [179, 255, 255])
-        # create initial color mask
-        base_mask = cv2.inRange(img_hsv, lower, upper)
-        H, W = base_mask.shape
-        k = max(3, min(18, int(min(H, W) * 0.05)))
-        ker = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (k, k))
+        
+        threshold_error = self.threshold_error_dict.get(line_id, 0)
+        
 
-        opened  = cv2.morphologyEx(base_mask, cv2.MORPH_OPEN,  ker)
-        closed  = cv2.morphologyEx(opened,    cv2.MORPH_CLOSE, ker)
-        dilated = cv2.dilate(closed, ker, iterations=1)
 
-        def largest_cc_area(mask):
-            cnts,_ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-            if not cnts: return 0
-            return max(cv2.contourArea(c) for c in cnts)
+        # 根据色彩空间选择不同的处理流程
+    
+        # HSV处理流程
+        # 1. 矩形阈值法
+        hsv_bonus = [0, 0, 0]
+        
+        # 获取HSV均值和标准差
+        hsv_mean = params["hsv_mean"]
+        hsv_std = params["hsv_std"]
+        
+        # 获取下界和上界
+        lower = np.array(params["hsv_lower"], dtype=np.uint8)
+        upper = np.array(params["hsv_upper"], dtype=np.uint8)
+        
+        # 应用额外的阈值误差和奖励
+        lower = np.maximum(0, lower - threshold_error - np.array(hsv_bonus))
+        upper = np.minimum(255, upper + threshold_error + np.array(hsv_bonus))
+        
+        lower[0] = int(max(0, min(180, lower[0])))
+        upper[0] = int(max(0, min(180, upper[0])))
+        
+        # 创建矩形阈值掩码
+        rectangular_mask = cv2.inRange(img_color_space, lower, upper)
+        
+        # 2. 矢量距离阈值法
+        h_ref = hsv_mean[0]
+        s_ref = hsv_mean[1]
+        v_ref = hsv_mean[2]
+        
+        h_std = hsv_std[0] / 3.0
+        s_std = hsv_std[1] / 3.0
+        v_std = hsv_std[2] / 3.0
+        
+        # 计算向量距离阈值 tau
+        tau_scale = params.get("tau_scale", 0.5)  # 缩小tau_scale，使阈值更严格
+        tau = tau_scale * np.sqrt(0.8**2 * (h_std**2 + s_std**2 + v_std**2))
+        
+        # 构建矢量距离掩码
+        h, s, v = cv2.split(img_color_space)
+        # 计算欧式距离 (使用HSV循环距离)
+        h_dist = np.minimum(np.abs(h.astype(np.int32) - h_ref), 180 - np.abs(h.astype(np.int32) - h_ref))
+        s_dist = np.abs(s.astype(np.int32) - s_ref)
+        v_dist = np.abs(v.astype(np.int32) - v_ref)
+        
+        # 缩放权重以平衡各通道贡献
+        h_weight = 1.0 / max(1, h_std)
+        s_weight = 1.0 / max(1, s_std)
+        v_weight = 1.0 / max(1, v_std)
+        
+        # 计算加权欧氏距离
+        distance = np.sqrt(
+            (h_weight * h_dist)**2 + 
+            (s_weight * s_dist)**2 + 
+            (v_weight * v_dist)**2
+        )
+        
+        vector_mask = np.zeros_like(h, dtype=np.uint8)
+        vector_mask[distance <= tau] = 255
+        from matplotlib import pyplot as plt
+        #fig, axes = plt.subplots(2, 3, figsize=(10, 5))
+        combined_mask = cv2.bitwise_or(rectangular_mask, vector_mask)
+        original_combined_mask = combined_mask.copy()
+        
+        #axes[0, 0].imshow(combined_mask, cmap='gray')
+        #axes[0, 0].set_title(f"Combined Mask {line_id}")
+        combined_mask = cv2.morphologyEx(combined_mask, cv2.MORPH_OPEN, kernel_small)
+        #axes[0, 1].imshow(combined_mask, cmap='gray')
+        #axes[0, 1].set_title(f"Morphology Open {line_id}")
 
-        orig_cnts,_ = cv2.findContours(base_mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-        over_eroded = False
-        if orig_cnts:
-            area_orig = largest_cc_area(base_mask)
-            area_proc = largest_cc_area(dilated)
-            num_orig  = len(orig_cnts)
-            num_proc,_ = cv2.connectedComponents(dilated)
-            if (area_orig > 0 and area_proc / area_orig < 0.2) or \
-            (num_orig > 3 and num_proc < num_orig * 0.3):
-                over_eroded = True
+        combined_mask = cv2.morphologyEx(combined_mask, cv2.MORPH_CLOSE, kernel_medium)
+        #axes[0, 2].imshow(combined_mask, cmap='gray')
+        #axes[0, 2].set_title(f"Morphology Close {line_id}")
+        before_count = np.count_nonzero(original_combined_mask)
+        after_count = np.count_nonzero(combined_mask)
+        
 
-        if over_eroded:
-            self.logger.info(f"[{line_id}] Over-eroded; fallback to conservative morph")
-            small_ker = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (3, 3))
-            mask_cons = cv2.morphologyEx(base_mask, cv2.MORPH_OPEN, small_ker, iterations=1)
-            mask_cons = cv2.morphologyEx(mask_cons, cv2.MORPH_CLOSE, small_ker, iterations=1)
-            final_mask = cv2.bitwise_or(mask_cons, dilated)
-        else:
-            final_mask = dilated
-
-        return final_mask
+        if after_count < before_count * 0.05 and before_count > 0:
+            self.logger.info(f"Too strict for line {line_id}, using original mask")
+            # 采用更保守的形态学处理
+            combined_mask = original_combined_mask.copy()
+            # 使用更小的内核进行开运算
+            combined_mask = cv2.morphologyEx(combined_mask, cv2.MORPH_OPEN, kernel_small)
+            # 使用适中的内核进行闭运算
+            combined_mask = cv2.morphologyEx(combined_mask, cv2.MORPH_CLOSE, kernel_small)
+        
+        # 最后，进行轻微膨胀，以确保检测区域的完整性
+        combined_mask = cv2.dilate(combined_mask, kernel_small, iterations=1)
+        
+        return combined_mask
 
     def _extract_boxes_from_mask(self, mask: np.ndarray) -> List[Tuple[int, int, int, int, float]]:
         contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
         boxes = []
-        
         height, width = mask.shape[:2]
         image_area = height * width
-        
-        dynamic_min_area = max(self.min_area, int(image_area * 0.01))  # at least 1% of the image
-        dynamic_max_area = min(self.max_area, int(image_area * 0.1))   # at most 10% of the image
+        dynamic_min_area = max(self.min_area, int(image_area * 0.001))  # at least 1% of the image
+        dynamic_max_area = min(self.max_area, int(image_area * 0.05))   # at most 10% of the image
 
         for cnt in contours:
             area = cv2.contourArea(cnt)
-            
             if area < dynamic_min_area or area > dynamic_max_area:
+                #self.logger.info(f"Area {area} is not in the range {dynamic_min_area} to {dynamic_max_area}")
                 continue
             
             x, y, w, h = cv2.boundingRect(cnt)
             
             aspect_ratio = w / h if h > 0 else 0
             if not (self.min_aspect_ratio <= aspect_ratio <= self.max_aspect_ratio):
+                #self.logger.info(f"Aspect ratio {aspect_ratio} is not in the range {self.min_aspect_ratio} to {self.max_aspect_ratio}")
                 continue
             
             fill_ratio = area / (w * h)
-            if fill_ratio < 0.3:
+            if fill_ratio < 0.7:
+                #self.logger.info(f"Fill ratio {fill_ratio} is less than 0.7")
                 continue
             
             (cx, cy), r = cv2.minEnclosingCircle(cnt)
             circle_area = np.pi * r * r
             circularity = area / circle_area if circle_area > 0 else 0
-            if circularity < 0.4:  
+            if circularity < 0.6:  
+                #self.logger.info(f"Circularity {circularity} is less than 0.6")
                 continue
             
             perimeter = cv2.arcLength(cnt, True)
             complexity = perimeter * perimeter / (4 * np.pi * area) if area > 0 else float('inf')
             if complexity > 3.0:  
+                #self.logger.info(f"Complexity {complexity} is greater than 3.0")
                 continue
             
             confidence = (
@@ -156,7 +231,6 @@ class MultiColorDetector(BaseDetector):
                 0.3 * (1 - abs(0.75 - aspect_ratio)) +  
                 0.3 * circularity                 
             )
-            
             boxes.append((x, y, x + w, y + h, confidence))
         
         return boxes
@@ -246,7 +320,7 @@ class MultiColorDetector(BaseDetector):
         
         rois = []
         for idx in range(len(dataset)):
-            image, annotations = dataset.get_image_with_annotations(idx)
+            image, annotations, _ = dataset.get_image_with_annotations(idx)
             if image.dtype == np.float32 and image.max() <= 1.0:
                 image_cv = (image * 255).astype(np.uint8)
             else:
@@ -254,7 +328,11 @@ class MultiColorDetector(BaseDetector):
             
             if len(image_cv.shape) == 3 and image_cv.shape[2] == 3:
                 bgr = image_cv
-                hsv = cv2.cvtColor(bgr, cv2.COLOR_BGR2HSV)
+                #hsv = cv2.cvtColor(bgr, cv2.COLOR_BGR2HSV)
+                if isinstance(self.preprocessor, ROIParamOptimizerPreprocessor):
+                    hsv = self.preprocessor.preprocess(image)
+                else:
+                    raise ValueError(f"Preprocessor {self.preprocessor} is not a ROIParamOptimizerPreprocessor")
             else:
                 continue
             for annotation in annotations:
@@ -279,25 +357,25 @@ class MultiColorDetector(BaseDetector):
             samples_array = np.array(samples)
             
             h_values = samples_array[:, 0]
-            if np.max(h_values) - np.min(h_values) > 90:
-                h_values_adjusted = h_values.copy()
-                if np.median(h_values) < 90:
-                    h_values_adjusted[h_values > 90] -= 180
-                else:
-                    h_values_adjusted[h_values < 90] += 180
-                
-                avg_h = np.mean(h_values_adjusted)
-                if avg_h < 0:
-                    avg_h += 180
-                elif avg_h > 180:
-                    avg_h -= 180
-            else:
-                avg_h = np.mean(h_values)
-            
+            #if np.max(h_values) - np.min(h_values) > 90:
+            #    h_values_adjusted = h_values.copy()
+            #    if np.median(h_values) < 90:
+            #        h_values_adjusted[h_values > 90] -= 180
+            #else:
+            #    h_values_adjusted[h_values < 90] += 180
+            #    avg_h = np.mean(h_values_adjusted)
+            #    if avg_h < 0:
+            #        avg_h += 180
+            #    elif avg_h > 180:
+            #        avg_h -= 180
+            #else:
+            #    avg_h = np.mean(h_values)
+            avg_h = self._circular_mean_deg(h_values)
             avg_s = np.mean(samples_array[:, 1])
             avg_v = np.mean(samples_array[:, 2])
             
-            std_h = np.std(h_values)
+            #std_h = np.std(h_values)
+            std_h = self._circular_std_deg(h_values)
             std_s = np.std(samples_array[:, 1])
             std_v = np.std(samples_array[:, 2])
             
@@ -381,6 +459,23 @@ class MultiColorDetector(BaseDetector):
         except Exception as e:
             self.logger.error(f"Failed to save parameters: {e}")
             return False
+    def _circular_mean_deg(self,degrees: np.ndarray) -> float:
+        radians = np.deg2rad(degrees * 2)  # HSV hue is from 0–180, so double for full circle
+        sin_sum = np.sum(np.sin(radians))
+        cos_sum = np.sum(np.cos(radians))
+        mean_rad = np.arctan2(sin_sum, cos_sum)
+        mean_deg = np.rad2deg(mean_rad) / 2
+        if mean_deg < 0:
+            mean_deg += 180
+        return mean_deg
+    def _circular_std_deg(self,degrees: np.ndarray) -> float:
+        radians = np.deg2rad(degrees * 2)
+        sin_sum = np.sum(np.sin(radians))
+        cos_sum = np.sum(np.cos(radians))
+        R = np.sqrt(sin_sum**2 + cos_sum**2) / len(degrees)
+        std_rad = np.sqrt(-2 * np.log(R))
+        std_deg = np.rad2deg(std_rad) / 2  # back to HSV hue scale
+        return std_deg
 def visualize_dominant_color(img, roi, hsv_color, line_id, x1, y1, x2, y2):
 
     plt.figure(figsize=(15, 5))
@@ -414,6 +509,7 @@ def visualize_detection_steps(detector: MultiColorDetector, image: np.ndarray):
     axes = axes.flatten()
     if isinstance(detector.preprocessor, ROIParamOptimizerPreprocessor):
         img_preprocessed = detector.preprocessor.preprocess(image, has_visualize=True)
+        #img_preprocessed = cv2.medianBlur(img_preprocessed, ksize=3)
     else:
         raise ValueError(f"Preprocessor {detector.preprocessor} is not a ROIParamOptimizerPreprocessor")
     
@@ -425,7 +521,7 @@ def visualize_detection_steps(detector: MultiColorDetector, image: np.ndarray):
     img_bgr = image
     img_hsv_preprocessed = img_preprocessed
     img_hsv = cv2.cvtColor(img_bgr, cv2.COLOR_BGR2HSV)
-    
+
     axes[1].imshow(img_hsv)
     axes[1].set_title("2. Original HSV")
     axes[1].axis('off')
@@ -434,7 +530,7 @@ def visualize_detection_steps(detector: MultiColorDetector, image: np.ndarray):
     axes[2].set_title("3. Preprocessed HSV")
     axes[2].axis('off')
 
-    line_id = "12" if "12" in detector.color_params else list(detector.color_params.keys())[0]
+    line_id = "14" if "14" in detector.color_params else list(detector.color_params.keys())[0]
     
     params = detector.color_params[line_id]
     lower = np.maximum(0, np.array(params["hsv_lower"]) - detector.threshold_error_dict.get(line_id, 0))

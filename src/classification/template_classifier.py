@@ -153,15 +153,18 @@ class TemplateClassifier(BaseClassifier):
         if not self.templates:
             self.logger.warning("No templates loaded for matching.")
             return -1, 0.0
+        if isinstance(self.preprocessor, TemplatePreprocessor):
+            image = self.preprocessor.preprocess(image)
         if image.shape[:2] != self.template_size:
             self.logger.warning(f"Image size {image.shape[:2]} does not match template size {self.template_size}")
             image = cv2.resize(image, self.template_size)
 
         if np.var(image) < self.cfg.get("var_threshold", 1e-3):
             return -1, 0.0
-        edge_ratio_min = self.cfg.get("edge_ratio_min", 0.05)
+        edge_ratio_min = self.cfg.get("edge_ratio_min", 0.01)
         edge_ratio = self._edge_ratio(image)
         if edge_ratio < edge_ratio_min:
+            self.logger.info(f"Edge ratio {edge_ratio} is less than {edge_ratio_min}")
             return -1, 0.0
 
  
@@ -227,6 +230,7 @@ class TemplateClassifier(BaseClassifier):
             gray = cv2.cvtColor(cv2.cvtColor(img, cv2.COLOR_LAB2RGB), cv2.COLOR_RGB2GRAY)
         else:
             gray = img
+        gray = (gray * 255).astype(np.uint8)
         edges = cv2.Canny(gray, 100, 200)
         return float(np.count_nonzero(edges)) / edges.size
 
@@ -246,7 +250,7 @@ class TemplateClassifier(BaseClassifier):
     def _match_rgb_bgr(self, img: np.ndarray, space: str) -> Tuple[int, float]:
         best_cls, best_sim = -1, -1.0
         for cls, tpl in self.templates.items():
-            tpl_cur = tpl                                          
+            tpl_cur = tpl    
             sims = [cv2.matchTemplate(img[:, :, c].astype(np.float32),
                                     tpl_cur[:, :, c].astype(np.float32),
                                     self.method)[0, 0]
@@ -254,12 +258,11 @@ class TemplateClassifier(BaseClassifier):
             tm_val = float(np.mean(sims))
             gray_img = cv2.cvtColor(img,  cv2.COLOR_BGR2GRAY if space == "bgr" else cv2.COLOR_RGB2GRAY)
             gray_tpl = cv2.cvtColor(tpl_cur, cv2.COLOR_BGR2GRAY if space == "bgr" else cv2.COLOR_RGB2GRAY)
-            ssim_val = ssim(gray_img, gray_tpl)
+            ssim_val = ssim(gray_img, gray_tpl, data_range = 1.0)
             sim = self._combine(tm_val, ssim_val)
             if sim > best_sim:
                 best_cls, best_sim = cls, sim
         return best_cls, best_sim
-
 
     def _match_lab(self, lab: np.ndarray) -> Tuple[int, float]:
         best_cls, best_sim = -1, -1.0
@@ -278,10 +281,7 @@ class TemplateClassifier(BaseClassifier):
                 best_cls, best_sim = cls, sim
         return best_cls, float(best_sim)
     def _combine(self, tm_val: float, ssim_val: float) -> float:
-        if self.method in (cv2.TM_SQDIFF, cv2.TM_SQDIFF_NORMED):
-            norm_tm = max(0.0, 1.0 - tm_val)        # 0=完美 →1
-        else:
-            # 假设 TM_<NORMED> 已在 0~1 之间；如非 *_NORMED，可用 tanh/exp 缩放
-            norm_tm = max(0.0, min(1.0, tm_val))
-        alpha = self.cfg.get("tm_weight", 0.6)
-        return alpha * norm_tm + (1 - alpha) * ssim_val
+    # Clip TM score into [0, 1] based on known range [-1, 1]
+        tm_val_norm = (tm_val + 1.0) / 2.0
+        ssim_val_norm = max(min(ssim_val, 1.0), 0.0)  # Clip to [0, 1]
+        return 0.5 * tm_val_norm + 0.5 * ssim_val_norm
