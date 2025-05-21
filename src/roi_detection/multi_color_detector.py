@@ -78,9 +78,10 @@ class MultiColorDetector(BaseDetector):
         detections = []
 
         for line_id in self.color_params:
+
             mask = self._extract_line_mask(img_hsv, line_id)
             boxes = self._extract_boxes_from_mask(mask)
-
+ 
             for x1, y1, x2, y2, conf in boxes:
                 detections.append({
                     "bbox": [x1, y1, x2, y2],
@@ -108,11 +109,11 @@ class MultiColorDetector(BaseDetector):
         kernel_small = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (base_kernel_size, base_kernel_size))
         kernel_medium = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (base_kernel_size*2, base_kernel_size*2))
         kernel_large = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (base_kernel_size*3, base_kernel_size*3))
-        
+
         params = self.color_params[line_id]
         
         threshold_error = self.threshold_error_dict.get(line_id, 0)
-        
+
 
 
         # 根据色彩空间选择不同的处理流程
@@ -124,7 +125,6 @@ class MultiColorDetector(BaseDetector):
         hsv_std = params["hsv_std"]
         lower, upper = self._safe_hsv_bounds(params["hsv_lower"], params["hsv_upper"], threshold_error, hsv_bonus)
         rectangular_mask = cv2.inRange(img_color_space, lower, upper)
-
         h_ref = hsv_mean[0]
         s_ref = hsv_mean[1]
         v_ref = hsv_mean[2]
@@ -132,9 +132,10 @@ class MultiColorDetector(BaseDetector):
         h_std = hsv_std[0] / 3.0
         s_std = hsv_std[1] / 3.0
         v_std = hsv_std[2] / 3.0
-        
+
         # 计算向量距离阈值 tau
         tau_scale = params.get("tau_scale", 0.5)  # 缩小tau_scale，使阈值更严格
+
         tau = tau_scale * np.sqrt(0.8**2 * (h_std**2 + s_std**2 + v_std**2))
         
         # 构建矢量距离掩码
@@ -187,7 +188,6 @@ class MultiColorDetector(BaseDetector):
         
         # 最后，进行轻微膨胀，以确保检测区域的完整性
         combined_mask = cv2.dilate(combined_mask, kernel_small, iterations=1)
-        
         return combined_mask
 
     def _extract_boxes_from_mask(self, mask: np.ndarray, plot_count: bool = False) -> List[Tuple[int, int, int, int, float]]:
@@ -215,8 +215,7 @@ class MultiColorDetector(BaseDetector):
             
             aspect_ratio = w / h if h > 0 else 0
             if not (self.min_aspect_ratio <= aspect_ratio <= self.max_aspect_ratio):
-                if area == 6389.5:
-                    self.logger.info(f"Aspect ratio {aspect_ratio} is not in the range {self.min_aspect_ratio} to {self.max_aspect_ratio}")
+                #self.logger.info(f"Aspect ratio {aspect_ratio} is not in the range {self.min_aspect_ratio} to {self.max_aspect_ratio}")
                 continue
             
             # 计算圆形区域的填充度（
@@ -226,21 +225,18 @@ class MultiColorDetector(BaseDetector):
             
             # 使用圆形区域的填充度代替矩形区域的填充度
             if circle_fill_ratio < self.fill_ratio:
-                if area == 6389.5:
-                    self.logger.info(f"Circle fill ratio {circle_fill_ratio} is less than {self.fill_ratio}")
+                #self.logger.info(f"Circle fill ratio {circle_fill_ratio} is less than {self.fill_ratio}")
                 continue
             
             circularity = circle_fill_ratio  # 圆度就是圆形区域的填充度
             if circularity < 0.6:  
-                if area == 6389.5:
-                    self.logger.info(f"Circularity {circularity} is less than 0.6")
+                # self.logger.info(f"Circularity {circularity} is less than 0.6")
                 continue
             
             perimeter = cv2.arcLength(cnt, True)
             complexity = perimeter * perimeter / (4 * np.pi * area) if area > 0 else float('inf')
             if complexity > 3.0:  
-                if area == 6389.5:
-                    self.logger.info(f"Complexity {complexity} is greater than 3.0")
+                # self.logger.info(f"Complexity {complexity} is greater than 3.0")
                 continue
             
             # 在置信度计算中，使用圆形区域的填充度
@@ -250,7 +246,7 @@ class MultiColorDetector(BaseDetector):
                 0.3 * circularity                 
             )
             boxes.append((x, y, x + w, y + h, confidence))
-        
+
         return boxes
 
     def _nms_by_line(self, detections: List[Dict[str, Any]], iou_thresh=0.5) -> List[Dict[str, Any]]:
@@ -331,6 +327,7 @@ class MultiColorDetector(BaseDetector):
         Returns:
             Tuple[np.ndarray, np.ndarray]: Safe lower and upper bounds as uint8 arrays
         """
+
         lower = np.array(lower_lst, dtype=np.int16)
         upper = np.array(upper_lst, dtype=np.int16)
         lower -= (thresh_err + np.array(hsv_bonus))
@@ -661,7 +658,7 @@ def visualize_detection_steps(detector: MultiColorDetector, image: np.ndarray):
     axes[3].set_title(f"4. Original Mask (Line {line_id})")
     axes[3].axis('off')
     
-    print(1111111)
+
     finial_mask = detector._extract_line_mask(img_hsv_preprocessed, line_id)
     
     axes[4].imshow(finial_mask, cmap='gray')
