@@ -90,7 +90,10 @@ class MetroTestPipeline:
                         desc="Processing images", unit="img"):
             image, annotations, image_id = test_dataset.get_image_with_annotations(idx)
             self.logger.info(f"Processing image ID: {image_id}")
-            #if image_id != 4:
+            if image_id != 2:
+                continue
+            gt_classes = [(ann[4], ann[:4]) for ann in annotations]
+            #if not any(cls == 13 for cls, _ in gt_classes):
             #    continue
             random_int = np.random.randint(0, 1)
             if not has_visualize and random_int == 0:
@@ -99,11 +102,9 @@ class MetroTestPipeline:
             else:
                 detected_rois = self.multi_color_detector.detect(image, has_visualize=has_visualize)
             self.logger.info(f"Detected {len(detected_rois)} ROIs")
-            gt_classes = [(ann[4], ann[:4]) for ann in annotations]
 
-            #if 7 in [cls for cls, _ in gt_classes]:
-            #    visualize_detection_steps(self.multi_color_detector, image)
-            #visualize_detection_steps(self.multi_color_detector, image)
+
+            visualize_detection_steps(self.multi_color_detector, image)
             detected_classes = []
             for roi in detected_rois:
                 x1, y1, x2, y2 = roi['bbox']

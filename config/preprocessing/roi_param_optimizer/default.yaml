@@ -1,7 +1,7 @@
 name: "roi_param_optimizer_preprocessing"
 
 use_color_constancy: false
-color_constancy_method: "ebner" # "grayworld"
+color_constancy_method: "gray_world" # "gray_world" ebner
 
 use_resize: false
 resize_size: [64, 64]

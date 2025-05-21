@@ -12,7 +12,7 @@ class ROIParamOptimizerPreprocessor(BasePreprocessor):
     def __init__(self, cfg: DictConfig):
         super().__init__(cfg)
         self.logger = get_logger(__name__)
-        self.use_color_constancy = cfg.get("use_color_constancy", False)
+        self.use_color_constancy = cfg.get("use_color_constancy", True)
         self.color_constancy_method = cfg.get("color_constancy_method", "grayworld")
         self.use_resize = cfg.get("use_resize", False)
         self.resize_size = cfg.get("resize_size", (64, 64))

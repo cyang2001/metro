@@ -21,7 +21,7 @@ class MultiColorDetector(BaseDetector):
         self.max_area = cfg.get("max_area", 20000)
         self.min_aspect_ratio = cfg.get("min_aspect_ratio", 0.5)
         self.max_aspect_ratio = cfg.get("max_aspect_ratio", 2.0)
-
+        self.fill_ratio = cfg.get("fill_ratio", 0.75)
         self.color_params = self._load_color_params(cfg)
         self.threshold_error_dict = cfg.get("threshold_error_dict", {})
         self.debug = cfg.get("debug", False)
@@ -98,30 +98,15 @@ class MultiColorDetector(BaseDetector):
 
 
         # 根据色彩空间选择不同的处理流程
-    
+        # 暂时不考虑lab空间
         # HSV处理流程
-        # 1. 矩形阈值法
         hsv_bonus = [0, 0, 0]
         
-        # 获取HSV均值和标准差
         hsv_mean = params["hsv_mean"]
         hsv_std = params["hsv_std"]
-        
-        # 获取下界和上界
-        lower = np.array(params["hsv_lower"], dtype=np.uint8)
-        upper = np.array(params["hsv_upper"], dtype=np.uint8)
-        
-        # 应用额外的阈值误差和奖励
-        lower = np.maximum(0, lower - threshold_error - np.array(hsv_bonus))
-        upper = np.minimum(255, upper + threshold_error + np.array(hsv_bonus))
-        
-        lower[0] = int(max(0, min(180, lower[0])))
-        upper[0] = int(max(0, min(180, upper[0])))
-        
-        # 创建矩形阈值掩码
+        lower, upper = self._safe_hsv_bounds(params["hsv_lower"], params["hsv_upper"], threshold_error, hsv_bonus)
         rectangular_mask = cv2.inRange(img_color_space, lower, upper)
-        
-        # 2. 矢量距离阈值法
+
         h_ref = hsv_mean[0]
         s_ref = hsv_mean[1]
         v_ref = hsv_mean[2]
@@ -187,7 +172,7 @@ class MultiColorDetector(BaseDetector):
         
         return combined_mask
 
-    def _extract_boxes_from_mask(self, mask: np.ndarray) -> List[Tuple[int, int, int, int, float]]:
+    def _extract_boxes_from_mask(self, mask: np.ndarray, plot_count: bool = False) -> List[Tuple[int, int, int, int, float]]:
         contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
         boxes = []
         height, width = mask.shape[:2]
@@ -200,8 +185,13 @@ class MultiColorDetector(BaseDetector):
             if area < dynamic_min_area or area > dynamic_max_area:
                 #self.logger.info(f"Area {area} is not in the range {dynamic_min_area} to {dynamic_max_area}")
                 continue
-            
             x, y, w, h = cv2.boundingRect(cnt)
+            if plot_count:
+                from matplotlib import pyplot as plt
+                cv2.rectangle(mask, (x, y), (x + w, y + h), (255, 0, 0), 2)
+                plt.imshow(mask, cmap='gray')
+                plt.show()
+
             
             aspect_ratio = w / h if h > 0 else 0
             if not (self.min_aspect_ratio <= aspect_ratio <= self.max_aspect_ratio):
@@ -209,8 +199,8 @@ class MultiColorDetector(BaseDetector):
                 continue
             
             fill_ratio = area / (w * h)
-            if fill_ratio < 0.7:
-                #self.logger.info(f"Fill ratio {fill_ratio} is less than 0.7")
+            if fill_ratio < self.fill_ratio:
+                self.logger.info(f"Fill ratio {fill_ratio} is less than {self.fill_ratio}")
                 continue
             
             (cx, cy), r = cv2.minEnclosingCircle(cnt)
@@ -227,8 +217,8 @@ class MultiColorDetector(BaseDetector):
                 continue
             
             confidence = (
-                0.4 * fill_ratio +                
-                0.3 * (1 - abs(0.75 - aspect_ratio)) +  
+                0.5 * fill_ratio +                
+                0.2 * (1 - abs(0.75 - aspect_ratio)) +  
                 0.3 * circularity                 
             )
             boxes.append((x, y, x + w, y + h, confidence))
@@ -293,15 +283,20 @@ class MultiColorDetector(BaseDetector):
             self.color_params.update(params['color_params'])
 
         self.logger.info("MultiColorDetector parameters updated")
-
-    def optimize_color_parameters(self,dataset: MetroDataset, logger=None, visualize=False)->Dict[str, Any]:
+    def _safe_hsv_bounds(self, lower_lst, upper_lst, thresh_err, hsv_bonus=(0,0,0)):
+        lower = np.array(lower_lst, dtype=np.int16)
+        upper = np.array(upper_lst, dtype=np.int16)
+        lower -= (thresh_err + np.array(hsv_bonus))
+        upper += (thresh_err + np.array(hsv_bonus))
+        lower = np.clip(lower, (0,0,0), (180,255,255))
+        upper = np.clip(upper, (0,0,0), (180,255,255))
+        return lower.astype(np.uint8), upper.astype(np.uint8)
+    def optimize_color_parameters(self, dataset: MetroDataset, logger=None, visualize=False) -> Dict[str, Any]:
         """
         Optimize color parameters based on training data.
         
         Args:
-            dataset: Dataset with ground truth annotations, must implement:
-                    - __len__() method
-                    - get_image_with_annotations(idx) method that returns (image, annotations)
+            dataset: Dataset with ground truth annotations
             logger: Optional logger
             visualize: Whether to visualize the dominant color extraction process
             
@@ -315,10 +310,9 @@ class MultiColorDetector(BaseDetector):
         logger.info("Starting color parameter optimization...")
         
         optimized_params = {}
+        hsv_samples = {}
         
-        color_samples = {}
-        
-        rois = []
+        # 采集样本阶段
         for idx in range(len(dataset)):
             image, annotations, _ = dataset.get_image_with_annotations(idx)
             if image.dtype == np.float32 and image.max() <= 1.0:
@@ -328,57 +322,73 @@ class MultiColorDetector(BaseDetector):
             
             if len(image_cv.shape) == 3 and image_cv.shape[2] == 3:
                 bgr = image_cv
-                #hsv = cv2.cvtColor(bgr, cv2.COLOR_BGR2HSV)
                 if isinstance(self.preprocessor, ROIParamOptimizerPreprocessor):
                     hsv = self.preprocessor.preprocess(image)
                 else:
                     raise ValueError(f"Preprocessor {self.preprocessor} is not a ROIParamOptimizerPreprocessor")
             else:
                 continue
+                
             for annotation in annotations:
                 x1, y1, x2, y2 = annotation[:4]
                 roi_hsv = hsv[y1:y2, x1:x2]
                 roi_bgr = bgr[y1:y2, x1:x2]
                 line_id = annotation[4]
                 try:
-                    dominant_hsv = self.extract_dominant_hsv(roi_hsv, K=3)
-                    if line_id not in color_samples:
-                        color_samples[line_id] = []
-                    color_samples[line_id].append(dominant_hsv)
+                    dominant_hsv = self.extract_dominant(roi_hsv, K=3)
+                    hsv_samples.setdefault(line_id, []).append(dominant_hsv)
                     if visualize:
                         visualize_dominant_color(image, roi_bgr, dominant_hsv, line_id, x1, y1, x2, y2)
                 except Exception as e:
-                    logger.error(f"Error processing ROI ")
+                    logger.error(f"Error processing ROI for line {line_id}: {e}")
         
-        for line_id, samples in color_samples.items():
+        # 处理样本阶段 - 过滤并计算参数
+        for line_id, samples in hsv_samples.items():
             if not samples:
+                logger.warning(f"No samples for line {line_id}, skipping")
                 continue
             
             samples_array = np.array(samples)
             
-            h_values = samples_array[:, 0]
-            #if np.max(h_values) - np.min(h_values) > 90:
-            #    h_values_adjusted = h_values.copy()
-            #    if np.median(h_values) < 90:
-            #        h_values_adjusted[h_values > 90] -= 180
-            #else:
-            #    h_values_adjusted[h_values < 90] += 180
-            #    avg_h = np.mean(h_values_adjusted)
-            #    if avg_h < 0:
-            #        avg_h += 180
-            #    elif avg_h > 180:
-            #        avg_h -= 180
-            #else:
-            #    avg_h = np.mean(h_values)
+            # 直接应用经验性过滤规则
+            original_count = len(samples_array)
+            filtered_array = samples_array.copy()
+            
+            # 应用特定线路的过滤规则
+            if line_id in [11, 14, 6, 12, 13]:
+                # 这些线路应剔除所有H>100的样本
+                h_filter = samples_array[:, 0] <= 100
+                if np.any(h_filter):  # 确保过滤后还有样本
+                    filtered_array = samples_array[h_filter]
+                    logger.info(f"Line {line_id}: Filtered out {original_count - len(filtered_array)} samples with H>100")
+                else:
+                    logger.warning(f"Line {line_id}: All samples have H>100, keeping original samples")
+                    
+            elif line_id in [9, 7]:
+                # 这些线路应剔除所有H<30的样本
+                h_filter = samples_array[:, 0] >= 30
+                if np.any(h_filter):  # 确保过滤后还有样本
+                    filtered_array = samples_array[h_filter]
+                    logger.info(f"Line {line_id}: Filtered out {original_count - len(filtered_array)} samples with H<30")
+                else:
+                    logger.warning(f"Line {line_id}: All samples have H<30, keeping original samples")
+                    
+            # 确保我们至少有一些样本用于计算统计量
+            if len(filtered_array) == 0:
+                logger.warning(f"No samples left for line {line_id} after filtering, using original samples")
+                filtered_array = samples_array
+            
+            # 计算HSV统计量
+            h_values = filtered_array[:, 0]
             avg_h = self._circular_mean_deg(h_values)
-            avg_s = np.mean(samples_array[:, 1])
-            avg_v = np.mean(samples_array[:, 2])
+            avg_s = np.mean(filtered_array[:, 1])
+            avg_v = np.mean(filtered_array[:, 2])
             
-            #std_h = np.std(h_values)
-            std_h = self._circular_std_deg(h_values)
-            std_s = np.std(samples_array[:, 1])
-            std_v = np.std(samples_array[:, 2])
+            std_h = self._circular_std_deg(h_values) 
+            std_s = np.std(filtered_array[:, 1])
+            std_v = np.std(filtered_array[:, 2])
             
+            # 存储颜色参数
             optimized_params[str(line_id)] = {
                 "hsv_mean": (int(avg_h), int(avg_s), int(avg_v)),
                 "hsv_std": (int(std_h), int(std_s), int(std_v)),
@@ -389,12 +399,13 @@ class MultiColorDetector(BaseDetector):
                             min(255, int(avg_s + 2 * std_s)), 
                             min(255, int(avg_v + 2 * std_v))]
             }
+        
         self.logger.info(f"Optimization finished, saving parameters to {self.params_dir}")
         self.save_params(optimized_params)
-        return optimized_params 
-    def extract_dominant_hsv(self, roi_hsv: np.ndarray, K: int = 3, attempts: int = 10) -> Tuple[int, int, int]:
+        return optimized_params
+    def extract_dominant(self, roi: np.ndarray, K: int = 3, attempts: int = 10) -> Tuple[int, int, int]:
         """
-        From a single ROI's HSV pixels, extract the dominant HSV color.
+        From a single ROI's pixels, extract the dominant HSV/lab color.
 
         Args:
             roi_hsv: The pixels in the HSV space (h, w, 3)
@@ -402,10 +413,10 @@ class MultiColorDetector(BaseDetector):
             attempts: The number of restarts for kmeans, selecting the best centroid
 
         Returns:
-            hsv_dominant: The dominant HSV color (H, S, V)
+            hsv_dominant: The dominant HSV/lab color (H, S, V/L, a, b)
         """
 
-        pixels = roi_hsv.reshape(-1, 3).astype(np.float32) 
+        pixels = roi.reshape(-1, 3).astype(np.float32) 
 
         criteria = (
             cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER,
@@ -428,6 +439,8 @@ class MultiColorDetector(BaseDetector):
         dominant_center = centers[dominant_idx] 
 
         return tuple(map(int, dominant_center)) #type: ignore
+    
+    
     def save_params(self, params: Dict[str, Any]) -> bool:
         """
         Save parameters to a JSON file. Creates the file if it doesn't exist,
@@ -530,12 +543,11 @@ def visualize_detection_steps(detector: MultiColorDetector, image: np.ndarray):
     axes[2].set_title("3. Preprocessed HSV")
     axes[2].axis('off')
 
-    line_id = "14" if "14" in detector.color_params else list(detector.color_params.keys())[0]
+    line_id = "4" if "4" in detector.color_params else list(detector.color_params.keys())[0]
     
     params = detector.color_params[line_id]
     lower = np.maximum(0, np.array(params["hsv_lower"]) - detector.threshold_error_dict.get(line_id, 0))
     upper = np.minimum(255, np.array(params["hsv_upper"]) + detector.threshold_error_dict.get(line_id, 0))
-    
 
     original_mask = cv2.inRange(img_hsv_preprocessed, lower, upper)
     axes[3].imshow(original_mask, cmap='gray')
@@ -550,7 +562,7 @@ def visualize_detection_steps(detector: MultiColorDetector, image: np.ndarray):
     axes[4].axis('off')
     
     contour_img = image.copy()
-    contours = detector._extract_boxes_from_mask(finial_mask)
+    contours = detector._extract_boxes_from_mask(finial_mask, plot_count=True)
     for i in range(len(contours)):
         x, y, xw, yh, confidence = contours[i]
         cv2.rectangle(contour_img, (x, y), (xw, yh), (0, 255, 0), 2)
