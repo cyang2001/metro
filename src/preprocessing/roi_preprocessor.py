@@ -12,7 +12,7 @@ class ROIParamOptimizerPreprocessor(BasePreprocessor):
     def __init__(self, cfg: DictConfig):
         super().__init__(cfg)
         self.logger = get_logger(__name__)
-        self.use_color_constancy = cfg.get("use_color_constancy", False)
+        self.use_color_constancy = cfg.get("use_color_constancy", True)
         self.color_constancy_method = cfg.get("color_constancy_method", "grayworld")
         self.use_resize = cfg.get("use_resize", False)
         self.resize_size = cfg.get("resize_size", (64, 64))
@@ -20,6 +20,28 @@ class ROIParamOptimizerPreprocessor(BasePreprocessor):
         self.debug_visualize_dir = cfg.get("debug_visualize_dir")
         self.color_space = "hsv"
     def preprocess(self, image: np.ndarray, has_visualize: bool = True) -> np.ndarray:
+        """
+        Preprocess image for region of interest detection.
+        
+        This function applies several preprocessing steps:
+        1. Converts the image to uint8 BGR format if necessary
+        2. Applies color constancy correction (if enabled)
+        3. Converts the image from BGR to HSV color space
+        4. Optionally resizes the image
+        
+        Args:
+            image: Input image in BGR format. Can be either:
+                  - uint8 with values in range [0, 255]
+                  - float32 with values in range [0.0, 1.0]
+            has_visualize: Whether visualization is enabled.
+                          When True, debug visualization code will be skipped.
+        
+        Returns:
+            np.ndarray: Processed image in HSV color space (uint8)
+        
+        Raises:
+            ValueError: If the input image is empty or None
+        """
         if image is None or image.size == 0:
             raise ValueError("Empty image provided for preprocessing")
 
@@ -81,7 +103,6 @@ class ROIParamOptimizerPreprocessor(BasePreprocessor):
         Returns:
             np.ndarray: Processed BGR image
         """
-        # Separate channels
         b, g, r = cv2.split(image)
         
         kernel_size = max(3, kernel_size)
@@ -100,8 +121,7 @@ class ROIParamOptimizerPreprocessor(BasePreprocessor):
         g_scale = intensity / (g_mean + 1e-6)
         r_scale = intensity / (r_mean + 1e-6)
         
-        # Apply scaling (prevent excessive scaling)
-        max_scale = 3.0  # Prevent excessive amplification
+        max_scale = 3.0  
         b_scale = np.clip(b_scale, 0, max_scale)
         g_scale = np.clip(g_scale, 0, max_scale)
         r_scale = np.clip(r_scale, 0, max_scale)
@@ -135,8 +155,8 @@ class ROIParamOptimizerPreprocessor(BasePreprocessor):
         g_scale = avg / (g_avg + 1e-6)
         r_scale = avg / (r_avg + 1e-6)
         
-        # Apply scaling (prevent excessive scaling)
-        max_scale = 3.0  # Prevent excessive amplification
+
+        max_scale = 3.0 
         b_scale = min(b_scale, max_scale)
         g_scale = min(g_scale, max_scale)
         r_scale = min(r_scale, max_scale)

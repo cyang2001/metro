@@ -1,12 +1,12 @@
 name: "roi_param_optimizer_preprocessing"
 
-use_color_constancy: false
-color_constancy_method: "ebner" # "grayworld"
+use_color_constancy: true
+color_constancy_method: "gray_world" # "gray_world" ebner
 
 use_resize: false
 resize_size: [64, 64]
 
-debug_visualize: false
+debug_visualize: true
 debug_visualize_dir: "${base_dir}/results/roi_param_optimizer_preprocessing_visualize"
 
 color_space: "bgr"

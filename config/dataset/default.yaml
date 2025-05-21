@@ -5,7 +5,7 @@ train_mat: "Apprentissage.mat"
 test_mat: "Test.mat"           
 data_format: mat
 
-val_split: 0.2   
+val_split: 0.0   
 random_seed: ${seed}             
      
 
