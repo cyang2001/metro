@@ -90,7 +90,7 @@ class MetroTestPipeline:
                         desc="Processing images", unit="img"):
             image, annotations, image_id = test_dataset.get_image_with_annotations(idx)
             self.logger.info(f"Processing image ID: {image_id}")
-            if image_id != 2:
+            if image_id != 1:
                 continue
             gt_classes = [(ann[4], ann[:4]) for ann in annotations]
             #if not any(cls == 13 for cls, _ in gt_classes):
