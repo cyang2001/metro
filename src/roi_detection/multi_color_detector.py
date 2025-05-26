@@ -72,7 +72,7 @@ class MultiColorDetector(BaseDetector):
         """
         if isinstance(self.preprocessor, ROIParamOptimizerPreprocessor):
             img_hsv = self.preprocessor.preprocess(image, has_visualize)
-            #img_hsv = cv2.medianBlur(img_hsv, ksize=5)
+            img_gray = self.preprocessor.preprocess_hough_circles(image)
         else:
             raise ValueError(f"Preprocessor {self.preprocessor} is not a ROIParamOptimizerPreprocessor")
         detections = []
@@ -218,7 +218,7 @@ class MultiColorDetector(BaseDetector):
                 #self.logger.info(f"Aspect ratio {aspect_ratio} is not in the range {self.min_aspect_ratio} to {self.max_aspect_ratio}")
                 continue
             
-            # 计算圆形区域的填充度（
+            # 计算圆形区域的填充度
             (cx, cy), r = cv2.minEnclosingCircle(cnt)
             circle_area = np.pi * r * r
             circle_fill_ratio = area / circle_area if circle_area > 0 else 0
@@ -230,13 +230,13 @@ class MultiColorDetector(BaseDetector):
             
             circularity = circle_fill_ratio  # 圆度就是圆形区域的填充度
             if circularity < 0.6:  
-                # self.logger.info(f"Circularity {circularity} is less than 0.6")
+                #self.logger.info(f"Circularity {circularity} is less than 0.6")
                 continue
             
             perimeter = cv2.arcLength(cnt, True)
             complexity = perimeter * perimeter / (4 * np.pi * area) if area > 0 else float('inf')
             if complexity > 3.0:  
-                # self.logger.info(f"Complexity {complexity} is greater than 3.0")
+                #self.logger.info(f"Complexity {complexity} is greater than 3.0")
                 continue
             
             # 在置信度计算中，使用圆形区域的填充度
@@ -375,8 +375,7 @@ class MultiColorDetector(BaseDetector):
         
         optimized_params = {}
         hsv_samples = {}
-        
-        # 采集样本阶段
+
         for idx in range(len(dataset)):
             image, annotations, _ = dataset.get_image_with_annotations(idx)
             if image.dtype == np.float32 and image.max() <= 1.0:
@@ -406,7 +405,6 @@ class MultiColorDetector(BaseDetector):
                 except Exception as e:
                     logger.error(f"Error processing ROI for line {line_id}: {e}")
         
-        # 处理样本阶段 - 过滤并计算参数
         for line_id, samples in hsv_samples.items():
             if not samples:
                 logger.warning(f"No samples for line {line_id}, skipping")
@@ -414,7 +412,6 @@ class MultiColorDetector(BaseDetector):
             
             samples_array = np.array(samples)
             
-            # 直接应用经验性过滤规则
             original_count = len(samples_array)
             filtered_array = samples_array.copy()
             if line_id in [12,6]:
@@ -426,8 +423,7 @@ class MultiColorDetector(BaseDetector):
                     logger.warning(f"Line {line_id}: All samples have S>100, keeping original samples")
                     
             # 应用特定线路的过滤规则
-            if line_id in [ 12]:
-                # 这些线路应剔除所有H>100的样本
+            if line_id in [12]:
                 h_filter = samples_array[:, 0] <= 100
                 if np.any(h_filter):  # 确保过滤后还有样本
                     filtered_array = samples_array[h_filter]
@@ -647,7 +643,7 @@ def visualize_detection_steps(detector: MultiColorDetector, image: np.ndarray):
     axes[2].set_title("3. Preprocessed HSV")
     axes[2].axis('off')
 
-    line_id = "12" if "12" in detector.color_params else list(detector.color_params.keys())[0]
+    line_id = "4" if "4" in detector.color_params else list(detector.color_params.keys())[0]
     
     params = detector.color_params[line_id]
     lower = np.maximum(0, np.array(params["hsv_lower"]) - detector.threshold_error_dict.get(line_id, 0))

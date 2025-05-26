@@ -169,3 +169,13 @@ class ROIParamOptimizerPreprocessor(BasePreprocessor):
         return result
     def get_color_space(self):
         return self.color_space
+    def preprocess_hough_circles(self, image: np.ndarray) -> np.ndarray:
+        """
+        Preprocess image for Hough Circles detection.
+        return the image in gray scale uint8
+        """
+        img_gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+        img_gray = cv2.GaussianBlur(img_gray, (5, 5), 0)
+        if img_gray.dtype == np.float32 and img_gray.max() <= 1.0:
+            img_gray = (img_gray * 255).astype(np.uint8)
+        return img_gray
