@@ -30,7 +30,7 @@ class MultiColorDetector(BaseDetector):
 
     def _load_color_params(self, cfg: DictConfig) -> Dict:
         params_dir = cfg.get("params_dir", "")
-        params_path = os.path.join(params_dir, "color_params.json")
+        params_path = os.path.join(params_dir, "no_gray_with_filter.json")
         if params_path and os.path.exists(params_path):
             try:
                 self.logger.info(f"Loading color parameters from {params_path}")
@@ -178,7 +178,7 @@ class MultiColorDetector(BaseDetector):
         
 
         if after_count < before_count * 0.05 and before_count > 0:
-            self.logger.info(f"Too strict for line {line_id}, using original mask")
+            #self.logger.info(f"Too strict for line {line_id}, using original mask")
             # 采用更保守的形态学处理
             combined_mask = original_combined_mask.copy()
             # 使用更小的内核进行开运算
@@ -643,7 +643,7 @@ def visualize_detection_steps(detector: MultiColorDetector, image: np.ndarray):
     axes[2].set_title("3. Preprocessed HSV")
     axes[2].axis('off')
 
-    line_id = "4" if "4" in detector.color_params else list(detector.color_params.keys())[0]
+    line_id = "12" if "12" in detector.color_params else list(detector.color_params.keys())[0]
     
     params = detector.color_params[line_id]
     lower = np.maximum(0, np.array(params["hsv_lower"]) - detector.threshold_error_dict.get(line_id, 0))

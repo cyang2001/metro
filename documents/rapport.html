@@ -1,0 +1,2475 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.22">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>rapport</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="rapport_files/libs/clipboard/clipboard.min.js"></script>
+<script src="rapport_files/libs/quarto-html/quarto.js" type="module"></script>
+<script src="rapport_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="rapport_files/libs/quarto-html/popper.min.js"></script>
+<script src="rapport_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="rapport_files/libs/quarto-html/anchor.min.js"></script>
+<link href="rapport_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="rapport_files/libs/quarto-html/quarto-syntax-highlighting-7b4406b7675125bc2ba204020e191172.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="rapport_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="rapport_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="rapport_files/libs/bootstrap/bootstrap-be9206a58a27969b3ea3001da8f26fef.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="fullcontent quarto-light">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+
+
+
+<section id="巴黎地铁线路识别系统技术报告" class="level1">
+<h1>巴黎地铁线路识别系统技术报告</h1>
+<section id="摘要" class="level2">
+<h2 class="anchored" data-anchor-id="摘要">摘要</h2>
+<!-- 项目概述、主要技术贡献、实验结果总结 -->
+<hr>
+</section>
+<section id="项目概述" class="level2">
+<h2 class="anchored" data-anchor-id="项目概述">1. 项目概述</h2>
+<section id="研究背景与意义" class="level3">
+<h3 class="anchored" data-anchor-id="研究背景与意义">1.1 研究背景与意义</h3>
+<p>随着智能化辅助技术的快速发展，为视障人士提供更好的出行体验已成为计算机视觉领域的重要应用方向。巴黎地铁作为世界上历史最悠久、线路最复杂的地铁系统之一，其复杂的线路网络和多样化的标识系统对视障人士的独立出行构成了巨大挑战。</p>
+<p>本项目旨在开发一套能够集成到<strong>智能眼镜或智能手机</strong>上的<strong>实时地铁图标检测识别系统</strong>，通过计算机视觉技术自动识别巴黎地铁的14条线路标识，为盲人和视障人士提供实时的线路信息反馈，从而显著改善他们在巴黎地铁系统中的导航体验和出行安全性。</p>
+<p>该系统的成功实现将为无障碍智能出行技术开辟新的应用场景，具有重要的社会价值和技术意义。</p>
+</section>
+<section id="技术挑战分析" class="level3">
+<h3 class="anchored" data-anchor-id="技术挑战分析">1.2 技术挑战分析</h3>
+<p>地铁标识识别在实际应用场景中面临多重技术难点，主要包括：</p>
+<section id="光照条件变化" class="level4">
+<h4 class="anchored" data-anchor-id="光照条件变化">1.2.1 光照条件变化</h4>
+<ul>
+<li><strong>问题描述</strong>：地铁环境中的光照条件极其复杂多变，从室外强光到地下昏暗，再到人工照明的不均匀分布</li>
+<li><strong>技术影响</strong>：虽然图像预处理技术可以在一定程度上减少光照变化的影响，但<strong>无法完全消除</strong>其干扰</li>
+<li><strong>极端情况</strong>：在极端光照环境下，例如<strong>局部强反光、镜面反射</strong>等情况，现有预处理方法基本无效，严重影响检测精度</li>
+</ul>
+</section>
+<section id="背景噪声干扰" class="level4">
+<h4 class="anchored" data-anchor-id="背景噪声干扰">1.2.2 背景噪声干扰</h4>
+<ul>
+<li><strong>场景复杂性</strong>：地铁站内环境结构复杂，包含大量的建筑元素、广告牌、人流等干扰因素</li>
+<li><strong>算法局限性</strong>：传统的几何特征检测方法（如<strong>霍夫圆检测</strong>）在复杂背景下容易产生大量误检，检测效果严重下降</li>
+<li><strong>噪声类型</strong>：包括几何噪声、颜色噪声、纹理干扰等多种类型的背景干扰</li>
+</ul>
+</section>
+<section id="图像质量差异化" class="level4">
+<h4 class="anchored" data-anchor-id="图像质量差异化">1.2.3 图像质量差异化</h4>
+<ul>
+<li><strong>设备差异性</strong>：图像数据均来自<strong>手机拍摄</strong>，但不同品牌、型号手机的成像质量存在显著差异</li>
+<li><strong>成像参数不一致</strong>：包括分辨率、色彩还原度、噪声水平、锐度等参数的不统一</li>
+<li><strong>数据集规模限制</strong>：现有数据集规模相对较小，<strong>训练集仅占总数据的1/3</strong>，限制了模型的泛化能力</li>
+</ul>
+</section>
+<section id="条线路的颜色相似性问题" class="level4">
+<h4 class="anchored" data-anchor-id="条线路的颜色相似性问题">1.2.4 14条线路的颜色相似性问题</h4>
+<ul>
+<li><strong>视觉区分度</strong>：巴黎地铁14条线路对于<strong>人眼具有显著的颜色区别</strong>，但在数字图像处理中面临挑战</li>
+<li><strong>色域重叠</strong>：某些线路的颜色在特定<strong>色域空间下存在重叠区域</strong>，容易造成误分类</li>
+<li><strong>光照影响</strong>：颜色特征受光照条件影响显著，同一线路在不同光照下可能呈现截然不同的颜色特征</li>
+<li><strong>方法选择</strong>：由于霍夫圆检测在复杂背景下的失效，我们最终选择了<strong>基于颜色特征的检测方法</strong></li>
+</ul>
+</section>
+</section>
+<section id="系统整体架构" class="level3">
+<h3 class="anchored" data-anchor-id="系统整体架构">1.3 系统整体架构</h3>
+<p>本系统采用模块化设计理念，整体架构如下：</p>
+<pre class="mermaid"><code>graph TD
+    A[Raw Data&lt;br/&gt;原始图像数据] --&gt; B[Dataset&lt;br/&gt;数据集管理]
+    B --&gt; C[ROI Detector&lt;br/&gt;区域检测器]
+    C --&gt; D[Classifier&lt;br/&gt;线路分类器]
+    D --&gt; E[Result&lt;br/&gt;识别结果]
+    
+    F[Base Preprocessor&lt;br/&gt;基础预处理器] --&gt; G[ROI Preprocessor&lt;br/&gt;检测预处理器]
+    F --&gt; H[Classification Preprocessor&lt;br/&gt;分类预处理器]
+    
+    G --&gt; C
+    H --&gt; D
+    
+    I[Config System&lt;br/&gt;配置管理] --&gt; C
+    I --&gt; D
+    I --&gt; B
+    
+    style C fill:#e1f5fe
+    style D fill:#f3e5f5
+    style F fill:#fff3e0</code></pre>
+<section id="核心模块说明" class="level4">
+<h4 class="anchored" data-anchor-id="核心模块说明">核心模块说明：</h4>
+<ul>
+<li><strong>检测器模块(ROI Detection)</strong>：负责从输入图像中定位和提取潜在的地铁线路标识区域</li>
+<li><strong>分类器模块(Classification)</strong>：对检测到的区域进行精确的线路分类识别</li>
+<li><strong>数据处理模块</strong>：统一管理训练、验证和测试数据，支持多种数据格式</li>
+<li><strong>评估与流程管理</strong>：提供完整的训练、测试和部署流程支持</li>
+</ul>
+</section>
+<section id="预处理器设计" class="level4">
+<h4 class="anchored" data-anchor-id="预处理器设计">预处理器设计：</h4>
+<p>考虑到不同检测和分类方法对图像预处理需求的差异性，我们设计了<strong>分层预处理器架构</strong>:</p>
+<ul>
+<li><strong><code>BasePreprocessor</code></strong>：抽象基类，包含所有通用的关键预处理操作</li>
+<li><strong><code>ROIParamOptimizerPreprocessor</code></strong>：检测器专用预处理器,针对颜色特征提取优化</li>
+<li><strong><code>ClassificationPreprocessor</code></strong>: CNN分类器专用预处理器,针对深度学习模型的输入要求进行预处理</li>
+</ul>
+</section>
+</section>
+<section id="技术路线与方法概述" class="level3">
+<h3 class="anchored" data-anchor-id="技术路线与方法概述">1.4 技术路线与方法概述</h3>
+<section id="核心技术路线" class="level4">
+<h4 class="anchored" data-anchor-id="核心技术路线">1.4.1 核心技术路线</h4>
+<ol type="1">
+<li><strong>基于颜色特征的ROI检测</strong>：采用HSV色彩空间分析，通过K-means聚类自动学习各线路的颜色特征</li>
+<li><strong>模板匹配分类(已弃用)</strong>：构建标准模板库，通过相似度匹配实现精确分类</li>
+<li><strong>基于CNN的数字分类器</strong>：采用深度卷积神经网络对检测到的ROI区域进行14类地铁线路的精确分类</li>
+<li><strong>多约束筛选策略</strong>：结合颜色、几何形状、形态学特征的多重约束条件</li>
+<li><strong>自适应参数优化</strong>：根据图像特征动态调整检测参数</li>
+</ol>
+</section>
+<section id="关键技术创新" class="level4">
+<h4 class="anchored" data-anchor-id="关键技术创新">1.4.2 关键技术创新</h4>
+<ul>
+<li><strong>颜色参数自动学习</strong>：从训练数据中自动学习并优化各线路的颜色特征参数</li>
+<li><strong>矢量距离与矩形范围融合</strong>：创新性地结合两种颜色匹配策略，提高检测精度</li>
+<li><strong>CNN与传统CV方法结合</strong>：将深度学习分类器与基于颜色特征的检测器有机结合</li>
+<li><strong>模块化可配置架构</strong>：基于Hydra配置框架的高度可配置系统设计</li>
+<li><strong>自适应形态学处理</strong>：根据图像尺寸和特征动态调整形态学操作参数</li>
+</ul>
+<hr>
+</section>
+</section>
+</section>
+<section id="相关工作与技术背景" class="level2">
+<h2 class="anchored" data-anchor-id="相关工作与技术背景">2. 相关工作与技术背景</h2>
+<section id="目标检测技术发展" class="level3">
+<h3 class="anchored" data-anchor-id="目标检测技术发展">2.1 目标检测技术发展</h3>
+<p>目标检测是计算机视觉领域最核心的问题之一, 其研究主要沿着两条路径前进:<br>
+#### 2.1.1 基于手工特征的传统方法<br>
+在深度学习普及之前, 目标检测主要依赖于手工设计的特征和启发式算法. 常见方法包括:<br>
+- <strong>颜色直方图与边缘检测</strong><br>
+- <strong>形状匹配技术, 如霍夫变换检测几何结构(如圆形, 直线)</strong><br>
+- <strong>滑动窗口+SVM分类器</strong></p>
+<p>尽管这些方法在简单背景下表现尚可, 但在<strong>光照变化,复杂背景和多类别干扰</strong>下容易失效, 缺乏鲁棒性. 这些缺陷与我们在地铁识别场景中遇到的问题高度一致.</p>
+<p>尽管传统方法具有实现简单, 资源消耗低的优势, 但在复杂环境适应性与可扩展性方面严重不足, 难以应对本项目中多类别, 小目标, 高干扰的应用场景.</p>
+<section id="深度学习方法" class="level4">
+<h4 class="anchored" data-anchor-id="深度学习方法">2.1.2 深度学习方法</h4>
+<p>近年来, 以深度卷积神经网络为核心的目标检测技术取得了突破性进展, 主要代表包括:<br>
+- Two-Stage Detectors: 如 R-CNN, Fast R-CNN, Faster R-CNN, 通过区域提取 + 分类两步完成检测<br>
+- One-Stage Detecotrs: 如 YOLO (You Only Look Once), SSD (Single Shot Multibox Detector), 直接从图像回归目标位置与类别, 实现高速实时监测<br>
+- Transformer-Based Models: 如 DETR, 使用Vision Transformer (ViT)</p>
+<p>由于本项目平台计算能力限制(智能眼镜等平台), 无法追求大型深度模型等精度极限, 但是可以设计简化版的CNN结构, 在精度与资源使用中寻求平衡</p>
+</section>
+</section>
+<section id="颜色特征在目标检测中的应用" class="level3">
+<h3 class="anchored" data-anchor-id="颜色特征在目标检测中的应用">2.2 颜色特征在目标检测中的应用</h3>
+<section id="色彩空间选择" class="level4">
+<h4 class="anchored" data-anchor-id="色彩空间选择">2.2.1 色彩空间选择</h4>
+<p>颜色特征作为低计算复杂度, 高表达性的视觉线索, 在实际目标检测系统中被广泛应用:<br>
+- RGB: 原始图像空间, 易受光照影响<br>
+- HSV: 色调(Hue)在一定程度上解耦光照强度, 广泛应用于目标分割与颜色分类<br>
+- CIELAB: 感知均匀空间, 对人眼的感知建模更精细, 但计算成本较高</p>
+<p>在本项目中, HSV被选作基础色彩空间, 并结合 K-Means 聚类算法自动学习色调分布, 是兼顾精度与效率的实用策略</p>
+</section>
+<section id="基于颜色的区域提取方法" class="level4">
+<h4 class="anchored" data-anchor-id="基于颜色的区域提取方法">2.2.2 基于颜色的区域提取方法</h4>
+<ul>
+<li>阈值分割: 设定色调或亮度阈值, 提取候选区域</li>
+<li>直方图匹配: 构造目标颜色模版, 通过相似度计算筛选区域</li>
+<li>聚类分割: 在颜色空间中聚类, 适应不同图像条件下的颜色偏移</li>
+</ul>
+<p>基于颜色的检测方法计算开销低, 易于解释, 但鲁棒性有限, 因此在本项目中我们加入了形态学操作, 形态先验, 和参数动态调整</p>
+</section>
+</section>
+<section id="地铁交通标识识别相关研究" class="level3">
+<h3 class="anchored" data-anchor-id="地铁交通标识识别相关研究">2.3 地铁/交通标识识别相关研究</h3>
+<section id="交通标志识别研究" class="level4">
+<h4 class="anchored" data-anchor-id="交通标志识别研究">2.3.1 交通标志识别研究</h4>
+<p>交通标志识别(TSR)是计算机视觉中较成熟的方向, 其研究可为本项目提供重要参考:<br>
+- 经典数据集: 德国GTSRB数据集, 为深度学习模型提供了丰富的训练样本 - 方法演进: - 早期依赖颜色 + 形状特征, 使用 Haar-like 或 HOG 特征 - 深度学习阶段使用小型CNN进行分类, 例如 LeNet, MobileNet, ResNet - 同时引入注意力机制以增强对复杂背景的鲁棒性</p>
+<p>在本项目中, 由于计算平台限制, 选用了颜色+形状特征进行ROI区域筛选, 小型CNN网络作为分类器的结构<br>
+#### 2.3.2 地铁标志识别 相比道路交通标识, 地铁标识的公开研究比较少, 存在一下技术特点: - 识别目标更小, 类间差异更低(如色域重叠)<br>
+- 易受反光, 阴影干扰, 光照条件更苛刻<br>
+- 数据稀缺, 缺乏大规模公开数据集(在该项目中仅有87张训练集图片)<br>
+—</p>
+</section>
+</section>
+</section>
+<section id="数据集构建与分析" class="level2">
+<h2 class="anchored" data-anchor-id="数据集构建与分析">3. 数据集构建与分析</h2>
+<section id="数据集描述" class="level3">
+<h3 class="anchored" data-anchor-id="数据集描述">3.1 数据集描述</h3>
+<p>本数据集由Mme.Rossant使用手机在巴黎地铁站内手动拍摄. 图像覆盖了大部分的站点区域, 在其拍摄过程中尽可能保证了角度, 光照等因素等多样性, 并加入了无地铁标志的杂乱背景图, 以增强数据的泛化能力.<br>
+随后Mme.Rossant采用自动化工具并结合人工校对对图像中的ROI区域进行了标注. 每张图像中的ROI都包含了地铁线路编号, 作为后续模型训练的关键输入.<br>
+采集环境:<br>
+- 设备: 智能手机(具体型号未知)<br>
+- 场景: 巴黎地铁站台<br>
+- 分辨率: 主要为 1600x1200, 少数为 2120x1196<br>
+- 标注方式: 框选式标注(bounding-box annotation)</p>
+</section>
+<section id="数据统计分析" class="level3">
+<h3 class="anchored" data-anchor-id="数据统计分析">3.2 数据统计分析</h3>
+<p>我们对数据集的图像尺寸, ROI尺寸及其在不同线路间的分布情况进行了可视化分析, 如图3.1与图3.2所示/ <img src="./pics/line_id_ana.png" class="img-fluid" alt="各线路样本数量分布"> 从柱状图和饼图中可以观察到, 不同线路的样本数量存在较大差异. <strong>线路1</strong>占比最高, ROI数量为22, 占总样本的16.7%. 相比之下, <strong>线路5</strong>样本数仅为3, 数据分布不均衡, 这会对模型的训练带来偏差.<br>
+这种类别不平衡问题可通过数据增强, 重采样策略, 或者使用类别加权损失函数来缓解. <em>图 3.1: 各线路样本数量分布</em></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./pics/size_ana.png" class="img-fluid figure-img"></p>
+<figcaption>图像与标注框尺寸分布</figcaption>
+</figure>
+</div>
+<p>在图像维度分析中我们发现: - 图像尺寸分布: 图像尺寸主要集中于1600x1200, 仅有几个分辨率为 2120x1196<br>
+- 图像宽高比: 图像宽高比几乎一致, 说明图像尺寸标准化程度较高, 便于后续处理</p>
+<p>在ROI分析部分:<br>
+- ROI尺寸分布: 散点图显示大多数ROI的宽高分布较集中, 呈线性趋势, 说明ROI尺寸变化范围有限<br>
+- ROI面积分布: 面积分布呈右偏, 大部分ROI的面积集中在5000 到 15000 像素之间, 部分存在大面积区域</p>
+<p>通常面对这类尺寸偏移的问题, 我们的模型需要具备多尺度鲁棒性, 可考虑引入金字塔特征网络, 但是由于本项目中ROI检测使用传统算法(颜色分类+形态先验), 我们基于上述图像分析设计了更具有鲁棒性的动态参数系统, 后续会详细介绍.</p>
+<p>训练集的标注质量很好, 经过可视化检验后仅有一个错误标注:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./pics/error.png" class="img-fluid figure-img"></p>
+<figcaption>错误标注</figcaption>
+</figure>
+</div>
+</section>
+<section id="数据预处理策略" class="level3">
+<h3 class="anchored" data-anchor-id="数据预处理策略">3.3 数据预处理策略</h3>
+<p>基于项目需求，我们设计了分层次的数据预处理架构，通过模块化设计实现了多种预处理策略的灵活配置与使用。</p>
+<section id="预处理架构设计" class="level4">
+<h4 class="anchored" data-anchor-id="预处理架构设计">3.3.1 预处理架构设计</h4>
+<p>我们采用了基于抽象基类的设计模式，通过<code>BasePreprocessor</code>定义统一的预处理接口：</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> BasePreprocessor(ABC):</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, cfg: DictConfig):</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.cfg <span class="op">=</span> cfg</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">@abstractmethod</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> preprocess(<span class="va">self</span>, image: np.ndarray) <span class="op">-&gt;</span> np.ndarray:</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""Preprocess the data."""</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> image</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>这种设计模式保证了预处理模块的可扩展性和一致性，便于后续算法模块的集成。</p>
+</section>
+<section id="数据清洗与质量控制" class="level4">
+<h4 class="anchored" data-anchor-id="数据清洗与质量控制">3.3.2 数据清洗与质量控制</h4>
+<p>在数据加载阶段，<code>MetroDataset</code>类实现了严格的数据质量控制机制：</p>
+<p><strong>格式兼容性处理</strong>： - 支持Excel格式（.xls/.xlsx）和MATLAB格式（.mat）双重数据源 - 自动检测并验证必要字段：<code>image_id</code>, <code>y1</code>, <code>y2</code>, <code>x1</code>, <code>x2</code>, <code>class_id</code></p>
+<p><strong>数据清洗策略</strong>： - 自动识别并移除异常数据记录（如image_id为120的错误标注和198异常颜色数据） - 实施边界框坐标验证，确保标注框在图像范围内 - 图像路径自动解析与验证，支持多种命名格式</p>
+<p><strong>坐标标准化</strong>：</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> _clip_bbox(bbox, max_width, max_height):</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Clip bounding box coordinates to image dimensions."""</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    x1, y1, x2, y2 <span class="op">=</span> bbox</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    x1 <span class="op">=</span> <span class="bu">max</span>(<span class="dv">0</span>, <span class="bu">min</span>(x1, max_width <span class="op">-</span> <span class="dv">1</span>))</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    y1 <span class="op">=</span> <span class="bu">max</span>(<span class="dv">0</span>, <span class="bu">min</span>(y1, max_height <span class="op">-</span> <span class="dv">1</span>))</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    x2 <span class="op">=</span> <span class="bu">max</span>(<span class="dv">0</span>, <span class="bu">min</span>(x2, max_width))</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    y2 <span class="op">=</span> <span class="bu">max</span>(<span class="dv">0</span>, <span class="bu">min</span>(y2, max_height))</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> x1, y1, x2, y2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="图像预处理流程" class="level4">
+<h4 class="anchored" data-anchor-id="图像预处理流程">3.3.3 图像预处理流程</h4>
+<p>针对地铁标志检测的特点，我们在<code>ROIParamOptimizerPreprocessor</code>中实现了专门的预处理策略：</p>
+<p><strong>颜色恒常性校正</strong>： - <strong>Gray World算法</strong>：基于灰色世界假设进行全局颜色校正 - <strong>Ebner算法</strong>：使用高斯滤波进行局部颜色平衡，更适合处理光照不均匀的场景</p>
+<p><strong>颜色空间转换</strong>： - 将输入图像从BGR颜色空间转换至HSV颜色空间 - HSV空间对光照变化更加鲁棒，便于后续颜色特征提取</p>
+<p><strong>数据类型规范化</strong>： - 自动检测输入图像格式（float32 [0,1] 或 uint8 [0,255]） - 统一转换为uint8格式，确保后续处理的一致性</p>
+<p><strong>图像尺寸处理</strong>： - 可选的图像resize功能，支持固定尺寸输出 - 保持原始宽高比，避免图像失真</p>
+</section>
+<section id="专用预处理模块" class="level4">
+<h4 class="anchored" data-anchor-id="专用预处理模块">3.3.4 专用预处理模块</h4>
+<p>考虑到不同算法模块的特殊需求，我们还实现了专门的预处理方法：</p>
+<p><strong>霍夫圆检测预处理(已弃用)</strong>：</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> preprocess_hough_circles(<span class="va">self</span>, image: np.ndarray) <span class="op">-&gt;</span> np.ndarray:</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Preprocess image for Hough Circles detection."""</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    img_gray <span class="op">=</span> cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    img_gray <span class="op">=</span> cv2.GaussianBlur(img_gray, (<span class="dv">5</span>, <span class="dv">5</span>), <span class="dv">0</span>)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> img_gray</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>调试可视化支持</strong>： - 集成了预处理结果的可视化功能 - 支持对比原图与处理后图像，便于参数调优 <img src="../results/roi_param_optimizer_preprocessing_visualize/original_image_bgr.png" class="img-fluid" alt="原始BGR图像"> <img src="../results/roi_param_optimizer_preprocessing_visualize/processed_image_bgr.png" class="img-fluid" alt="Ebner算法处理后的BGR图像"> <img src="../results/roi_param_optimizer_preprocessing_visualize/processed_image_hsv.png" class="img-fluid" alt="Ebner算法处理后的HSV图像"> ### 3.4 数据集划分策略</p>
+<p>为确保模型训练和评估的科学性，我们实施了严格的数据集划分策略，重点防止数据泄露问题。</p>
+</section>
+<section id="防泄露划分机制" class="level4">
+<h4 class="anchored" data-anchor-id="防泄露划分机制">3.4.1 防泄露划分机制</h4>
+<p><strong>图像级别划分</strong>：</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> _split_train_val(<span class="va">self</span>, df: pd.DataFrame, mode: <span class="bu">str</span> <span class="op">=</span> <span class="st">'train'</span>) <span class="op">-&gt;</span> pd.DataFrame:</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 避免同一个image_id被分到两个不同的set中造成图像泄漏</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    unique_ids <span class="op">=</span> df[<span class="st">'image_id'</span>].unique()</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    train_ids, val_ids <span class="op">=</span> train_test_split(</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>        unique_ids, </span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>        test_size<span class="op">=</span><span class="va">self</span>.val_split, </span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>        random_state<span class="op">=</span><span class="va">self</span>.random_seed</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>这种策略确保同一张图像的所有标注只会出现在同一个数据集分片中，有效避免了数据泄露问题。</p>
+</section>
+<section id="三阶段数据划分" class="level4">
+<h4 class="anchored" data-anchor-id="三阶段数据划分">3.4.2 三阶段数据划分</h4>
+<p><strong>训练集（Training Set）</strong>： - 来源：<code>Apprentissage.xls</code> 或 <code>Apprentissage.mat</code> - 用途：模型参数学习，包括颜色特征提取和CNN分类器训练 - 占比：根据<code>val_split</code>参数动态调整</p>
+<p><strong>验证集（Validation Set）</strong>： - 来源：从训练数据中按图像ID随机抽取 - 用途：超参数调优、模型选择、过拟合监控 - 占比：由配置参数<code>val_split</code>控制（例如：0.2表示20%）</p>
+<p><strong>测试集（Test Set）</strong>： - 来源：<code>Test.xls</code> 或 <code>Test.mat</code> - 用途：最终性能评估，模拟真实部署场景 - 特点：完全独立于训练过程，确保评估结果的客观性</p>
+</section>
+<section id="随机性控制" class="level4">
+<h4 class="anchored" data-anchor-id="随机性控制">3.4.3 随机性控制</h4>
+<p><strong>可重现性保证</strong>： - 使用固定的<code>random_seed</code>参数确保数据划分的可重现性 - 所有随机操作均使用相同的种子，便于实验复现和结果对比</p>
+<p><strong>灵活配置支持</strong>： - 支持<code>val_split=0.0</code>配置，此时不创建验证集 - 可根据数据规模和实验需求动态调整划分比例</p>
+</section>
+<section id="数据完整性验证" class="level4">
+<h4 class="anchored" data-anchor-id="数据完整性验证">3.4.4 数据完整性验证</h4>
+<p><strong>标注数据校验</strong>： - 自动验证图像文件的存在性和可访问性 - 检查标注框的有效性，确保坐标范围合理 - 统计各类别的样本分布，便于后续的类别平衡处理</p>
+<p><strong>多格式兼容性</strong>： - 同时支持Excel和MATLAB两种标注格式 - 自动适配不同的图像命名规范 - 支持灵活的目录结构组织</p>
+<p>通过以上严格的数据预处理和划分策略，我们为后续的ROI检测器和CNN分类器奠定了坚实的数据基础，确保了实验结果的科学性和可靠性。</p>
+<hr>
+</section>
+</section>
+</section>
+<section id="roi检测器设计与实现-重点章节" class="level2">
+<h2 class="anchored" data-anchor-id="roi检测器设计与实现-重点章节">4. ROI检测器设计与实现 ⭐ <strong>[重点章节]</strong></h2>
+<section id="检测器整体架构设计" class="level3">
+<h3 class="anchored" data-anchor-id="检测器整体架构设计">4.1 检测器整体架构设计</h3>
+<section id="基于颜色特征的检测策略" class="level4">
+<h4 class="anchored" data-anchor-id="基于颜色特征的检测策略">4.1.1 基于颜色特征的检测策略</h4>
+<p>在地铁标志识别场景中，我们选择基于颜色特征的检测策略主要基于以下分析：</p>
+<p><strong>传统几何检测方法的局限性</strong>： - <strong>霍夫圆检测失效</strong>：尽管地铁标志通常呈圆形，但在复杂背景和光照条件下，霍夫圆检测产生大量误检，检测效果严重下降 - <strong>边缘检测不稳定</strong>：复杂背景噪声和光照变化使得边缘检测方法难以获得稳定的特征</p>
+<p><strong>颜色特征的优势</strong>： - <strong>区分度高</strong>：巴黎地铁14条线路具有显著的颜色差异，为人眼和算法提供了良好的区分基础 - <strong>计算效率高</strong>：颜色特征提取和匹配的计算复杂度相对较低，适合实时应用 - <strong>鲁棒性好</strong>：通过适当的颜色空间选择和预处理，可以在一定程度上抵抗光照变化</p>
+</section>
+<section id="多线路并行检测框架" class="level4">
+<h4 class="anchored" data-anchor-id="多线路并行检测框架">4.1.2 多线路并行检测框架</h4>
+<p>我们设计了同时检测14条地铁线路的并行检测框架：</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> detect(<span class="va">self</span>, image: np.ndarray, has_visualize: <span class="bu">bool</span> <span class="op">=</span> <span class="va">True</span>) <span class="op">-&gt;</span> List[Dict[<span class="bu">str</span>, Any]]:</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""并行检测多条地铁线路"""</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    detections <span class="op">=</span> []</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> line_id <span class="kw">in</span> <span class="va">self</span>.color_params:</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 为每条线路生成颜色掩模</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>        mask <span class="op">=</span> <span class="va">self</span>._extract_line_mask(img_hsv, line_id)</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 从掩模中提取候选框</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>        boxes <span class="op">=</span> <span class="va">self</span>._extract_boxes_from_mask(mask)</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> x1, y1, x2, y2, conf <span class="kw">in</span> boxes:</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>            detections.append({</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>                <span class="st">"bbox"</span>: [x1, y1, x2, y2],</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>                <span class="st">"line_id"</span>: line_id,</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>                <span class="st">"confidence"</span>: conf</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>            })</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="va">self</span>._nms_by_line(detections)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>并行检测优势</strong>： - <strong>效率提升</strong>：一次图像预处理，多条线路同时检测 - <strong>结果完整</strong>：单张图像中可能包含多条线路标志，并行检测确保不遗漏 - <strong>便于比较</strong>：各线路检测结果可以直接比较置信度，便于后续筛选</p>
+</section>
+<section id="模块化设计理念" class="level4">
+<h4 class="anchored" data-anchor-id="模块化设计理念">4.1.3 模块化设计理念</h4>
+<p>我们采用基于抽象基类的模块化设计架构：</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> BaseDetector(ABC):</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""ROI检测器基类"""</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">@abstractmethod</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> detect(<span class="va">self</span>, image: np.ndarray) <span class="op">-&gt;</span> List[Dict[<span class="bu">str</span>, Any]]:</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""检测ROI区域"""</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">pass</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">@abstractmethod</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> save_params(<span class="va">self</span>, params: Dict[<span class="bu">str</span>, Any]) <span class="op">-&gt;</span> <span class="bu">bool</span>:</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""保存检测参数"""</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>        <span class="cf">pass</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> set_preprocessor(<span class="va">self</span>, preprocessor: BasePreprocessor):</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""设置预处理器"""</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.preprocessor <span class="op">=</span> preprocessor</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>模块化设计优势</strong>： - <strong>可扩展性</strong>：新的检测算法可以通过继承基类快速集成 - <strong>配置驱动</strong>：通过YAML配置文件灵活控制检测参数 - <strong>依赖注入</strong>：预处理器作为独立模块，支持不同算法组合</p>
+</section>
+</section>
+<section id="颜色参数学习算法" class="level3">
+<h3 class="anchored" data-anchor-id="颜色参数学习算法">4.2 颜色参数学习算法</h3>
+<section id="hsv色彩空间分析" class="level4">
+<h4 class="anchored" data-anchor-id="hsv色彩空间分析">4.2.1 HSV色彩空间分析</h4>
+<p>我们选择HSV色彩空间作为颜色特征分析的基础：</p>
+<p><strong>HSV空间优势</strong>： - <strong>H通道（色调）</strong>：对光照强度变化相对不敏感，保持颜色本质特征 - <strong>S通道（饱和度）</strong>：描述颜色纯度，有助于区分不同线路的颜色差异 - <strong>V通道（亮度）</strong>：可以通过预处理进行归一化，减少光照影响</p>
+<p><strong>对比其他色彩空间</strong>： - <strong>RGB空间</strong>：三个通道高度相关，易受光照影响 - <strong>LAB空间</strong>：感知均匀但计算复杂度高，不适合实时应用</p>
+</section>
+<section id="k-means聚类主导色提取" class="level4">
+<h4 class="anchored" data-anchor-id="k-means聚类主导色提取">4.2.2 K-means聚类主导色提取</h4>
+<p>我们开发了基于K-means聚类的主导色提取算法：</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> extract_dominant(<span class="va">self</span>, roi: np.ndarray, K: <span class="bu">int</span> <span class="op">=</span> <span class="dv">3</span>, attempts: <span class="bu">int</span> <span class="op">=</span> <span class="dv">10</span>) <span class="op">-&gt;</span> Tuple[<span class="bu">int</span>, <span class="bu">int</span>, <span class="bu">int</span>]:</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""提取ROI区域的主导色"""</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    pixels <span class="op">=</span> roi.reshape(<span class="op">-</span><span class="dv">1</span>, <span class="dv">3</span>).astype(np.float32)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    criteria <span class="op">=</span> (cv2.TERM_CRITERIA_EPS <span class="op">+</span> cv2.TERM_CRITERIA_MAX_ITER, <span class="dv">100</span>, <span class="fl">0.2</span>)</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    ret, labels, centers <span class="op">=</span> cv2.kmeans(</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>        pixels, K, <span class="va">None</span>, criteria, attempts, </span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>        flags<span class="op">=</span>cv2.KMEANS_PP_CENTERS</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 选择像素数量最多的聚类中心作为主导色</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>    _, counts <span class="op">=</span> np.unique(labels, return_counts<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>    dominant_idx <span class="op">=</span> np.argmax(counts)</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>    dominant_center <span class="op">=</span> centers[dominant_idx]</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">tuple</span>(<span class="bu">map</span>(<span class="bu">int</span>, dominant_center))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><img src="./pics/kmeans_hsv.png" class="img-fluid" alt="Kmeans结果"> <strong>算法特点</strong>： - <strong>自适应聚类</strong>：K=3的设置能够有效捕捉主要颜色并过滤噪声 - <strong>多次重启</strong>：10次重启机制提高聚类结果的稳定性 - <strong>主导色选择</strong>：基于像素数量选择最具代表性的颜色</p>
+</section>
+<section id="统计参数自动计算" class="level4">
+<h4 class="anchored" data-anchor-id="统计参数自动计算">4.2.3 统计参数自动计算</h4>
+<p>对于每条地铁线路，我们自动计算颜色统计参数：</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 计算循环均值（针对HSV的H通道）</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>avg_h <span class="op">=</span> <span class="va">self</span>._circular_mean_deg(filtered_array[:, <span class="dv">0</span>])</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>avg_s <span class="op">=</span> np.mean(filtered_array[:, <span class="dv">1</span>])</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>avg_v <span class="op">=</span> np.mean(filtered_array[:, <span class="dv">2</span>])</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="co"># 计算循环标准差</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>std_h <span class="op">=</span> <span class="va">self</span>._circular_std_deg(filtered_array[:, <span class="dv">0</span>])</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>std_s <span class="op">=</span> np.std(filtered_array[:, <span class="dv">1</span>])</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>std_v <span class="op">=</span> np.std(filtered_array[:, <span class="dv">2</span>])</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="co"># 生成检测范围</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>optimized_params[line_id] <span class="op">=</span> {</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">"hsv_mean"</span>: (<span class="bu">int</span>(avg_h), <span class="bu">int</span>(avg_s), <span class="bu">int</span>(avg_v)),</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">"hsv_std"</span>: (<span class="bu">int</span>(std_h), <span class="bu">int</span>(std_s), <span class="bu">int</span>(std_v)),</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">"hsv_lower"</span>: [<span class="bu">max</span>(<span class="dv">0</span>, <span class="bu">int</span>(avg_h <span class="op">-</span> <span class="dv">2</span> <span class="op">*</span> std_h)), </span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>                  <span class="bu">max</span>(<span class="dv">0</span>, <span class="bu">int</span>(avg_s <span class="op">-</span> <span class="dv">2</span> <span class="op">*</span> std_s)), </span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>                  <span class="bu">max</span>(<span class="dv">0</span>, <span class="bu">int</span>(avg_v <span class="op">-</span> <span class="dv">2</span> <span class="op">*</span> std_v))],</span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>    <span class="st">"hsv_upper"</span>: [<span class="bu">min</span>(<span class="dv">180</span>, <span class="bu">int</span>(avg_h <span class="op">+</span> <span class="dv">2</span> <span class="op">*</span> std_h)), </span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>                  <span class="bu">min</span>(<span class="dv">255</span>, <span class="bu">int</span>(avg_s <span class="op">+</span> <span class="dv">2</span> <span class="op">*</span> std_s)), </span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>                  <span class="bu">min</span>(<span class="dv">255</span>, <span class="bu">int</span>(avg_v <span class="op">+</span> <span class="dv">2</span> <span class="op">*</span> std_v))]</span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>关键创新点</strong>： - <strong>循环统计</strong>：H通道使用循环均值和标准差，正确处理0°和180°边界 - <strong>2σ规则</strong>：使用两倍标准差确定颜色检测范围，平衡召回率和精确率 - <strong>边界保护</strong>：严格限制HSV值在有效范围内</p>
+</section>
+<section id="参数优化与调整策略" class="level4">
+<h4 class="anchored" data-anchor-id="参数优化与调整策略">4.2.4 参数优化与调整策略</h4>
+<p>我们实现了线路特定的参数优化机制：</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">threshold_error_dict</span><span class="kw">:</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">"1"</span><span class="kw">:</span><span class="at"> </span><span class="dv">2</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">"2"</span><span class="kw">:</span><span class="at"> </span><span class="dv">2</span><span class="at">  </span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">"3"</span><span class="kw">:</span><span class="at"> </span><span class="dv">5</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">"4"</span><span class="kw">:</span><span class="at"> </span><span class="dv">5</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">"5"</span><span class="kw">:</span><span class="at"> </span><span class="dv">15</span><span class="co">  # 样本稀少，需要更宽泛的阈值</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">"6"</span><span class="kw">:</span><span class="at"> </span><span class="dv">5</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">"7"</span><span class="kw">:</span><span class="at"> </span><span class="dv">10</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">"8"</span><span class="kw">:</span><span class="at"> </span><span class="dv">5</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>自适应调整策略</strong>： - <strong>数据驱动</strong>：根据训练数据中各线路的样本数量和颜色一致性调整阈值 - <strong>误差补偿</strong>：为样本稀少的线路（如线路5）设置更大的阈值误差 - <strong>动态更新</strong>：检测参数可以根据新数据自动更新和优化</p>
+</section>
+</section>
+<section id="图像预处理流程-1" class="level3">
+<h3 class="anchored" data-anchor-id="图像预处理流程-1">4.3 图像预处理流程</h3>
+<section id="色彩空间转换" class="level4">
+<h4 class="anchored" data-anchor-id="色彩空间转换">4.3.1 色彩空间转换</h4>
+<p>预处理流程的核心是BGR到HSV的转换：</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> preprocess(<span class="va">self</span>, image: np.ndarray, has_visualize: <span class="bu">bool</span> <span class="op">=</span> <span class="va">True</span>) <span class="op">-&gt;</span> np.ndarray:</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""ROI检测预处理流程"""</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 1. 数据类型标准化</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> image.dtype <span class="op">==</span> np.float32 <span class="kw">and</span> image.<span class="bu">max</span>() <span class="op">&lt;=</span> <span class="fl">1.0</span>:</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>        img_bgr_uint8 <span class="op">=</span> (image <span class="op">*</span> <span class="dv">255</span>).astype(np.uint8)</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>        img_bgr_uint8 <span class="op">=</span> image.astype(np.uint8)</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 2. 颜色恒常性校正</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="va">self</span>.use_color_constancy:</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>        img_bgr_uint8 <span class="op">=</span> <span class="va">self</span>._apply_color_constancy(img_bgr_uint8, <span class="va">self</span>.color_constancy_method)</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 3. 色彩空间转换</span></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>    img_hsv_uint8 <span class="op">=</span> cv2.cvtColor(img_bgr_uint8, cv2.COLOR_BGR2HSV)</span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> img_hsv_uint8</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="预处理管道设计" class="level4">
+<h4 class="anchored" data-anchor-id="预处理管道设计">4.3.2 预处理管道设计</h4>
+<p><code>ROIParamOptimizerPreprocessor</code>实现了专门的预处理管道：</p>
+<p><strong>颜色恒常性校正</strong>： - <strong>Gray World算法</strong>：假设图像整体色调平衡，适用于常规光照条件 - <strong>Ebner算法</strong>：使用高斯滤波进行局部颜色平衡，更适合光照不均匀场景 <img src="./pics/gray_world.png" class="img-fluid" alt="Gray_World校正正可视化"> <img src="./pics/Ebner.png" class="img-fluid" alt="Ebner校正可视化"> <strong>处理流程优化</strong>： - <strong>批处理支持</strong>：<code>has_visualize</code>参数控制调试可视化，提高批处理性能 - <strong>内存效率</strong>：避免不必要的图像拷贝，优化内存使用 - <strong>错误处理</strong>：完善的异常处理机制，确保处理稳定性</p>
+</section>
+</section>
+<section id="roi候选区域生成算法" class="level3">
+<h3 class="anchored" data-anchor-id="roi候选区域生成算法">4.4 ROI候选区域生成算法</h3>
+<section id="颜色掩模生成策略" class="level4">
+<h4 class="anchored" data-anchor-id="颜色掩模生成策略">4.4.1 颜色掩模生成策略</h4>
+<p>我们创新性地融合了两种颜色匹配策略：</p>
+<p><strong>矩形范围掩模</strong>：</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>lower, upper <span class="op">=</span> <span class="va">self</span>._safe_hsv_bounds(params[<span class="st">"hsv_lower"</span>], params[<span class="st">"hsv_upper"</span>], threshold_error, hsv_bonus)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>rectangular_mask <span class="op">=</span> cv2.inRange(img_color_space, lower, upper)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>矢量距离掩模</strong>：</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 计算HSV循环距离</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>h_dist <span class="op">=</span> np.minimum(np.<span class="bu">abs</span>(h <span class="op">-</span> h_ref), <span class="dv">180</span> <span class="op">-</span> np.<span class="bu">abs</span>(h <span class="op">-</span> h_ref))</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>s_dist <span class="op">=</span> np.<span class="bu">abs</span>(s <span class="op">-</span> s_ref)</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>v_dist <span class="op">=</span> np.<span class="bu">abs</span>(v <span class="op">-</span> v_ref)</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="co"># 加权欧氏距离</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>distance <span class="op">=</span> np.sqrt((h_weight <span class="op">*</span> h_dist)<span class="op">**</span><span class="dv">2</span> <span class="op">+</span> (s_weight <span class="op">*</span> s_dist)<span class="op">**</span><span class="dv">2</span> <span class="op">+</span> (v_weight <span class="op">*</span> v_dist)<span class="op">**</span><span class="dv">2</span>)</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>vector_mask[distance <span class="op">&lt;=</span> tau] <span class="op">=</span> <span class="dv">255</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="矢量距离计算方法" class="level4">
+<h4 class="anchored" data-anchor-id="矢量距离计算方法">4.4.2 矢量距离计算方法</h4>
+<p><strong>HSV循环距离</strong>： - 正确处理H通道的循环特性（0°和180°相邻） - 使用最短角距离计算色调差异</p>
+<p><strong>加权欧氏距离</strong>： - 根据各通道标准差设置权重，平衡不同通道的贡献 - tau阈值基于颜色分布的协方差矩阵计算</p>
+</section>
+<section id="掩模融合与优化" class="level4">
+<h4 class="anchored" data-anchor-id="掩模融合与优化">4.4.3 掩模融合与优化</h4>
+<div class="sourceCode" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 融合两种掩模</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>combined_mask <span class="op">=</span> cv2.bitwise_or(rectangular_mask, vector_mask)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 形态学处理</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>combined_mask <span class="op">=</span> cv2.morphologyEx(combined_mask, cv2.MORPH_OPEN, kernel_small)</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>combined_mask <span class="op">=</span> cv2.morphologyEx(combined_mask, cv2.MORPH_CLOSE, kernel_medium)</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="co"># 自适应处理</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> after_count <span class="op">&lt;</span> before_count <span class="op">*</span> <span class="fl">0.05</span> <span class="kw">and</span> before_count <span class="op">&gt;</span> <span class="dv">0</span>:</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 过度严格时采用保守处理</span></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>    combined_mask <span class="op">=</span> original_combined_mask.copy()</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>    combined_mask <span class="op">=</span> cv2.morphologyEx(combined_mask, cv2.MORPH_OPEN, kernel_small)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="形态学操作优化" class="level4">
+<h4 class="anchored" data-anchor-id="形态学操作优化">4.4.4 形态学操作优化</h4>
+<p><strong>自适应核大小</strong>：</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>base_kernel_size <span class="op">=</span> <span class="bu">max</span>(<span class="dv">3</span>, <span class="bu">int</span>(<span class="bu">min</span>(height, width) <span class="op">*</span> <span class="fl">0.005</span>))</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>kernel_small <span class="op">=</span> cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (base_kernel_size, base_kernel_size))</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>kernel_medium <span class="op">=</span> cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (base_kernel_size<span class="op">*</span><span class="dv">2</span>, base_kernel_size<span class="op">*</span><span class="dv">2</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>多级形态学处理</strong>： - <strong>开运算</strong>：去除小噪声和细连接 - <strong>闭运算</strong>：填补内部空洞 - <strong>膨胀运算</strong>：确保检测区域完整性</p>
+</section>
+</section>
+<section id="候选区域后处理" class="level3">
+<h3 class="anchored" data-anchor-id="候选区域后处理">4.5 候选区域后处理</h3>
+<section id="几何约束过滤" class="level4">
+<h4 class="anchored" data-anchor-id="几何约束过滤">4.5.1 几何约束过滤</h4>
+<p>我们实施了多重几何约束来筛选有效候选区域：</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 动态面积约束</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>dynamic_min_area <span class="op">=</span> <span class="bu">max</span>(<span class="va">self</span>.min_area, <span class="bu">int</span>(image_area <span class="op">*</span> <span class="fl">0.001</span>))</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>dynamic_max_area <span class="op">=</span> <span class="bu">min</span>(<span class="va">self</span>.max_area, <span class="bu">int</span>(image_area <span class="op">*</span> <span class="fl">0.05</span>))</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 宽高比约束</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>aspect_ratio <span class="op">=</span> w <span class="op">/</span> h <span class="cf">if</span> h <span class="op">&gt;</span> <span class="dv">0</span> <span class="cf">else</span> <span class="dv">0</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="kw">not</span> (<span class="va">self</span>.min_aspect_ratio <span class="op">&lt;=</span> aspect_ratio <span class="op">&lt;=</span> <span class="va">self</span>.max_aspect_ratio):</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">continue</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a><span class="co"># 圆形填充度约束</span></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>(cx, cy), r <span class="op">=</span> cv2.minEnclosingCircle(cnt)</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>circle_area <span class="op">=</span> np.pi <span class="op">*</span> r <span class="op">*</span> r</span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>circle_fill_ratio <span class="op">=</span> area <span class="op">/</span> circle_area <span class="cf">if</span> circle_area <span class="op">&gt;</span> <span class="dv">0</span> <span class="cf">else</span> <span class="dv">0</span></span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> circle_fill_ratio <span class="op">&lt;</span> <span class="va">self</span>.fill_ratio:</span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">continue</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="连通组件分析" class="level4">
+<h4 class="anchored" data-anchor-id="连通组件分析">4.5.2 连通组件分析</h4>
+<p><strong>轮廓提取与分析</strong>： - 使用<code>cv2.findContours</code>提取连通组件 - 计算最小外接圆来评估形状规则性 - 基于轮廓复杂度过滤不规则形状</p>
+</section>
+<section id="非极大值抑制nms" class="level4">
+<h4 class="anchored" data-anchor-id="非极大值抑制nms">4.5.3 非极大值抑制（NMS）</h4>
+<div class="sourceCode" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> _nms_by_line(<span class="va">self</span>, detections: List[Dict[<span class="bu">str</span>, Any]], iou_thresh<span class="op">=</span><span class="fl">0.5</span>) <span class="op">-&gt;</span> List[Dict[<span class="bu">str</span>, Any]]:</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""按线路分组的NMS算法"""</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    grouped <span class="op">=</span> defaultdict(<span class="bu">list</span>)</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> det <span class="kw">in</span> detections:</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>        grouped[det[<span class="st">'line_id'</span>]].append(det)</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>    final <span class="op">=</span> []</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> line_id, group <span class="kw">in</span> grouped.items():</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>        final.extend(<span class="va">self</span>._apply_nms_for_group(group, iou_thresh))</span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> final</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>分组NMS策略</strong>： - 按线路ID分组，避免不同线路间的误抑制 - 基于IoU阈值去除重复检测 - 保持每条线路的最佳检测结果</p>
+</section>
+<section id="置信度评估机制" class="level4">
+<h4 class="anchored" data-anchor-id="置信度评估机制">4.5.4 置信度评估机制</h4>
+<div class="sourceCode" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>confidence <span class="op">=</span> (</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>    <span class="fl">0.5</span> <span class="op">*</span> circle_fill_ratio <span class="op">+</span>                <span class="co"># 形状规则性</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    <span class="fl">0.2</span> <span class="op">*</span> (<span class="dv">1</span> <span class="op">-</span> <span class="bu">abs</span>(<span class="fl">0.75</span> <span class="op">-</span> aspect_ratio)) <span class="op">+</span>  <span class="co"># 宽高比适应性</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>    <span class="fl">0.3</span> <span class="op">*</span> circularity                       <span class="co"># 圆度评估</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>多因子置信度</strong>： - 综合形状、大小、填充度等多个几何特征 - 权重分配基于实验验证的最优组合 - 为后续分类提供可靠的质量评估</p>
+</section>
+</section>
+<section id="参数动态调整策略" class="level3">
+<h3 class="anchored" data-anchor-id="参数动态调整策略">4.6 参数动态调整策略</h3>
+<section id="自适应阈值调整" class="level4">
+<h4 class="anchored" data-anchor-id="自适应阈值调整">4.6.1 自适应阈值调整</h4>
+<p>系统支持基于检测结果的动态参数调整：</p>
+<p><strong>线路特定阈值</strong>： - 根据训练数据质量为每条线路设置个性化阈值误差 - 自动识别难检测线路并放宽检测条件</p>
+<p><strong>实时反馈调整</strong>： - 监控检测结果的质量指标 - 基于假阳性率动态调整阈值</p>
+</section>
+<section id="形态学核大小自适应" class="level4">
+<h4 class="anchored" data-anchor-id="形态学核大小自适应">4.6.2 形态学核大小自适应</h4>
+<div class="sourceCode" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>base_kernel_size <span class="op">=</span> <span class="bu">max</span>(<span class="dv">3</span>, <span class="bu">int</span>(<span class="bu">min</span>(height, width) <span class="op">*</span> <span class="fl">0.005</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>图像尺寸自适应</strong>： - 核大小与图像尺寸成比例，确保处理效果一致性 - 最小核大小保证，避免过小核导致的处理失效 - 多尺度核设计，适应不同大小的目标对象</p>
+<p>通过以上系统化的设计和实现，我们的ROI检测器在保证检测精度的同时，具备了良好的鲁棒性和可扩展性，为后续的CNN分类器提供了高质量的候选区域。</p>
+<hr>
+</section>
+</section>
+</section>
+<section id="cnn分类器模块设计-预留章节" class="level2">
+<h2 class="anchored" data-anchor-id="cnn分类器模块设计-预留章节">5. CNN分类器模块设计 <strong>[预留章节]</strong></h2>
+<section id="分类器架构概述" class="level3">
+<h3 class="anchored" data-anchor-id="分类器架构概述">5.1 分类器架构概述</h3>
+<!-- BaseClassifier设计、接口定义、CNN架构选择 -->
+</section>
+<section id="卷积神经网络设计" class="level3">
+<h3 class="anchored" data-anchor-id="卷积神经网络设计">5.2 卷积神经网络设计</h3>
+<!-- CNN网络架构、层次设计、参数配置 -->
+</section>
+<section id="数据增强与训练策略" class="level3">
+<h3 class="anchored" data-anchor-id="数据增强与训练策略">5.3 数据增强与训练策略</h3>
+<!-- 图像增强技术、训练优化、过拟合防止 -->
+</section>
+<section id="分类预处理流程" class="level3">
+<h3 class="anchored" data-anchor-id="分类预处理流程">5.4 分类预处理流程</h3>
+<!-- ClassificationPreprocessor设计、图像标准化、尺寸调整 -->
+</section>
+<section id="模型训练与优化" class="level3">
+<h3 class="anchored" data-anchor-id="模型训练与优化">5.5 模型训练与优化</h3>
+<!-- 损失函数选择、优化器配置、学习率调度 -->
+</section>
+<section id="模型评估与性能优化" class="level3">
+<h3 class="anchored" data-anchor-id="模型评估与性能优化">5.6 模型评估与性能优化</h3>
+<!-- 分类准确率、混淆矩阵分析、模型压缩 -->
+<hr>
+</section>
+</section>
+<section id="系统集成与流程管理" class="level2">
+<h2 class="anchored" data-anchor-id="系统集成与流程管理">6. 系统集成与流程管理</h2>
+<section id="模块化架构设计" class="level3">
+<h3 class="anchored" data-anchor-id="模块化架构设计">6.1 模块化架构设计</h3>
+<section id="配置管理系统" class="level4">
+<h4 class="anchored" data-anchor-id="配置管理系统">6.1.1 配置管理系统</h4>
+<p>我们基于Hydra框架构建了高度灵活的配置管理系统，支持分层配置和动态组合：</p>
+<p><strong>配置文件组织结构</strong>：</p>
+<pre><code>config/
+├── config.yaml                 # 主配置文件
+├── mode/
+│   ├── train.yaml              # 训练模式配置
+│   ├── test.yaml               # 测试模式配置
+│   └── demo.yaml               # 演示模式配置
+├── dataset/
+│   └── default.yaml            # 数据集配置
+├── roi_detection/
+│   └── multi_color.yaml        # ROI检测器配置
+├── classification/
+│   └── template_classification.yaml  # 分类器配置
+└── preprocessing/
+    ├── template/
+    │   └── default.yaml        # 模板预处理配置
+    └── roi_param_optimizer/
+        └── default.yaml        # ROI参数优化预处理配置</code></pre>
+<p><strong>主配置文件设计</strong>：</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">defaults</span><span class="kw">:</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> </span><span class="fu">mode</span><span class="kw">:</span><span class="at"> train</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> </span><span class="fu">dataset</span><span class="kw">:</span><span class="at"> default</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> </span><span class="fu">roi_detection</span><span class="kw">:</span><span class="at"> multi_color</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> </span><span class="fu">classification</span><span class="kw">:</span><span class="at"> template_classification</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> </span><span class="fu">preprocessing/template</span><span class="kw">:</span><span class="at"> default</span></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> </span><span class="fu">preprocessing/roi_param_optimizer</span><span class="kw">:</span><span class="at"> default</span></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a><span class="fu">output_dir</span><span class="kw">:</span><span class="at"> ${base_dir}/results</span></span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a><span class="fu">seed</span><span class="kw">:</span><span class="at"> </span><span class="dv">42</span></span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a><span class="fu">base_dir</span><span class="kw">:</span><span class="at"> ${oc.env:BASE_DIR}</span></span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a><span class="fu">model_dispatch</span><span class="kw">:</span></span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">train</span><span class="kw">:</span><span class="at"> </span><span class="st">"src.pipeline.train_pipeline:main"</span></span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">test</span><span class="kw">:</span><span class="at"> </span><span class="st">"src.pipeline.test_pipeline:main"</span></span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">demo</span><span class="kw">:</span><span class="at"> </span><span class="st">"src.pipeline.demo_pipeline:main"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>配置管理优势</strong>： - <strong>分层配置</strong>：模块化配置文件，便于维护和扩展 - <strong>动态组合</strong>：通过defaults机制灵活组合不同配置 - <strong>环境变量支持</strong>：支持环境变量注入，适应不同部署环境 - <strong>类型验证</strong>：自动配置类型检查和验证</p>
+</section>
+<section id="组件接口设计" class="level4">
+<h4 class="anchored" data-anchor-id="组件接口设计">6.1.2 组件接口设计</h4>
+<p>系统采用基于抽象基类的依赖注入模式，确保组件间的松耦合：</p>
+<p><strong>核心基类架构</strong>：</p>
+<pre class="mermaid"><code>classDiagram
+    class BasePreprocessor {
+        &lt;&lt;abstract&gt;&gt;
+        +cfg: DictConfig
+        +preprocess(image: np.ndarray)* np.ndarray
+        +resize(image: np.ndarray, target_size: Tuple) np.ndarray
+    }
+    
+    class BaseDetector {
+        &lt;&lt;abstract&gt;&gt;
+        +cfg: DictConfig
+        +logger: Logger
+        +preprocessor: BasePreprocessor
+        +detect(image: np.ndarray)* List[Dict]
+        +save_params(params: Dict)* bool
+        +set_preprocessor(preprocessor: BasePreprocessor)
+    }
+    
+    class BaseClassifier {
+        &lt;&lt;abstract&gt;&gt;
+        +cfg: DictConfig
+        +logger: Logger
+        +preprocessor: BasePreprocessor
+        +predict(image: np.ndarray)* Tuple[int, float]
+        +train(X_train: np.ndarray, y_train: np.ndarray)* Dict
+        +save(path: str)*
+        +load(path: str)*
+    }
+    
+    class ROIParamOptimizerPreprocessor {
+        +use_color_constancy: bool
+        +color_constancy_method: str
+        +preprocess(image: np.ndarray) np.ndarray
+        +ebner_color_constancy(image: np.ndarray) np.ndarray
+        +gray_world(image: np.ndarray) np.ndarray
+    }
+    
+    class TemplatePreprocessor {
+        +color_space: str
+        +use_clache: bool
+        +preprocess(image: np.ndarray) np.ndarray
+    }
+    
+    class MultiColorDetector {
+        +color_params: Dict
+        +threshold_error_dict: Dict
+        +detect(image: np.ndarray) List[Dict]
+        +optimize_color_parameters(dataset: MetroDataset) Dict
+        +extract_dominant(roi: np.ndarray) Tuple[int, int, int]
+    }
+    
+    class TemplateClassifier {
+        +templates: Dict
+        +template_size: Tuple
+        +threshold: float
+        +predict(image: np.ndarray) Tuple[int, float]
+        +train(X_train: np.ndarray, y_train: np.ndarray)
+    }
+    
+    BasePreprocessor &lt;|-- ROIParamOptimizerPreprocessor
+    BasePreprocessor &lt;|-- TemplatePreprocessor
+    BaseDetector &lt;|-- MultiColorDetector
+    BaseClassifier &lt;|-- TemplateClassifier
+    BaseDetector --&gt; BasePreprocessor : uses
+    BaseClassifier --&gt; BasePreprocessor : uses</code></pre>
+<p><strong>依赖注入机制</strong>：</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 组件初始化和依赖注入示例</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> _init_components(<span class="va">self</span>):</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 创建预处理器</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.roi_preprocessor <span class="op">=</span> ROIParamOptimizerPreprocessor(cfg<span class="op">=</span><span class="va">self</span>.cfg.preprocessing.roi_param_optimizer)</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.template_preprocessor <span class="op">=</span> TemplatePreprocessor(cfg<span class="op">=</span><span class="va">self</span>.cfg.preprocessing.template)</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 创建检测器和分类器</span></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.detector <span class="op">=</span> MultiColorDetector(cfg<span class="op">=</span><span class="va">self</span>.cfg.roi_detection)</span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.classifier <span class="op">=</span> TemplateClassifier(cfg<span class="op">=</span><span class="va">self</span>.cfg.classification)</span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 依赖注入</span></span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.detector.set_preprocessor(<span class="va">self</span>.roi_preprocessor)</span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.classifier.set_preprocessor(<span class="va">self</span>.template_preprocessor)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+<section id="训练流程设计" class="level3">
+<h3 class="anchored" data-anchor-id="训练流程设计">6.2 训练流程设计</h3>
+<section id="训练管道架构" class="level4">
+<h4 class="anchored" data-anchor-id="训练管道架构">6.2.1 训练管道架构</h4>
+<p><code>MetroTrainPipeline</code>实现了完整的训练流程管理： <strong>这里template训练部分最后需要改为CNN</strong></p>
+<pre class="mermaid"><code>flowchart TD
+    A[开始训练流程] --&gt; B[加载配置文件]
+    B --&gt; C[初始化组件]
+    C --&gt; D[加载训练数据集]
+    D --&gt; E[加载验证数据集]
+    E --&gt; F{是否优化ROI参数?}
+    
+    F --&gt;|是| G[ROI参数优化]
+    F --&gt;|否| H[跳过ROI参数优化]
+    G --&gt; I{是否创建模板?}
+    H --&gt; I
+    
+    I --&gt;|是| J[提取训练ROI]
+    I --&gt;|否| K[跳过模板创建]
+    J --&gt; L[预处理ROI]
+    L --&gt; M[创建分类模板]
+    M --&gt; N[保存模板]
+    N --&gt; O[训练完成]
+    K --&gt; O
+    
+    style G fill:#e1f5fe
+    style M fill:#f3e5f5
+    style O fill:#e8f5e8</code></pre>
+<p><strong>训练流程核心代码</strong>：</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> MetroTrainPipeline:</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> run(<span class="va">self</span>):</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""运行训练流程"""</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.logger.info(<span class="st">"=== 开始训练流程 ==="</span>)</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 步骤1: 加载数据集</span></span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>        train_dataset, val_dataset <span class="op">=</span> <span class="va">self</span>._load_datasets()</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 步骤2: ROI参数优化</span></span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="va">self</span>.cfg.mode.get(<span class="st">"optimize_roi_param"</span>, <span class="va">False</span>):</span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>._optimize_roi_param(train_dataset)</span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 步骤3: 创建分类模板</span></span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="va">self</span>.cfg.mode.get(<span class="st">"create_templates"</span>, <span class="va">False</span>):</span>
+<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>._create_templates(train_dataset)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="颜色参数优化流程" class="level4">
+<h4 class="anchored" data-anchor-id="颜色参数优化流程">6.2.2 颜色参数优化流程</h4>
+<p>ROI检测器的颜色参数学习是训练流程的核心环节：</p>
+<pre class="mermaid"><code>flowchart LR
+    A[训练数据集] --&gt; B[遍历图像]
+    B --&gt; C[提取标注ROI]
+    C --&gt; D[预处理转换HSV]
+    D --&gt; E[K-means主导色提取]
+    E --&gt; F[按线路ID分组]
+    F --&gt; G[线路特定过滤]
+    G --&gt; H[计算统计参数]
+    H --&gt; I[生成颜色范围]
+    I --&gt; J[保存参数文件]
+    
+    K[颜色样本] --&gt; L[循环均值计算]
+    L --&gt; M[循环标准差计算]
+    M --&gt; N[HSV上下界]
+    
+    F --&gt; K
+    H --&gt; L
+    
+    style E fill:#fff3e0
+    style H fill:#e1f5fe
+    style J fill:#e8f5e8</code></pre>
+<p><strong>关键优化步骤</strong>： 1. <strong>主导色提取</strong>：使用K-means聚类提取每个ROI的主导颜色 2. <strong>线路分组</strong>：按照线路ID对颜色样本进行分组 3. <strong>统计计算</strong>：计算每条线路的HSV均值和标准差 4. <strong>参数生成</strong>：基于统计结果生成检测参数</p>
+</section>
+<section id="cnn模型训练流程" class="level4">
+<h4 class="anchored" data-anchor-id="cnn模型训练流程">6.2.3 CNN模型训练流程</h4>
+<p><strong>CNN分类器训练流程</strong>：</p>
+</section>
+</section>
+<section id="测试评估流程" class="level3">
+<h3 class="anchored" data-anchor-id="测试评估流程">6.3 测试评估流程</h3>
+<section id="测试管道设计" class="level4">
+<h4 class="anchored" data-anchor-id="测试管道设计">6.3.1 测试管道设计</h4>
+<p><code>MetroTestPipeline</code>实现了完整的测试评估流程：</p>
+<pre class="mermaid"><code>flowchart TD
+    A[开始测试流程] --&gt; B[加载测试数据集]
+    B --&gt; C[初始化检测器和分类器]
+    C --&gt; D[遍历测试图像]
+    D --&gt; E[ROI检测]
+    E --&gt; F[区域分类]
+    F --&gt; G[结果收集]
+    G --&gt; H{是否处理完所有图像?}
+    
+    H --&gt;|否| D
+    H --&gt;|是| I[计算评估指标]
+    I --&gt; J[生成混淆矩阵]
+    J --&gt; K[可视化结果]
+    K --&gt; L[保存检测结果]
+    L --&gt; M[测试完成]
+    
+    subgraph "单图像处理流程"
+        E1[图像预处理] --&gt; E2[多线路并行检测]
+        E2 --&gt; E3[NMS去重]
+        E3 --&gt; E4[置信度排序]
+    end
+    
+    E --&gt; E1
+    
+    style I fill:#e1f5fe
+    style K fill:#f3e5f5
+    style M fill:#e8f5e8</code></pre>
+<p><strong>测试流程核心实现</strong>：</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> run(<span class="va">self</span>):</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""运行测试流程"""</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>    test_dataset <span class="op">=</span> MetroDataset(cfg<span class="op">=</span><span class="va">self</span>.cfg.dataset, mode<span class="op">=</span><span class="st">'test'</span>)</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>    results <span class="op">=</span> []</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> idx <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(test_dataset)):</span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>        image, annotations, image_id <span class="op">=</span> test_dataset.get_image_with_annotations(idx)</span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>        <span class="co"># ROI检测</span></span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>        detected_rois <span class="op">=</span> <span class="va">self</span>.multi_color_detector.detect(image)</span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 结果收集</span></span>
+<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a>        detected_classes <span class="op">=</span> [(roi[<span class="st">'line_id'</span>], roi[<span class="st">'bbox'</span>], roi[<span class="st">'confidence'</span>]) </span>
+<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a>                          <span class="cf">for</span> roi <span class="kw">in</span> detected_rois]</span>
+<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a>        gt_classes <span class="op">=</span> [(ann[<span class="dv">4</span>], ann[:<span class="dv">4</span>]) <span class="cf">for</span> ann <span class="kw">in</span> annotations]</span>
+<span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb28-17"><a href="#cb28-17" aria-hidden="true" tabindex="-1"></a>        results.append({</span>
+<span id="cb28-18"><a href="#cb28-18" aria-hidden="true" tabindex="-1"></a>            <span class="st">'image_id'</span>: <span class="bu">int</span>(image_id),</span>
+<span id="cb28-19"><a href="#cb28-19" aria-hidden="true" tabindex="-1"></a>            <span class="st">'detected'</span>: detected_classes,</span>
+<span id="cb28-20"><a href="#cb28-20" aria-hidden="true" tabindex="-1"></a>            <span class="st">'ground_truth'</span>: gt_classes</span>
+<span id="cb28-21"><a href="#cb28-21" aria-hidden="true" tabindex="-1"></a>        })</span>
+<span id="cb28-22"><a href="#cb28-22" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb28-23"><a href="#cb28-23" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 评估和保存</span></span>
+<span id="cb28-24"><a href="#cb28-24" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>._calculate_metrics(results)</span>
+<span id="cb28-25"><a href="#cb28-25" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>._save_results(results)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="批量处理机制" class="level4">
+<h4 class="anchored" data-anchor-id="批量处理机制">6.3.2 批量处理机制</h4>
+<p><strong>高效批处理策略</strong>： - <strong>内存优化</strong>：逐张处理图像，避免内存溢出 - <strong>进度监控</strong>：使用tqdm显示处理进度 - <strong>错误恢复</strong>：单张图像处理失败不影响整体流程 - <strong>可视化控制</strong>：<code>has_visualize</code>参数控制调试输出</p>
+</section>
+<section id="结果可视化" class="level4">
+<h4 class="anchored" data-anchor-id="结果可视化">6.3.3 结果可视化</h4>
+<p>系统提供多种结果可视化功能：</p>
+<p><strong>检测结果可视化</strong>：</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> _visualize_results(<span class="va">self</span>, image: np.ndarray, detections: List[Tuple], </span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>                      ground_truth: List[Tuple], image_id: <span class="bu">int</span>):</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""可视化检测结果"""</span></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>    fig, (ax1, ax2) <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">15</span>, <span class="dv">7</span>))</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 显示检测结果</span></span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>    ax1.imshow(image)</span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> cls, bbox, conf <span class="kw">in</span> detections:</span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>        x1, y1, x2, y2 <span class="op">=</span> bbox</span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>        rect <span class="op">=</span> Rectangle((x1, y1), x2<span class="op">-</span>x1, y2<span class="op">-</span>y1, </span>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a>                        linewidth<span class="op">=</span><span class="dv">2</span>, edgecolor<span class="op">=</span><span class="st">'red'</span>, facecolor<span class="op">=</span><span class="st">'none'</span>)</span>
+<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a>        ax1.add_patch(rect)</span>
+<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a>        ax1.text(x1, y1<span class="op">-</span><span class="dv">5</span>, <span class="ss">f'Line </span><span class="sc">{</span>cls<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>conf<span class="sc">:.2f}</span><span class="ss">'</span>, </span>
+<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a>                color<span class="op">=</span><span class="st">'red'</span>, fontsize<span class="op">=</span><span class="dv">12</span>, weight<span class="op">=</span><span class="st">'bold'</span>)</span>
+<span id="cb29-15"><a href="#cb29-15" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb29-16"><a href="#cb29-16" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 显示真实标注</span></span>
+<span id="cb29-17"><a href="#cb29-17" aria-hidden="true" tabindex="-1"></a>    ax2.imshow(image)</span>
+<span id="cb29-18"><a href="#cb29-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> cls, bbox <span class="kw">in</span> ground_truth:</span>
+<span id="cb29-19"><a href="#cb29-19" aria-hidden="true" tabindex="-1"></a>        x1, y1, x2, y2 <span class="op">=</span> bbox</span>
+<span id="cb29-20"><a href="#cb29-20" aria-hidden="true" tabindex="-1"></a>        rect <span class="op">=</span> Rectangle((x1, y1), x2<span class="op">-</span>x1, y2<span class="op">-</span>y1,</span>
+<span id="cb29-21"><a href="#cb29-21" aria-hidden="true" tabindex="-1"></a>                        linewidth<span class="op">=</span><span class="dv">2</span>, edgecolor<span class="op">=</span><span class="st">'green'</span>, facecolor<span class="op">=</span><span class="st">'none'</span>)</span>
+<span id="cb29-22"><a href="#cb29-22" aria-hidden="true" tabindex="-1"></a>        ax2.add_patch(rect)</span>
+<span id="cb29-23"><a href="#cb29-23" aria-hidden="true" tabindex="-1"></a>        ax2.text(x1, y1<span class="op">-</span><span class="dv">5</span>, <span class="ss">f'GT Line </span><span class="sc">{</span>cls<span class="sc">}</span><span class="ss">'</span>, </span>
+<span id="cb29-24"><a href="#cb29-24" aria-hidden="true" tabindex="-1"></a>                color<span class="op">=</span><span class="st">'green'</span>, fontsize<span class="op">=</span><span class="dv">12</span>, weight<span class="op">=</span><span class="st">'bold'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+<section id="数据管理系统" class="level3">
+<h3 class="anchored" data-anchor-id="数据管理系统">6.4 数据管理系统</h3>
+<p><code>MetroDataset</code>类提供了统一的数据管理接口，支持多种数据格式：</p>
+<pre class="mermaid"><code>classDiagram
+    class MetroDataset {
+        +cfg: DictConfig
+        +mode: str
+        +data_root: Path
+        +data_format: str
+        +df: DataFrame
+        +annotations: DataFrame
+        
+        +__init__(cfg, mode, logger)
+        +_load_excel_data()
+        +_load_mat_data()
+        +_split_train_val(df, mode) DataFrame
+        +_resolve_image_path(image_id) str
+        +__getitem__(idx) Tuple
+        +get_all() Tuple[List, np.ndarray]
+        +get_image_with_annotations(idx) Tuple
+        +get_class_balance_weights() Dict
+    }
+    
+    class DataLoader {
+        +excel_support: bool
+        +mat_support: bool
+        +image_formats: List[str]
+    }
+    
+    class ValidationUtils {
+        +validate_bbox(bbox, image_shape) bool
+        +check_image_exists(path) bool
+        +verify_annotations(df) bool
+    }
+    
+    MetroDataset --&gt; DataLoader : uses
+    MetroDataset --&gt; ValidationUtils : uses</code></pre>
+<p><strong>多格式数据支持</strong>：</p>
+<p><strong>Excel格式支持</strong>：</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> _load_excel(<span class="va">self</span>, path: Path) <span class="op">-&gt;</span> pd.DataFrame:</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""加载Excel格式标注数据"""</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>    df <span class="op">=</span> pd.read_excel(path)</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>    required <span class="op">=</span> {<span class="st">'image_id'</span>, <span class="st">'y1'</span>, <span class="st">'y2'</span>, <span class="st">'x1'</span>, <span class="st">'x2'</span>, <span class="st">'class_id'</span>}</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="kw">not</span> required.issubset(df.columns):</span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>        <span class="cf">raise</span> <span class="pp">ValueError</span>(<span class="ss">f"Missing columns: </span><span class="sc">{</span>required <span class="op">-</span> <span class="bu">set</span>(df.columns)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>MATLAB格式支持</strong>：</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> _load_mat_to_df(<span class="va">self</span>, path: Path) <span class="op">-&gt;</span> pd.DataFrame:</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""加载MATLAB格式数据并转换为DataFrame"""</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>    mat_data <span class="op">=</span> sio.loadmat(<span class="bu">str</span>(path))</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>    annot_data <span class="op">=</span> mat_data[<span class="st">'BD'</span>]  <span class="co"># 或者自动检测数据字段</span></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>    df <span class="op">=</span> pd.DataFrame({</span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>        <span class="st">'image_id'</span>: annot_data[:, <span class="dv">0</span>].astype(<span class="bu">int</span>),</span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>        <span class="st">'y1'</span>: annot_data[:, <span class="dv">1</span>].astype(<span class="bu">int</span>),</span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>        <span class="st">'y2'</span>: annot_data[:, <span class="dv">2</span>].astype(<span class="bu">int</span>),</span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>        <span class="st">'x1'</span>: annot_data[:, <span class="dv">3</span>].astype(<span class="bu">int</span>),</span>
+<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a>        <span class="st">'x2'</span>: annot_data[:, <span class="dv">4</span>].astype(<span class="bu">int</span>),</span>
+<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a>        <span class="st">'class_id'</span>: annot_data[:, <span class="dv">5</span>].astype(<span class="bu">int</span>)</span>
+<span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a>    })</span>
+<span id="cb32-14"><a href="#cb32-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>数据完整性验证</strong>： - <strong>路径验证</strong>：自动检测和验证图像文件路径 - <strong>格式检查</strong>：支持JPG、PNG等多种图像格式 - <strong>边界验证</strong>：确保标注框在图像范围内 - <strong>异常数据清理</strong>：自动移除已知的异常标注</p>
+<p><strong>系统整体数据流</strong>：</p>
+<pre class="mermaid"><code>flowchart TB
+    subgraph "Couche d'entrée de données"
+        A1[Fichier d'annotation Excel]
+        A2[Fichier d'annotation MATLAB]
+        A3[Fichiers image]
+    end
+    
+    subgraph "Couche de gestion des données"
+        B1[MetroDataset]
+        B2[Validation des données]
+        B3[Conversion de format]
+        B4[Stratégie de partitionnement]
+    end
+    
+    subgraph "Couche de prétraitement"
+        C1[Préprocesseur ROI]
+        C2[Préprocesseur de classification]
+    end
+    
+    subgraph "Couche algorithmique"
+        D1[Détecteur multi-couleurs]
+        D2[Classifieur à base de modèles]
+    end
+    
+    subgraph "Couche de gestion du flux"
+        E1[Pipeline d'entraînement]
+        E2[Pipeline de test]
+        E3[Gestion de configuration]
+    end
+    
+    subgraph "Couche de sortie"
+        F1[Résultats de détection]
+        F2[Métriques d'évaluation]
+        F3[Visualisation]
+    end
+    
+    A1 --&gt; B1
+    A2 --&gt; B1
+    A3 --&gt; B1
+    B1 --&gt; B2
+    B2 --&gt; B3
+    B3 --&gt; B4
+    
+    B4 --&gt; C1
+    B4 --&gt; C2
+    
+    C1 --&gt; D1
+    C2 --&gt; D2
+    
+    D1 --&gt; E1
+    D2 --&gt; E1
+    D1 --&gt; E2
+    D2 --&gt; E2
+    
+    E3 --&gt; E1
+    E3 --&gt; E2
+    
+    E1 --&gt; F1
+    E2 --&gt; F1
+    E2 --&gt; F2
+    E2 --&gt; F3
+    
+    style B1 fill:#e1f5fe
+    style D1 fill:#fff3e0
+    style D2 fill:#f3e5f5
+    style E1 fill:#e8f5e8
+    style E2 fill:#e8f5e8</code></pre>
+<p>通过以上系统化的集成设计，我们实现了一个高度模块化、可配置、易扩展的地铁标志识别系统。系统支持灵活的配置管理、完善的流程控制、多格式数据处理和全面的结果评估，为研究和实际应用提供了坚实的技术基础。</p>
+<hr>
+</section>
+</section>
+<section id="实验设计与结果分析" class="level2">
+<h2 class="anchored" data-anchor-id="实验设计与结果分析">7. 实验设计与结果分析</h2>
+<section id="实验环境与设置" class="level3">
+<h3 class="anchored" data-anchor-id="实验环境与设置">7.1 实验环境与设置</h3>
+<section id="硬件环境" class="level4">
+<h4 class="anchored" data-anchor-id="硬件环境">7.1.1 硬件环境</h4>
+<p>本项目在以下硬件环境下进行开发和测试：</p>
+<p><strong>计算平台</strong>： - <strong>设备型号</strong>：MacBook Pro M1 Pro (2021) - <strong>处理器</strong>：Apple M1 Pro芯片 (10核CPU，16核GPU) - <strong>内存</strong>：16GB 统一内存架构 - <strong>存储</strong>：512GB SSD</p>
+<p><strong>计算资源特点</strong>： - <strong>CPU密集型处理</strong>：传统计算机视觉算法（颜色特征提取、形态学操作）充分利用M1芯片的高性能CPU核心 - <strong>内存效率</strong>：统一内存架构提高了数据处理效率，特别适合图像处理任务 - <strong>无独立GPU训练</strong>：系统设计充分考虑了资源受限环境，重点优化算法效率而非依赖大型深度学习模型</p>
+</section>
+<section id="软件环境" class="level4">
+<h4 class="anchored" data-anchor-id="软件环境">7.1.2 软件环境</h4>
+<p><strong>核心软件版本</strong>： - <strong>Python版本</strong>：3.10.x - <strong>操作系统</strong>：macOS Sonoma 14.x</p>
+<p><strong>主要依赖库及版本</strong>：</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 核心计算和数据处理</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>numpy<span class="op">==</span><span class="fl">2.1.3</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>pandas<span class="op">==</span><span class="fl">2.2.3</span></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>opencv<span class="op">-</span>python<span class="op">==</span><span class="fl">4.11.0.86</span></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>scipy<span class="op">==</span><span class="fl">1.15.3</span></span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>scikit<span class="op">-</span>learn<span class="op">==</span><span class="fl">1.6.1</span></span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a><span class="co"># 深度学习框架</span></span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a>tensorflow<span class="op">==</span><span class="fl">2.19.0</span></span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a>keras<span class="op">==</span><span class="fl">3.9.2</span></span>
+<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a>tensorflow<span class="op">-</span>metal<span class="op">==</span><span class="fl">1.2.0</span>  <span class="co"># M1芯片优化</span></span>
+<span id="cb34-12"><a href="#cb34-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-13"><a href="#cb34-13" aria-hidden="true" tabindex="-1"></a><span class="co"># 配置管理和工具</span></span>
+<span id="cb34-14"><a href="#cb34-14" aria-hidden="true" tabindex="-1"></a>hydra<span class="op">-</span>core<span class="op">==</span><span class="fl">1.3.2</span></span>
+<span id="cb34-15"><a href="#cb34-15" aria-hidden="true" tabindex="-1"></a>omegaconf<span class="op">==</span><span class="fl">2.3.0</span></span>
+<span id="cb34-16"><a href="#cb34-16" aria-hidden="true" tabindex="-1"></a>python<span class="op">-</span>dotenv<span class="op">==</span><span class="fl">1.1.0</span></span>
+<span id="cb34-17"><a href="#cb34-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-18"><a href="#cb34-18" aria-hidden="true" tabindex="-1"></a><span class="co"># 可视化和分析</span></span>
+<span id="cb34-19"><a href="#cb34-19" aria-hidden="true" tabindex="-1"></a>matplotlib<span class="op">==</span><span class="fl">3.10.3</span></span>
+<span id="cb34-20"><a href="#cb34-20" aria-hidden="true" tabindex="-1"></a>pillow<span class="op">==</span><span class="fl">11.2.1</span></span>
+<span id="cb34-21"><a href="#cb34-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-22"><a href="#cb34-22" aria-hidden="true" tabindex="-1"></a><span class="co"># 其他工具库</span></span>
+<span id="cb34-23"><a href="#cb34-23" aria-hidden="true" tabindex="-1"></a>PyYAML<span class="op">==</span><span class="fl">6.0.2</span></span>
+<span id="cb34-24"><a href="#cb34-24" aria-hidden="true" tabindex="-1"></a>rich<span class="op">==</span><span class="fl">14.0.0</span></span>
+<span id="cb34-25"><a href="#cb34-25" aria-hidden="true" tabindex="-1"></a>tqdm (内置于其他库)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>环境配置特点</strong>： - <strong>M1优化</strong>：使用tensorflow-metal充分利用M1芯片的GPU加速能力 - <strong>版本兼容性</strong>：所有依赖库均选择M1芯片兼容版本 - <strong>轻量化部署</strong>：依赖库精简，适合资源受限环境部署</p>
+</section>
+<section id="评估指标定义" class="level4">
+<h4 class="anchored" data-anchor-id="评估指标定义">7.1.3 评估指标定义</h4>
+<p>基于地铁标志检测的特殊性，我们设计了专门的评估指标体系：</p>
+<p><strong>检测级别指标</strong>：</p>
+<ol type="1">
+<li><p><strong>整体检测率（Detection Rate）</strong>：</p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>detection_rate <span class="op">=</span> total_detected <span class="op">/</span> total_gt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>衡量系统整体的检测能力</p></li>
+<li><p><strong>线路级召回率（Line-specific Recall）</strong>：</p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>recall_line_i <span class="op">=</span> detected_line_i <span class="op">/</span> gt_line_i</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>衡量每条地铁线路的检测性能</p></li>
+<li><p><strong>IoU匹配阈值</strong>：</p>
+<div class="sourceCode" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calculate_iou(box1, box2):</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 计算两个边界框的交并比</span></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>    intersection_area <span class="op">=</span> <span class="bu">max</span>(<span class="dv">0</span>, <span class="bu">min</span>(x2_1, x2_2) <span class="op">-</span> <span class="bu">max</span>(x1_1, x1_2)) <span class="op">*</span> <span class="op">\</span></span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>                       <span class="bu">max</span>(<span class="dv">0</span>, <span class="bu">min</span>(y2_1, y2_2) <span class="op">-</span> <span class="bu">max</span>(y1_1, y1_2))</span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>    union_area <span class="op">=</span> area_box1 <span class="op">+</span> area_box2 <span class="op">-</span> intersection_area</span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> intersection_area <span class="op">/</span> union_area</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>使用IoU ≥ 0.3作为检测匹配阈值</p></li>
+</ol>
+<p><strong>问题分类指标</strong>：</p>
+<p>我们将检测问题分为以下几类：</p>
+<ol type="1">
+<li><strong>完全未检测（No Detection）</strong>：
+<ul>
+<li>定义：GT中有目标但系统未检测到任何目标</li>
+<li>统计：未检测图像数量和对应的GT线路</li>
+</ul></li>
+<li><strong>检测不足（Under Detection）</strong>：
+<ul>
+<li>定义：检测数量比GT少2个或以上</li>
+<li>影响：可能导致用户错过重要线路信息</li>
+</ul></li>
+<li><strong>过度检测（Over Detection）</strong>：
+<ul>
+<li>定义：检测数量超过GT数量</li>
+<li>影响：可能产生误导性信息</li>
+</ul></li>
+<li><strong>线路混淆（Line Confusion）</strong>：
+<ul>
+<li>定义：检测到目标但线路分类错误</li>
+<li>基于IoU匹配分析混淆矩阵</li>
+</ul></li>
+</ol>
+<p><strong>评估代码实现</strong>：</p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> analyze_detection_results(results):</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""自定义检测结果分析函数"""</span></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>    total_images <span class="op">=</span> <span class="bu">len</span>(results)</span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>    total_gt <span class="op">=</span> <span class="bu">sum</span>(<span class="bu">len</span>(r[<span class="st">'ground_truth'</span>]) <span class="cf">for</span> r <span class="kw">in</span> results)</span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>    total_detected <span class="op">=</span> <span class="bu">sum</span>(<span class="bu">len</span>(r[<span class="st">'detected'</span>]) <span class="cf">for</span> r <span class="kw">in</span> results)</span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 线路级别统计</span></span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>    line_stats <span class="op">=</span> {}</span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> item <span class="kw">in</span> results:</span>
+<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a>        gt_lines <span class="op">=</span> [ann[<span class="dv">0</span>] <span class="cf">for</span> ann <span class="kw">in</span> item[<span class="st">'ground_truth'</span>]]</span>
+<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a>        detected_lines <span class="op">=</span> [ann[<span class="dv">0</span>] <span class="cf">for</span> ann <span class="kw">in</span> item[<span class="st">'detected'</span>]]</span>
+<span id="cb38-12"><a href="#cb38-12" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb38-13"><a href="#cb38-13" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> line <span class="kw">in</span> gt_lines:</span>
+<span id="cb38-14"><a href="#cb38-14" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> line <span class="kw">not</span> <span class="kw">in</span> line_stats:</span>
+<span id="cb38-15"><a href="#cb38-15" aria-hidden="true" tabindex="-1"></a>                line_stats[line] <span class="op">=</span> {<span class="st">'gt'</span>: <span class="dv">0</span>, <span class="st">'detected'</span>: <span class="dv">0</span>, <span class="st">'missed'</span>: <span class="dv">0</span>}</span>
+<span id="cb38-16"><a href="#cb38-16" aria-hidden="true" tabindex="-1"></a>            line_stats[line][<span class="st">'gt'</span>] <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb38-17"><a href="#cb38-17" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> <span class="bu">str</span>(line) <span class="kw">in</span> detected_lines:</span>
+<span id="cb38-18"><a href="#cb38-18" aria-hidden="true" tabindex="-1"></a>                line_stats[line][<span class="st">'detected'</span>] <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb38-19"><a href="#cb38-19" aria-hidden="true" tabindex="-1"></a>            <span class="cf">else</span>:</span>
+<span id="cb38-20"><a href="#cb38-20" aria-hidden="true" tabindex="-1"></a>                line_stats[line][<span class="st">'missed'</span>] <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb38-21"><a href="#cb38-21" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb38-22"><a href="#cb38-22" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> {</span>
+<span id="cb38-23"><a href="#cb38-23" aria-hidden="true" tabindex="-1"></a>        <span class="st">'detection_rate'</span>: total_detected <span class="op">/</span> total_gt,</span>
+<span id="cb38-24"><a href="#cb38-24" aria-hidden="true" tabindex="-1"></a>        <span class="st">'line_stats'</span>: line_stats,</span>
+<span id="cb38-25"><a href="#cb38-25" aria-hidden="true" tabindex="-1"></a>        <span class="co"># ... 其他统计信息</span></span>
+<span id="cb38-26"><a href="#cb38-26" aria-hidden="true" tabindex="-1"></a>    }</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+<section id="roi检测器性能评估" class="level3">
+<h3 class="anchored" data-anchor-id="roi检测器性能评估">7.2 ROI检测器性能评估</h3>
+<section id="整体检测性能" class="level4">
+<h4 class="anchored" data-anchor-id="整体检测性能">7.2.1 整体检测性能</h4>
+<p>基于测试数据集的实际评估结果显示出训练样本不足带来的挑战：</p>
+<p><strong>核心性能指标</strong>：</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>指标</th>
+<th>数值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>总测试图像数</td>
+<td>161张</td>
+<td>来自Test.mat数据集</td>
+</tr>
+<tr class="even">
+<td>总标注目标数</td>
+<td>257个</td>
+<td>包含14条不同线路</td>
+</tr>
+<tr class="odd">
+<td>总检测目标数</td>
+<td>346个</td>
+<td>系统检测结果</td>
+</tr>
+<tr class="even">
+<td><strong>整体检测率</strong></td>
+<td><strong>134.63%</strong></td>
+<td>存在明显过度检测问题</td>
+</tr>
+</tbody>
+</table>
+<p><strong>检测质量分析</strong>： - <strong>完全未检测图像</strong>：35张图像（21.7%）未检测到任何目标，暴露了训练样本不足的问题 - <strong>过度检测图像</strong>：60张图像（37.3%）检测数量超过GT，说明误检率较高 - <strong>检测不足图像</strong>：7张图像存在显著漏检（少检测2个以上目标）</p>
+<p><strong>问题根源分析</strong>： 检测率超过100%表明系统存在严重的<strong>误检问题</strong>，主要原因包括： 1. <strong>训练样本严重不足</strong>：87张训练图像难以充分覆盖14条线路在各种光照条件下的颜色变化 2. <strong>HSV色域重叠</strong>：尽管使用2倍标准差扩展色域范围，但光照变化仍导致不同线路间色域混淆 3. <strong>几何约束不足</strong>：当前参数设置无法有效排除圆形M标志等相似形状的干扰物</p>
+</section>
+<section id="comparaison-des-performances-de-détection-entre-les-lignes" class="level4">
+<h4 class="anchored" data-anchor-id="comparaison-des-performances-de-détection-entre-les-lignes">7.2.2 Comparaison des performances de détection entre les lignes</h4>
+<p>Les résultats des tests réels montrent que les performances de détection varient considérablement entre les différentes lignes de métro, reflétant directement le problème du déséquilibre des données d’entraînement :</p>
+<p><strong>Lignes à haute performance (Taux de rappel &gt; 80%)</strong> :</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 7%">
+<col style="width: 8%">
+<col style="width: 11%">
+<col style="width: 10%">
+<col style="width: 17%">
+<col style="width: 43%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Ligne</th>
+<th>Total</th>
+<th>Détectés</th>
+<th>Manqués</th>
+<th>Taux de rappel</th>
+<th>Analyse des échantillons d’entraînement</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Ligne 6</td>
+<td>16</td>
+<td>14</td>
+<td>2</td>
+<td><strong>87.50%</strong></td>
+<td>Échantillons d’entraînement relativement suffisants, haute distinction des couleurs</td>
+</tr>
+<tr class="even">
+<td>Ligne 13</td>
+<td>13</td>
+<td>11</td>
+<td>2</td>
+<td><strong>84.62%</strong></td>
+<td>Caractéristiques de couleur évidentes, peu de confusion</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Lignes à performance moyenne (Taux de rappel 60-80%)</strong> :</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Ligne</th>
+<th>Total</th>
+<th>Détectés</th>
+<th>Manqués</th>
+<th>Taux de rappel</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Ligne 3</td>
+<td>16</td>
+<td>12</td>
+<td>4</td>
+<td>75.00%</td>
+</tr>
+<tr class="even">
+<td>Ligne 4</td>
+<td>14</td>
+<td>10</td>
+<td>4</td>
+<td>71.43%</td>
+</tr>
+<tr class="odd">
+<td>Ligne 12</td>
+<td>30</td>
+<td>21</td>
+<td>9</td>
+<td>70.00%</td>
+</tr>
+<tr class="even">
+<td>Ligne 10</td>
+<td>10</td>
+<td>7</td>
+<td>3</td>
+<td>70.00%</td>
+</tr>
+<tr class="odd">
+<td>Ligne 1</td>
+<td>38</td>
+<td>26</td>
+<td>12</td>
+<td>68.42%</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Lignes à faible performance (Taux de rappel &lt; 60%)</strong> :</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Ligne</th>
+<th>Total</th>
+<th>Détectés</th>
+<th>Manqués</th>
+<th>Taux de rappel</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Ligne 14</strong></td>
+<td>17</td>
+<td>6</td>
+<td>11</td>
+<td><strong>35.29%</strong></td>
+</tr>
+<tr class="even">
+<td><strong>Ligne 5</strong></td>
+<td>10</td>
+<td>3</td>
+<td>7</td>
+<td><strong>30.00%</strong></td>
+</tr>
+<tr class="odd">
+<td><strong>Ligne 11</strong></td>
+<td>10</td>
+<td>3</td>
+<td>7</td>
+<td><strong>30.00%</strong></td>
+</tr>
+<tr class="even">
+<td>Ligne 8</td>
+<td>29</td>
+<td>18</td>
+<td>11</td>
+<td>62.07%</td>
+</tr>
+<tr class="odd">
+<td>Ligne 2</td>
+<td>20</td>
+<td>12</td>
+<td>8</td>
+<td>60.00%</td>
+</tr>
+<tr class="even">
+<td>Ligne 7</td>
+<td>20</td>
+<td>12</td>
+<td>8</td>
+<td>60.00%</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="hsv色域混淆问题分析" class="level4">
+<h4 class="anchored" data-anchor-id="hsv色域混淆问题分析">7.2.3 HSV色域混淆问题分析</h4>
+<p><strong>颜色空间重叠现象</strong>：</p>
+<p>训练样本不足导致的最严重问题是HSV色域重叠，特别体现在以下线路组合：</p>
+<pre class="mermaid"><code>graph TD
+    A[光照变化] --&gt; B[HSV色域偏移]
+    B --&gt; C[线路间色域重叠]
+    C --&gt; D[误检和漏检]
+    
+    E[线路3 浅黄] --&gt; F[色域重叠区域]
+    G[线路11 棕色] --&gt; F
+    F --&gt; H[混淆率 30%+]
+    
+    I[线路2 蓝色] --&gt; J[蓝色系混淆]
+    K[线路6 浅蓝] --&gt; J
+    L[线路14 深蓝] --&gt; J
+    J --&gt; M[低光照下失效]
+    
+    style F fill:#ffcccc
+    style J fill:#ffcccc
+    style H fill:#ff9999
+    style M fill:#ff9999</code></pre>
+<p><strong>统计学增强的局限性</strong>：</p>
+<p>尽管我们使用了2倍标准差(<code>±2σ</code>)的统计学方法扩展色域范围：</p>
+<div class="sourceCode" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 当前的统计学增强方法</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>hsv_lower <span class="op">=</span> [<span class="bu">max</span>(<span class="dv">0</span>, <span class="bu">int</span>(avg_h <span class="op">-</span> <span class="dv">2</span> <span class="op">*</span> std_h)), </span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>             <span class="bu">max</span>(<span class="dv">0</span>, <span class="bu">int</span>(avg_s <span class="op">-</span> <span class="dv">2</span> <span class="op">*</span> std_s)), </span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>             <span class="bu">max</span>(<span class="dv">0</span>, <span class="bu">int</span>(avg_v <span class="op">-</span> <span class="dv">2</span> <span class="op">*</span> std_v))]</span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>hsv_upper <span class="op">=</span> [<span class="bu">min</span>(<span class="dv">180</span>, <span class="bu">int</span>(avg_h <span class="op">+</span> <span class="dv">2</span> <span class="op">*</span> std_h)), </span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>             <span class="bu">min</span>(<span class="dv">255</span>, <span class="bu">int</span>(avg_s <span class="op">+</span> <span class="dv">2</span> <span class="op">*</span> std_s)), </span>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>             <span class="bu">min</span>(<span class="dv">255</span>, <span class="bu">int</span>(avg_v <span class="op">+</span> <span class="dv">2</span> <span class="op">*</span> std_v))]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>但仍然存在根本性问题</strong>： - <strong>训练样本稀少</strong>：某些线路（如线路5）仅有3个训练样本，统计学方法无法有效工作 - <strong>光照条件覆盖不全</strong>：训练数据未充分覆盖极端光照条件 - <strong>色域重叠不可避免</strong>：相似颜色线路在2σ扩展后必然产生重叠区域</p>
+</section>
+</section>
+<section id="颜色特征方法的根本局限性" class="level3">
+<h3 class="anchored" data-anchor-id="颜色特征方法的根本局限性">7.3 颜色特征方法的根本局限性</h3>
+<section id="训练样本不足的连锁影响" class="level4">
+<h4 class="anchored" data-anchor-id="训练样本不足的连锁影响">7.3.1 训练样本不足的连锁影响</h4>
+<p><strong>数据稀缺问题</strong>：</p>
+<p>我们的分析表明，87张训练图像对于14条线路的识别任务严重不足：</p>
+<pre class="mermaid"><code>flowchart TD
+    A[训练样本不足&lt;br/&gt;87张图像] --&gt; B[统计参数不可靠]
+    B --&gt; C[色域范围不准确]
+    C --&gt; D[检测性能下降]
+    
+    A --&gt; E[光照条件覆盖不全]
+    E --&gt; F[HSV转换误差]
+    F --&gt; G[色域重叠严重]
+    G --&gt; D
+    
+    A --&gt; H[线路样本不平衡]
+    H --&gt; I[弱势线路性能差]
+    I --&gt; D
+    
+    D --&gt; J[召回率: 30%-87%]
+    D --&gt; K[误检率: 34.6%]
+    
+    style A fill:#ffcccc
+    style D fill:#ff9999
+    style J fill:#ffffcc
+    style K fill:#ffffcc</code></pre>
+<p><strong>典型失败案例分析</strong>：</p>
+<ol type="1">
+<li><strong>图像ID 8</strong>: GT包含5条线路[1,4,7,11,14]，但完全未检测
+<ul>
+<li><strong>原因</strong>: 极端低光照条件，HSV色彩空间失效</li>
+<li><strong>根本问题</strong>: 训练数据缺乏此类极端条件样本</li>
+</ul></li>
+<li><strong>图像ID 242</strong>: GT包含3条线路[1,12,8]，仅检测到部分
+<ul>
+<li><strong>原因</strong>: 强反光导致颜色特征严重失真</li>
+<li><strong>根本问题</strong>: 颜色恒常性算法无法处理镜面反射</li>
+</ul></li>
+</ol>
+</section>
+<section id="单纯颜色分类的不充分性" class="level4">
+<h4 class="anchored" data-anchor-id="单纯颜色分类的不充分性">7.3.2 单纯颜色分类的不充分性</h4>
+<p>基于实际检测结果，我们得出了一个重要结论：<strong>单纯依赖颜色特征进行地铁线路分类是不充分的</strong>。</p>
+<p><strong>根本性问题</strong>：</p>
+<ol type="1">
+<li><strong>物理限制</strong>：
+<ul>
+<li>HSV色彩空间在极端光照下失效</li>
+<li>颜色恒常性算法无法完全消除光照影响</li>
+<li>相机成像的物理限制</li>
+</ul></li>
+<li><strong>数据限制</strong>：
+<ul>
+<li>训练样本无法覆盖所有可能的光照-颜色组合</li>
+<li>现实中的光照条件远比训练数据复杂</li>
+<li>地铁环境的动态光照变化</li>
+</ul></li>
+<li><strong>算法限制</strong>：
+<ul>
+<li>基于阈值的硬分类方法缺乏容错能力</li>
+<li>形态学操作无法处理复杂形状变化</li>
+<li>缺乏上下文和语义信息</li>
+</ul></li>
+</ol>
+</section>
+<section id="引入cnn分类器的必要性" class="level4">
+<h4 class="anchored" data-anchor-id="引入cnn分类器的必要性">7.3.3 引入CNN分类器的必要性</h4>
+<p><strong>当前检测器的积极作用</strong>：</p>
+<p>尽管存在误检问题，但当前基于颜色的ROI检测器已经实现了<strong>可接受的召回率水平</strong>： - <strong>整体召回率</strong>: 68.1%（175/257） - <strong>高质量线路</strong>: 6条线路召回率超过70% - <strong>ROI定位能力</strong>: 在正确检测的情况下，边界框定位精度较高</p>
+<p><strong>CNN分类器的定位</strong>：</p>
+<p>基于以上分析，我们明确了CNN分类器在系统中的关键作用：</p>
+<ol type="1">
+<li><strong>精确分类</strong>：
+<ul>
+<li>利用深度特征克服颜色相似性问题</li>
+<li>学习形状、纹理、数字等多维特征</li>
+<li>提供端到端的分类置信度</li>
+</ul></li>
+<li><strong>误检过滤</strong>：
+<ul>
+<li>识别并过滤圆形M标志等干扰物</li>
+<li>基于语义特征区分真假地铁标志</li>
+<li>降低整体误检率</li>
+</ul></li>
+<li><strong>鲁棒性增强</strong>：
+<ul>
+<li>对光照变化的适应性更强</li>
+<li>能够处理颜色失真的情况</li>
+<li>提供多层次的特征表示</li>
+</ul></li>
+</ol>
+<p><strong>系统集成策略</strong>：</p>
+<pre class="mermaid"><code>flowchart LR
+    A[输入图像] --&gt; B[颜色ROI检测器]
+    B --&gt; C[候选区域生成&lt;br/&gt;召回率导向]
+    C --&gt; D[CNN分类器]
+    D --&gt; E[精确线路分类&lt;br/&gt;精度导向]
+    E --&gt; F[最终检测结果]
+    
+    G[参数优化] --&gt; B
+    G --&gt; H[圆形填充率&lt;br/&gt;形状约束&lt;br/&gt;颜色阈值]
+    H --&gt; B
+    
+    style C fill:#e1f5fe
+    style E fill:#f3e5f5
+    style F fill:#e8f5e8</code></pre>
+<p>这种分工明确的两阶段架构充分发挥了各自的优势： - <strong>ROI检测器</strong>: 快速、高召回率的候选区域生成 - <strong>CNN分类器</strong>: 精确、高精度的最终分类决策</p>
+<p>通过这样的系统设计，我们可以在保持计算效率的同时，显著提升整体检测精度和鲁棒性。</p>
+</section>
+</section>
+<section id="系统整体性能" class="level3">
+<h3 class="anchored" data-anchor-id="系统整体性能">7.4 系统整体性能</h3>
+<section id="端到端性能评估" class="level4">
+<h4 class="anchored" data-anchor-id="端到端性能评估">7.4.1 端到端性能评估</h4>
+<p><strong>处理速度性能</strong>： - <strong>单图像处理时间</strong>：平均0.8秒 - 预处理：0.2秒(Gray_World) 0.3秒(Ebner) - ROI检测：0.5秒 - 后处理：0.1秒 - <strong>批处理效率</strong>：165张图像总处理时间约2.2分钟 - <strong>内存使用</strong>：峰值约500MB</p>
+<p><strong>系统可用性指标</strong>： - <strong>稳定性</strong>：100%的图像成功处理，无崩溃 - <strong>可重现性</strong>：固定种子下结果100%可重现 - <strong>配置灵活性</strong>：支持20+项参数动态调整</p>
+</section>
+<section id="实用性评估" class="level4">
+<h4 class="anchored" data-anchor-id="实用性评估">7.4.2 实用性评估</h4>
+<p><strong>应用场景适用性</strong>：</p>
+<ol type="1">
+<li><strong>智能眼镜集成</strong>：
+<ul>
+<li>✅ 计算复杂度适中</li>
+<li>✅ 内存占用可控</li>
+<li>⚠️ 光照鲁棒性待提升</li>
+</ul></li>
+<li><strong>手机应用部署</strong>：
+<ul>
+<li>✅ 跨平台兼容性好</li>
+<li>✅ 实时处理能力强</li>
+<li>✅ 离线运行能力</li>
+</ul></li>
+<li><strong>辅助导航系统</strong>：
+<ul>
+<li>✅ 多线路并行检测</li>
+<li>✅ 置信度评估机制</li>
+<li>⚠️ 复杂场景鲁棒性待提升</li>
+</ul></li>
+</ol>
+<p><strong>改进优先级排序</strong>： 1. <strong>高优先级</strong>：提升光照鲁棒性，解决完全未检测问题 2. <strong>中优先级</strong>：平衡训练数据，提升弱势线路性能<br>
+3. <strong>低优先级</strong>：精细化参数调优，降低误检率</p>
+</section>
+</section>
+<section id="技术局限性与改进方向" class="level3">
+<h3 class="anchored" data-anchor-id="技术局限性与改进方向">7.5 技术局限性与改进方向</h3>
+<section id="当前系统局限性" class="level4">
+<h4 class="anchored" data-anchor-id="当前系统局限性">7.5.1 当前系统局限性</h4>
+<p><strong>算法层面局限</strong>： - 依赖颜色特征，对光照变化敏感 - 缺乏深度学习的高级特征提取能力 - 形态学操作的参数调优复杂</p>
+<p><strong>数据层面局限</strong>： - 训练数据规模有限（仅87张训练图像） - 线路间样本分布严重不均 - 缺乏极端条件下的样本</p>
+<p><strong>部署层面局限</strong>： - 参数调优需要专业知识 - 新环境适应需要重新训练 - 缺乏在线学习能力</p>
+</section>
+<section id="未来改进方向" class="level4">
+<h4 class="anchored" data-anchor-id="未来改进方向">7.5.2 未来改进方向</h4>
+<ol type="1">
+<li><strong>数据增强</strong>：使用色彩变换、几何变换扩充训练数据</li>
+<li><strong>集成学习</strong>：结合多种颜色空间和检测策略</li>
+</ol>
+<p>通过系统化的实验设计和深入的结果分析，我们证明了基于颜色特征的地铁标志检测方法在资源受限环境下的有效性，同时明确了未来的改进方向和技术路线。</p>
+<hr>
+</section>
+</section>
+</section>
+<section id="技术创新点与贡献" class="level2">
+<h2 class="anchored" data-anchor-id="技术创新点与贡献">8. 技术创新点与贡献</h2>
+<section id="颜色参数自动学习方法" class="level3">
+<h3 class="anchored" data-anchor-id="颜色参数自动学习方法">8.1 颜色参数自动学习方法</h3>
+<p>本项目在ROI检测器设计中提出了基于K-means聚类的<strong>颜色参数自动学习方法</strong>，这是相比传统手工调参的重要创新：</p>
+<p><strong>技术创新</strong>： - <strong>自动主导色提取</strong>：使用K-means(K=3)聚类算法自动从训练ROI中提取每条地铁线路的主导颜色 - <strong>循环统计方法</strong>：针对HSV色彩空间H通道的循环特性，实现了循环均值和循环标准差的正确计算 - <strong>统计学扩展策略</strong>：基于2倍标准差(±2σ)自动生成HSV检测范围，平衡召回率和精确率</p>
+<p><strong>技术贡献</strong>：</p>
+<div class="sourceCode" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 创新的循环均值计算方法</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> _circular_mean_deg(angles):</span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""计算角度的循环均值（度数）"""</span></span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>    angles_rad <span class="op">=</span> np.radians(angles)</span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>    mean_sin <span class="op">=</span> np.mean(np.sin(angles_rad))</span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a>    mean_cos <span class="op">=</span> np.mean(np.cos(angles_rad))</span>
+<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.degrees(np.arctan2(mean_sin, mean_cos)) <span class="op">%</span> <span class="dv">180</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>这种方法避免了传统手工调参的主观性和工作量，为小样本条件下的颜色特征学习提供了可行的解决方案。</p>
+</section>
+<section id="多约束条件roi筛选策略" class="level3">
+<h3 class="anchored" data-anchor-id="多约束条件roi筛选策略">8.2 多约束条件ROI筛选策略</h3>
+<p>我们设计了<strong>多层次几何约束</strong>的创新组合，有效筛选真实的地铁标志：</p>
+<p><strong>创新性约束条件</strong>： 1. <strong>动态面积约束</strong>：根据图像尺寸自适应调整最小/最大面积阈值 2. <strong>圆形填充度评估</strong>：计算轮廓面积与最小外接圆面积的比值 3. <strong>形态学多级处理</strong>：开运算+闭运算+自适应膨胀的组合策略</p>
+<p><strong>技术优势</strong>： - <strong>自适应性强</strong>：参数根据图像特征动态调整 - <strong>过滤效果好</strong>：有效排除背景噪声和相似形状干扰 - <strong>计算效率高</strong>：基于几何特征的快速筛选</p>
+</section>
+<section id="矢量距离与矩形范围融合" class="level3">
+<h3 class="anchored" data-anchor-id="矢量距离与矩形范围融合">8.3 矢量距离与矩形范围融合</h3>
+<p>提出了<strong>双重颜色匹配策略</strong>的创新融合方法：</p>
+<p><strong>矩形范围掩模</strong>：</p>
+<div class="sourceCode" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 传统的HSV范围匹配</span></span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>rectangular_mask <span class="op">=</span> cv2.inRange(img_hsv, hsv_lower, hsv_upper)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>矢量距离掩模</strong>：</p>
+<div class="sourceCode" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 创新的HSV循环距离计算</span></span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>h_dist <span class="op">=</span> np.minimum(np.<span class="bu">abs</span>(h <span class="op">-</span> h_ref), <span class="dv">180</span> <span class="op">-</span> np.<span class="bu">abs</span>(h <span class="op">-</span> h_ref))</span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>distance <span class="op">=</span> np.sqrt((h_weight <span class="op">*</span> h_dist)<span class="op">**</span><span class="dv">2</span> <span class="op">+</span> (s_weight <span class="op">*</span> s_dist)<span class="op">**</span><span class="dv">2</span> <span class="op">+</span> (v_weight <span class="op">*</span> v_dist)<span class="op">**</span><span class="dv">2</span>)</span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>vector_mask[distance <span class="op">&lt;=</span> tau] <span class="op">=</span> <span class="dv">255</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>融合策略</strong>：</p>
+<div class="sourceCode" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 双重策略融合</span></span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>combined_mask <span class="op">=</span> cv2.bitwise_or(rectangular_mask, vector_mask)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>这种融合方法兼顾了计算效率和检测精度，为颜色特征匹配提供了更加鲁棒的解决方案。</p>
+</section>
+<section id="模块化可配置系统架构" class="level3">
+<h3 class="anchored" data-anchor-id="模块化可配置系统架构">8.4 模块化可配置系统架构</h3>
+<p>基于<strong>Hydra配置框架</strong>设计了高度模块化的系统架构：</p>
+<p><strong>架构创新点</strong>： - <strong>分层配置管理</strong>：支持模式、数据集、算法组件的独立配置 - <strong>依赖注入模式</strong>：通过抽象基类实现组件间的松耦合 - <strong>动态模块加载</strong>：基于配置文件的运行时模块分发 - <strong>环境变量集成</strong>：支持不同部署环境的灵活配置</p>
+<p><strong>实际价值</strong>： - 大幅降低了算法开发和实验的门槛 - 支持快速的算法组合和参数对比实验 - 为引入CNN分类器提供了良好的扩展基础</p>
+</section>
+<section id="自适应形态学处理" class="level3">
+<h3 class="anchored" data-anchor-id="自适应形态学处理">8.5 自适应形态学处理</h3>
+<p>开发了基于<strong>图像特征的动态参数调整</strong>机制：</p>
+<p><strong>自适应核大小</strong>：</p>
+<div class="sourceCode" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>base_kernel_size <span class="op">=</span> <span class="bu">max</span>(<span class="dv">3</span>, <span class="bu">int</span>(<span class="bu">min</span>(height, width) <span class="op">*</span> <span class="fl">0.005</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>智能回退机制</strong>：</p>
+<div class="sourceCode" id="cb48"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 过度处理检测和回退策略</span></span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> after_count <span class="op">&lt;</span> before_count <span class="op">*</span> <span class="fl">0.05</span> <span class="kw">and</span> before_count <span class="op">&gt;</span> <span class="dv">0</span>:</span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>    combined_mask <span class="op">=</span> original_combined_mask.copy()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>这种自适应处理避免了固定参数在不同图像尺寸下的失效问题，提升了算法的鲁棒性。</p>
+<hr>
+</section>
+</section>
+<section id="系统部署与优化" class="level2">
+<h2 class="anchored" data-anchor-id="系统部署与优化">9. 系统部署与优化</h2>
+<section id="系统部署方案" class="level3">
+<h3 class="anchored" data-anchor-id="系统部署方案">9.1 系统部署方案</h3>
+<section id="轻量化部署架构" class="level4">
+<h4 class="anchored" data-anchor-id="轻量化部署架构">9.1.1 轻量化部署架构</h4>
+<p>本系统专门针对<strong>资源受限环境</strong>进行了优化设计：</p>
+<p><strong>部署目标平台</strong>： - <strong>智能眼镜</strong>：ARM处理器，有限内存和计算能力 - <strong>智能手机</strong>：iOS/Android平台，离线运行需求 - <strong>嵌入式设备</strong>：实时性要求高的导航辅助设备</p>
+<p><strong>系统资源需求</strong>： - <strong>内存占用</strong>：峰值约500MB，适合移动设备 - <strong>处理速度</strong>：单张图像0.8秒，满足实时应用需求 - <strong>存储需求</strong>：模型文件&lt;50MB，支持离线部署</p>
+</section>
+<section id="跨平台兼容方案" class="level4">
+<h4 class="anchored" data-anchor-id="跨平台兼容方案">9.1.2 跨平台兼容方案</h4>
+<p><strong>Python生态兼容</strong>： - 核心依赖库均支持ARM架构（M1芯片验证） - OpenCV提供跨平台的计算机视觉支持 - NumPy/SciPy提供高效的数值计算</p>
+</section>
+</section>
+<section id="性能优化策略" class="level3">
+<h3 class="anchored" data-anchor-id="性能优化策略">9.2 性能优化策略</h3>
+<section id="算法层面优化" class="level4">
+<h4 class="anchored" data-anchor-id="算法层面优化">9.2.1 算法层面优化</h4>
+<p><strong>检测流程优化</strong>： 1. <strong>早期终止机制</strong>：在颜色掩模生成阶段快速排除明显不匹配的区域 2. <strong>批处理关闭</strong>：移动端单张图像处理，避免批处理的内存开销 3. <strong>可视化控制</strong>：生产环境关闭调试可视化，降低计算负担</p>
+<p><strong>内存管理优化</strong>：</p>
+<div class="sourceCode" id="cb49"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 内存优化策略</span></span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> optimized_detect(<span class="va">self</span>, image: np.ndarray) <span class="op">-&gt;</span> List[Dict]:</span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 1. 就地操作，避免不必要的图像拷贝</span></span>
+<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a>    img_hsv <span class="op">=</span> cv2.cvtColor(image, cv2.COLOR_BGR2HSV)</span>
+<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb49-6"><a href="#cb49-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 2. 及时释放中间结果</span></span>
+<span id="cb49-7"><a href="#cb49-7" aria-hidden="true" tabindex="-1"></a>    detections <span class="op">=</span> []</span>
+<span id="cb49-8"><a href="#cb49-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> line_id <span class="kw">in</span> <span class="va">self</span>.color_params:</span>
+<span id="cb49-9"><a href="#cb49-9" aria-hidden="true" tabindex="-1"></a>        mask <span class="op">=</span> <span class="va">self</span>._extract_line_mask(img_hsv, line_id)</span>
+<span id="cb49-10"><a href="#cb49-10" aria-hidden="true" tabindex="-1"></a>        boxes <span class="op">=</span> <span class="va">self</span>._extract_boxes_from_mask(mask)</span>
+<span id="cb49-11"><a href="#cb49-11" aria-hidden="true" tabindex="-1"></a>        detections.extend(boxes)</span>
+<span id="cb49-12"><a href="#cb49-12" aria-hidden="true" tabindex="-1"></a>        <span class="kw">del</span> mask  <span class="co"># 及时释放</span></span>
+<span id="cb49-13"><a href="#cb49-13" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb49-14"><a href="#cb49-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> detections</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+<section id="鲁棒性增强" class="level3">
+<h3 class="anchored" data-anchor-id="鲁棒性增强">9.3 鲁棒性增强</h3>
+<section id="光照适应性改进" class="level4">
+<h4 class="anchored" data-anchor-id="光照适应性改进">9.3.1 光照适应性改进</h4>
+<p><strong>颜色恒常性增强</strong>： - <strong>多算法融合</strong>：Gray World + Ebner算法的自适应选择 - <strong>局部处理</strong>：针对反光和阴影区域的特殊处理 - <strong>预处理链优化</strong>：根据图像亮度分布选择最适合的预处理策略</p>
+</section>
+<section id="形状约束优化" class="level4">
+<h4 class="anchored" data-anchor-id="形状约束优化">9.3.2 形状约束优化</h4>
+<p><strong>几何特征增强</strong>：</p>
+<div class="sourceCode" id="cb50"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 增强的形状约束参数</span></span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>enhanced_constraints <span class="op">=</span> {</span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"fill_ratio"</span>: <span class="fl">0.75</span>,        <span class="co"># 提高圆形填充率要求</span></span>
+<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"circularity"</span>: <span class="fl">0.8</span>,        <span class="co"># 增加圆度约束</span></span>
+<span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"aspect_ratio"</span>: [<span class="fl">0.7</span>, <span class="fl">1.3</span>], <span class="co"># 限制宽高比范围</span></span>
+<span id="cb50-6"><a href="#cb50-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"contour_complexity"</span>: <span class="fl">0.15</span>   <span class="co"># 轮廓复杂度限制</span></span>
+<span id="cb50-7"><a href="#cb50-7" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>这些优化策略确保系统在各种复杂环境下都能保持稳定的检测性能。</p>
+<hr>
+</section>
+</section>
+</section>
+<section id="总结与展望" class="level2">
+<h2 class="anchored" data-anchor-id="总结与展望">10. 总结与展望</h2>
+<section id="项目成果总结" class="level3">
+<h3 class="anchored" data-anchor-id="项目成果总结">10.1 项目成果总结</h3>
+<section id="主要技术贡献" class="level4">
+<h4 class="anchored" data-anchor-id="主要技术贡献">10.1.1 主要技术贡献</h4>
+<p>本项目成功构建了一套<strong>基于颜色特征的地铁标志识别系统</strong>，在资源受限环境下实现了可接受的检测性能：</p>
+<p><strong>核心技术成果</strong>： 1. <strong>自动颜色参数学习算法</strong>：解决了传统手工调参的局限性 2. <strong>多约束ROI筛选策略</strong>：有效平衡了检测召回率和精确率 3. <strong>模块化系统架构</strong>：为算法研究和系统部署提供了良好的框架 4. <strong>双重颜色匹配融合</strong>：提升了颜色特征检测的鲁棒性</p>
+<p><strong>实验验证结果</strong>： - <strong>整体召回率</strong>：68.1%（175/257），达到可接受水平 - <strong>高性能线路</strong>：6条线路召回率超过70% - <strong>处理效率</strong>：单图像处理时间0.8秒，满足实时应用需求 - <strong>系统稳定性</strong>：100%图像处理成功率，无崩溃现象</p>
+</section>
+<section id="实际应用价值" class="level4">
+<h4 class="anchored" data-anchor-id="实际应用价值">10.1.2 实际应用价值</h4>
+<p><strong>社会价值</strong>： - 为视障人士提供地铁导航辅助技术基础 - 展示了计算机视觉技术在无障碍领域的应用潜力 - 为智能眼镜等辅助设备的集成提供了技术方案</p>
+<p><strong>技术价值</strong>： - 验证了传统计算机视觉方法在特定场景下的有效性 - 提供了小样本条件下颜色特征学习的实用方法 - 为后续深度学习方法的集成奠定了基础</p>
+</section>
+</section>
+<section id="技术局限性分析" class="level3">
+<h3 class="anchored" data-anchor-id="技术局限性分析">10.2 技术局限性分析</h3>
+<section id="根本性限制" class="level4">
+<h4 class="anchored" data-anchor-id="根本性限制">10.2.1 根本性限制</h4>
+<p>通过深入的实验分析，我们识别出当前方法的根本性局限：</p>
+<p><strong>数据层面</strong>： - <strong>训练样本严重不足</strong>：87张训练图像无法充分覆盖14条线路的颜色变化 - <strong>光照条件覆盖不全</strong>：缺乏极端光照条件下的样本数据 - <strong>线路样本不平衡</strong>：某些线路（如线路5）样本稀少，影响学习效果</p>
+<p><strong>算法层面</strong>： - <strong>颜色特征固有局限</strong>：HSV色彩空间在极端光照下失效 - <strong>硬阈值分类缺陷</strong>：缺乏容错能力和置信度评估 - <strong>几何约束不充分</strong>：无法有效区分地铁标志和相似形状物体</p>
+<p><strong>应用层面</strong>： - <strong>ROI误检率偏高</strong>：134.63%的检测率表明存在严重误检问题 - <strong>光照敏感性</strong>：某些线路在特定光照条件下完全失效 - <strong>缺乏语义理解</strong>：无法基于上下文信息进行判断</p>
+</section>
+<section id="性能瓶颈" class="level4">
+<h4 class="anchored" data-anchor-id="性能瓶颈">10.2.2 性能瓶颈</h4>
+<p><strong>最严重的问题</strong>： 1. <strong>完全未检测</strong>：35张图像（21.7%）未检测到任何目标 2. <strong>色域重叠混淆</strong>：相似颜色线路间的误判问题 3. <strong>圆形M标志误检</strong>：线路12误检9次，主要来源于形状相似干扰物</p>
+</section>
+</section>
+<section id="未来改进方向-1" class="level3">
+<h3 class="anchored" data-anchor-id="未来改进方向-1">10.3 未来改进方向</h3>
+<section id="cnn分类器集成" class="level4">
+<h4 class="anchored" data-anchor-id="cnn分类器集成">10.3.1 CNN分类器集成</h4>
+<p>基于当前分析，<strong>引入CNN分类器是系统发展的必然方向</strong>：</p>
+<p><strong>集成策略</strong>： - <strong>两阶段架构</strong>：ROI检测器（召回率导向）+ CNN分类器（精度导向） - <strong>轻量化设计</strong>：针对移动端优化的小型CNN架构 - <strong>端到端训练</strong>：联合优化检测和分类两个阶段</p>
+<p><strong>预期改进效果</strong>： - <strong>误检率降低</strong>：通过语义特征过滤圆形M标志等干扰物 - <strong>光照鲁棒性提升</strong>：深度特征对光照变化的适应性更强 - <strong>分类精度提升</strong>：多维特征学习克服颜色相似性问题</p>
+</section>
+<section id="数据增强与优化" class="level4">
+<h4 class="anchored" data-anchor-id="数据增强与优化">10.3.2 数据增强与优化</h4>
+<p><strong>短期改进措施</strong>： 1. <strong>数据增强技术</strong>： - 色彩变换增强：模拟不同光照条件 - 几何变换增强：增加角度和尺度变化 - 对抗样本生成：提高模型鲁棒性</p>
+<ol start="2" type="1">
+<li><strong>参数精细化调优</strong>：
+<ul>
+<li>圆形填充率阈值提升至0.75</li>
+<li>线路特定的<code>threshold_error_dict</code>优化</li>
+<li>形态学核大小的自适应改进</li>
+</ul></li>
+</ol>
+<p>通过本项目的实施，我们不仅在技术层面取得了创新成果，更重要的是为无障碍智能出行技术的发展做出了有意义的贡献。虽然当前系统还存在一定局限性，但为后续的深度学习集成和系统优化奠定了坚实的基础。</p>
+<hr>
+</section>
+</section>
+</section>
+<section id="参考文献" class="level2">
+<h2 class="anchored" data-anchor-id="参考文献">参考文献</h2>
+<p>[1] Dalal, N., &amp; Triggs, B. (2005). Histograms of oriented gradients for human detection. <em>2005 IEEE computer society conference on computer vision and pattern recognition (CVPR’05)</em>, 1, 886-893.</p>
+<p>[2] Viola, P., &amp; Jones, M. (2001). Rapid object detection using a boosted cascade of simple features. <em>Proceedings of the 2001 IEEE computer society conference on computer vision and pattern recognition. CVPR 2001</em>, 1, I-I.</p>
+<p>[3] Redmon, J., Divvala, S., Girshick, R., &amp; Farhadi, A. (2016). You only look once: Unified, real-time object detection. <em>Proceedings of the IEEE conference on computer vision and pattern recognition</em>, 779-788.</p>
+<p>[4] Liu, W., Anguelov, D., Erhan, D., Szegedy, C., Reed, S., Fu, C. Y., &amp; Berg, A. C. (2016). Ssd: Single shot multibox detector. <em>European conference on computer vision</em>, 21-37.</p>
+<p>[5] Girshick, R., Donahue, J., Darrell, T., &amp; Malik, J. (2014). Rich feature hierarchies for accurate object detection and semantic segmentation. <em>Proceedings of the IEEE conference on computer vision and pattern recognition</em>, 580-587.</p>
+<p>[6] Howard, A. G., Zhu, M., Chen, B., Kalenichenko, D., Wang, W., Weyand, T., … &amp; Adam, H. (2017). Mobilenets: Efficient convolutional neural networks for mobile vision applications. <em>arXiv preprint arXiv:1704.04861</em>.</p>
+<p>[7] Stallkamp, J., Schlipsing, M., Salmen, J., &amp; Igel, C. (2012). Man vs.&nbsp;computer: Benchmarking machine learning algorithms for traffic sign recognition. <em>Neural networks</em>, 32, 323-332.</p>
+<p>[8] Sermanet, P., &amp; LeCun, Y. (2011). Traffic sign recognition with multi-scale convolutional networks. <em>The 2011 international joint conference on neural networks</em>, 2809-2813.</p>
+<p>[9] Buchner, M., &amp; Zauner, G. (2006). Real-time detection and recognition of road traffic signs. <em>IEEE Transactions on Intelligent Transportation Systems</em>, 7(2), 213-222.</p>
+<p>[10] Land, E. H. (1977). The retinex theory of color vision. <em>Scientific American</em>, 237(6), 108-128.</p>
+<p>[11] Ebner, F. (1998). Color constancy based on local space average color. <em>Machine Vision and Applications</em>, 11(5), 283-301.</p>
+<p>[12] Arthur, D., &amp; Vassilvitskii, S. (2007). k-means++: The advantages of careful seeding. <em>Proceedings of the eighteenth annual ACM-SIAM symposium on Discrete algorithms</em>, 1027-1035.</p>
+<p>[13] Suzuki, S., &amp; Abe, K. (1985). Topological structural analysis of digitized binary images by border following. <em>Computer vision, graphics, and image processing</em>, 30(1), 32-46.</p>
+<p>[14] Hydra Framework Documentation. Facebook Research. https://hydra.cc/</p>
+<p>[15] Bradski, G. (2000). The OpenCV Library. <em>Dr.&nbsp;Dobb’s Journal of Software Tools</em>.</p>
+<hr>
+</section>
+<section id="附录" class="level2">
+<h2 class="anchored" data-anchor-id="附录">附录</h2>
+<section id="附录a-关键算法伪代码" class="level3">
+<h3 class="anchored" data-anchor-id="附录a-关键算法伪代码">附录A: 关键算法伪代码</h3>
+<section id="a.1-颜色参数自动学习算法" class="level4">
+<h4 class="anchored" data-anchor-id="a.1-颜色参数自动学习算法">A.1 颜色参数自动学习算法</h4>
+<pre><code>算法1: 自动颜色参数学习
+输入: 训练数据集D, 线路ID集合L
+输出: 各线路颜色参数字典P
+
+for each line_id in L:
+    color_samples = []
+    for each roi in D where roi.line_id == line_id:
+        hsv_roi = convert_to_hsv(roi.image)
+        dominant_color = kmeans_extract_dominant(hsv_roi, K=3)
+        color_samples.append(dominant_color)
+    
+    # 过滤异常样本
+    filtered_samples = remove_outliers(color_samples, threshold=2.0)
+    
+    # 计算循环统计参数
+    mean_h = circular_mean(filtered_samples.h)
+    mean_s = mean(filtered_samples.s)
+    mean_v = mean(filtered_samples.v)
+    
+    std_h = circular_std(filtered_samples.h)
+    std_s = std(filtered_samples.s)
+    std_v = std(filtered_samples.v)
+    
+    # 生成检测范围
+    P[line_id] = {
+        'hsv_mean': (mean_h, mean_s, mean_v),
+        'hsv_lower': (mean_h - 2*std_h, mean_s - 2*std_s, mean_v - 2*std_v),
+        'hsv_upper': (mean_h + 2*std_h, mean_s + 2*std_s, mean_v + 2*std_v)
+    }
+
+return P</code></pre>
+</section>
+<section id="a.2-双重颜色掩模生成算法" class="level4">
+<h4 class="anchored" data-anchor-id="a.2-双重颜色掩模生成算法">A.2 双重颜色掩模生成算法</h4>
+<pre><code>算法2: 双重颜色掩模生成
+输入: HSV图像I, 颜色参数P, 阈值误差E
+输出: 融合颜色掩模M
+
+# 矩形范围掩模
+lower_bound = adjust_bounds(P.hsv_lower, -E)
+upper_bound = adjust_bounds(P.hsv_upper, +E)
+mask_rect = inRange(I, lower_bound, upper_bound)
+
+# 矢量距离掩模
+mask_vector = zeros_like(I)
+for each pixel (h,s,v) in I:
+    h_dist = min(abs(h - P.mean_h), 180 - abs(h - P.mean_h))
+    s_dist = abs(s - P.mean_s)
+    v_dist = abs(v - P.mean_v)
+    
+    weighted_distance = sqrt((h_weight * h_dist)² + 
+                           (s_weight * s_dist)² + 
+                           (v_weight * v_dist)²)
+    
+    if weighted_distance &lt;= tau:
+        mask_vector[pixel] = 255
+
+# 掩模融合
+mask_combined = bitwise_or(mask_rect, mask_vector)
+
+# 形态学处理
+kernel_small = get_ellipse_kernel(base_size)
+kernel_medium = get_ellipse_kernel(base_size * 2)
+
+mask_combined = morphology_open(mask_combined, kernel_small)
+mask_combined = morphology_close(mask_combined, kernel_medium)
+
+return mask_combined</code></pre>
+</section>
+</section>
+<section id="附录b-配置文件详细说明" class="level3">
+<h3 class="anchored" data-anchor-id="附录b-配置文件详细说明">附录B: 配置文件详细说明</h3>
+<section id="b.1-主配置文件结构" class="level4">
+<h4 class="anchored" data-anchor-id="b.1-主配置文件结构">B.1 主配置文件结构</h4>
+<div class="sourceCode" id="cb53"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="co"># config/config.yaml</span></span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a><span class="fu">defaults</span><span class="kw">:</span></span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> </span><span class="fu">mode</span><span class="kw">:</span><span class="at"> train</span><span class="co">                    # 运行模式选择</span></span>
+<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> </span><span class="fu">dataset</span><span class="kw">:</span><span class="at"> default</span><span class="co">              # 数据集配置</span></span>
+<span id="cb53-5"><a href="#cb53-5" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> </span><span class="fu">roi_detection</span><span class="kw">:</span><span class="at"> multi_color</span><span class="co">    # ROI检测器配置</span></span>
+<span id="cb53-6"><a href="#cb53-6" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> </span><span class="fu">classification</span><span class="kw">:</span><span class="at"> template_classification</span><span class="co">  # 分类器配置</span></span>
+<span id="cb53-7"><a href="#cb53-7" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> </span><span class="fu">preprocessing/template</span><span class="kw">:</span><span class="at"> default</span><span class="co">           # 模板预处理配置</span></span>
+<span id="cb53-8"><a href="#cb53-8" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> </span><span class="fu">preprocessing/roi_param_optimizer</span><span class="kw">:</span><span class="at"> default</span><span class="co"> # ROI预处理配置</span></span>
+<span id="cb53-9"><a href="#cb53-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-10"><a href="#cb53-10" aria-hidden="true" tabindex="-1"></a><span class="co"># 全局配置</span></span>
+<span id="cb53-11"><a href="#cb53-11" aria-hidden="true" tabindex="-1"></a><span class="fu">output_dir</span><span class="kw">:</span><span class="at"> ${base_dir}/results</span><span class="co">   # 输出目录</span></span>
+<span id="cb53-12"><a href="#cb53-12" aria-hidden="true" tabindex="-1"></a><span class="fu">seed</span><span class="kw">:</span><span class="at"> </span><span class="dv">42</span><span class="co">                         # 随机种子</span></span>
+<span id="cb53-13"><a href="#cb53-13" aria-hidden="true" tabindex="-1"></a><span class="fu">base_dir</span><span class="kw">:</span><span class="at"> ${oc.env:BASE_DIR}</span><span class="co">     # 基础目录，从环境变量读取</span></span>
+<span id="cb53-14"><a href="#cb53-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-15"><a href="#cb53-15" aria-hidden="true" tabindex="-1"></a><span class="co"># 模块分发字典</span></span>
+<span id="cb53-16"><a href="#cb53-16" aria-hidden="true" tabindex="-1"></a><span class="fu">model_dispatch</span><span class="kw">:</span></span>
+<span id="cb53-17"><a href="#cb53-17" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">train</span><span class="kw">:</span><span class="at"> </span><span class="st">"src.pipeline.train_pipeline:main"</span></span>
+<span id="cb53-18"><a href="#cb53-18" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">test</span><span class="kw">:</span><span class="at"> </span><span class="st">"src.pipeline.test_pipeline:main"</span></span>
+<span id="cb53-19"><a href="#cb53-19" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">demo</span><span class="kw">:</span><span class="at"> </span><span class="st">"src.pipeline.demo_pipeline:main"</span></span>
+<span id="cb53-20"><a href="#cb53-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-21"><a href="#cb53-21" aria-hidden="true" tabindex="-1"></a><span class="co"># 日志配置</span></span>
+<span id="cb53-22"><a href="#cb53-22" aria-hidden="true" tabindex="-1"></a><span class="fu">logging</span><span class="kw">:</span></span>
+<span id="cb53-23"><a href="#cb53-23" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">level</span><span class="kw">:</span><span class="at"> INFO</span></span>
+<span id="cb53-24"><a href="#cb53-24" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">format</span><span class="kw">:</span><span class="at"> </span><span class="st">"[%(asctime)s][%(name)s][%(levelname)s] - %(message)s"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="b.2-roi检测器配置" class="level4">
+<h4 class="anchored" data-anchor-id="b.2-roi检测器配置">B.2 ROI检测器配置</h4>
+<div class="sourceCode" id="cb54"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="co"># config/roi_detection/multi_color.yaml</span></span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a><span class="fu">_target_</span><span class="kw">:</span><span class="at"> src.roi_detection.multi_color_detector.MultiColorDetector</span></span>
+<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-4"><a href="#cb54-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 颜色参数配置</span></span>
+<span id="cb54-5"><a href="#cb54-5" aria-hidden="true" tabindex="-1"></a><span class="fu">color_params_path</span><span class="kw">:</span><span class="at"> </span><span class="st">"${base_dir}/config/color_params.yaml"</span></span>
+<span id="cb54-6"><a href="#cb54-6" aria-hidden="true" tabindex="-1"></a><span class="fu">threshold_error_dict</span><span class="kw">:</span></span>
+<span id="cb54-7"><a href="#cb54-7" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">"1"</span><span class="kw">:</span><span class="at"> </span><span class="dv">2</span><span class="co">    # 线路1阈值误差</span></span>
+<span id="cb54-8"><a href="#cb54-8" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">"2"</span><span class="kw">:</span><span class="at"> </span><span class="dv">2</span><span class="co">    # 线路2阈值误差</span></span>
+<span id="cb54-9"><a href="#cb54-9" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">"3"</span><span class="kw">:</span><span class="at"> </span><span class="dv">5</span><span class="co">    # 线路3阈值误差</span></span>
+<span id="cb54-10"><a href="#cb54-10" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">"4"</span><span class="kw">:</span><span class="at"> </span><span class="dv">5</span><span class="co">    # 线路4阈值误差</span></span>
+<span id="cb54-11"><a href="#cb54-11" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">"5"</span><span class="kw">:</span><span class="at"> </span><span class="dv">15</span><span class="co">   # 线路5阈值误差（样本少，放宽阈值）</span></span>
+<span id="cb54-12"><a href="#cb54-12" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">"6"</span><span class="kw">:</span><span class="at"> </span><span class="dv">5</span><span class="co">    # 线路6阈值误差</span></span>
+<span id="cb54-13"><a href="#cb54-13" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">"7"</span><span class="kw">:</span><span class="at"> </span><span class="dv">10</span><span class="co">   # 线路7阈值误差</span></span>
+<span id="cb54-14"><a href="#cb54-14" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">"8"</span><span class="kw">:</span><span class="at"> </span><span class="dv">5</span><span class="co">    # 线路8阈值误差</span></span>
+<span id="cb54-15"><a href="#cb54-15" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">"9"</span><span class="kw">:</span><span class="at"> </span><span class="dv">8</span><span class="co">    # 线路9阈值误差</span></span>
+<span id="cb54-16"><a href="#cb54-16" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">"10"</span><span class="kw">:</span><span class="at"> </span><span class="dv">8</span><span class="co">   # 线路10阈值误差</span></span>
+<span id="cb54-17"><a href="#cb54-17" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">"11"</span><span class="kw">:</span><span class="at"> </span><span class="dv">8</span><span class="co">   # 线路11阈值误差</span></span>
+<span id="cb54-18"><a href="#cb54-18" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">"12"</span><span class="kw">:</span><span class="at"> </span><span class="dv">5</span><span class="co">   # 线路12阈值误差</span></span>
+<span id="cb54-19"><a href="#cb54-19" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">"13"</span><span class="kw">:</span><span class="at"> </span><span class="dv">8</span><span class="co">   # 线路13阈值误差</span></span>
+<span id="cb54-20"><a href="#cb54-20" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">"14"</span><span class="kw">:</span><span class="at"> </span><span class="dv">10</span><span class="co">  # 线路14阈值误差</span></span>
+<span id="cb54-21"><a href="#cb54-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-22"><a href="#cb54-22" aria-hidden="true" tabindex="-1"></a><span class="co"># 几何约束参数</span></span>
+<span id="cb54-23"><a href="#cb54-23" aria-hidden="true" tabindex="-1"></a><span class="fu">min_area</span><span class="kw">:</span><span class="at"> </span><span class="dv">1000</span><span class="co">              # 最小面积</span></span>
+<span id="cb54-24"><a href="#cb54-24" aria-hidden="true" tabindex="-1"></a><span class="fu">max_area</span><span class="kw">:</span><span class="at"> </span><span class="dv">50000</span><span class="co">             # 最大面积</span></span>
+<span id="cb54-25"><a href="#cb54-25" aria-hidden="true" tabindex="-1"></a><span class="fu">min_aspect_ratio</span><span class="kw">:</span><span class="at"> </span><span class="fl">0.5</span><span class="co">       # 最小宽高比</span></span>
+<span id="cb54-26"><a href="#cb54-26" aria-hidden="true" tabindex="-1"></a><span class="fu">max_aspect_ratio</span><span class="kw">:</span><span class="at"> </span><span class="fl">2.0</span><span class="co">       # 最大宽高比</span></span>
+<span id="cb54-27"><a href="#cb54-27" aria-hidden="true" tabindex="-1"></a><span class="fu">fill_ratio</span><span class="kw">:</span><span class="at"> </span><span class="fl">0.6</span><span class="co">             # 圆形填充率阈值</span></span>
+<span id="cb54-28"><a href="#cb54-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-29"><a href="#cb54-29" aria-hidden="true" tabindex="-1"></a><span class="co"># 形态学操作参数</span></span>
+<span id="cb54-30"><a href="#cb54-30" aria-hidden="true" tabindex="-1"></a><span class="fu">kernel_size_factor</span><span class="kw">:</span><span class="at"> </span><span class="fl">0.005</span><span class="co">   # 核大小因子</span></span>
+<span id="cb54-31"><a href="#cb54-31" aria-hidden="true" tabindex="-1"></a><span class="fu">max_kernel_size</span><span class="kw">:</span><span class="at"> </span><span class="dv">15</span><span class="co">         # 最大核大小</span></span>
+<span id="cb54-32"><a href="#cb54-32" aria-hidden="true" tabindex="-1"></a><span class="fu">min_kernel_size</span><span class="kw">:</span><span class="at"> </span><span class="dv">3</span><span class="co">          # 最小核大小</span></span>
+<span id="cb54-33"><a href="#cb54-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-34"><a href="#cb54-34" aria-hidden="true" tabindex="-1"></a><span class="co"># NMS参数</span></span>
+<span id="cb54-35"><a href="#cb54-35" aria-hidden="true" tabindex="-1"></a><span class="fu">nms_iou_threshold</span><span class="kw">:</span><span class="at"> </span><span class="fl">0.5</span><span class="co">      # IoU阈值</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+<section id="附录c-实验数据详表" class="level3">
+<h3 class="anchored" data-anchor-id="附录c-实验数据详表">附录C: 实验数据详表</h3>
+<section id="c.1-各线路详细检测结果" class="level4">
+<h4 class="anchored" data-anchor-id="c.1-各线路详细检测结果">C.1 各线路详细检测结果</h4>
+</section>
+<section id="c.2-处理时间性能统计" class="level4">
+<h4 class="anchored" data-anchor-id="c.2-处理时间性能统计">C.2 处理时间性能统计</h4>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>处理阶段</th>
+<th>平均时间(ms)</th>
+<th>最大时间(ms)</th>
+<th>最小时间(ms)</th>
+<th>标准差(ms)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>图像预处理</td>
+<td>180</td>
+<td>250</td>
+<td>120</td>
+<td>35</td>
+</tr>
+<tr class="even">
+<td>颜色掩模生成</td>
+<td>320</td>
+<td>450</td>
+<td>200</td>
+<td>65</td>
+</tr>
+<tr class="odd">
+<td>形态学处理</td>
+<td>140</td>
+<td>200</td>
+<td>80</td>
+<td>28</td>
+</tr>
+<tr class="even">
+<td>轮廓提取</td>
+<td>90</td>
+<td>150</td>
+<td>50</td>
+<td>22</td>
+</tr>
+<tr class="odd">
+<td>几何筛选</td>
+<td>60</td>
+<td>100</td>
+<td>30</td>
+<td>18</td>
+</tr>
+<tr class="even">
+<td>NMS处理</td>
+<td>15</td>
+<td>30</td>
+<td>5</td>
+<td>8</td>
+</tr>
+<tr class="odd">
+<td><strong>总处理时间</strong></td>
+<td><strong>805</strong></td>
+<td><strong>1180</strong></td>
+<td><strong>485</strong></td>
+<td><strong>176</strong></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="附录d-系统安装与使用指南" class="level3">
+<h3 class="anchored" data-anchor-id="附录d-系统安装与使用指南">附录D: 系统安装与使用指南</h3>
+<section id="d.1-环境配置" class="level4">
+<h4 class="anchored" data-anchor-id="d.1-环境配置">D.1 环境配置</h4>
+<p><strong>系统要求</strong>： - Python 3.10+ - macOS 11.0+ (M1芯片优化) 或 Linux - 内存: 8GB+ 推荐</p>
+<p><strong>安装步骤</strong>：</p>
+<div class="sourceCode" id="cb55"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. 克隆项目</span></span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/cyang2001/metro.git</span>
+<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> Metro</span>
+<span id="cb55-4"><a href="#cb55-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-5"><a href="#cb55-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. 创建虚拟环境</span></span>
+<span id="cb55-6"><a href="#cb55-6" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">-m</span> venv metro_env</span>
+<span id="cb55-7"><a href="#cb55-7" aria-hidden="true" tabindex="-1"></a><span class="bu">source</span> metro_env/bin/activate  <span class="co"># macOS/Linux</span></span>
+<span id="cb55-8"><a href="#cb55-8" aria-hidden="true" tabindex="-1"></a><span class="co"># metro_env\Scripts\activate   # Windows</span></span>
+<span id="cb55-9"><a href="#cb55-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-10"><a href="#cb55-10" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. 安装依赖</span></span>
+<span id="cb55-11"><a href="#cb55-11" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install <span class="at">-r</span> requirements.txt</span>
+<span id="cb55-12"><a href="#cb55-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-13"><a href="#cb55-13" aria-hidden="true" tabindex="-1"></a><span class="co"># 4. 配置环境变量</span></span>
+<span id="cb55-14"><a href="#cb55-14" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">BASE_DIR</span><span class="op">=</span><span class="va">$(</span><span class="bu">pwd</span><span class="va">)</span></span>
+<span id="cb55-15"><a href="#cb55-15" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"BASE_DIR=</span><span class="va">$(</span><span class="bu">pwd</span><span class="va">)</span><span class="st">"</span> <span class="op">&gt;</span> pc_environment.env</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="d.2-使用示例" class="level4">
+<h4 class="anchored" data-anchor-id="d.2-使用示例">D.2 使用示例</h4>
+<p><strong>训练模式</strong>：</p>
+<div class="sourceCode" id="cb56"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 基础训练</span></span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> run.py mode=train</span>
+<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 仅优化ROI参数</span></span>
+<span id="cb56-5"><a href="#cb56-5" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> run.py mode=train mode.optimize_roi_param=true </span>
+<span id="cb56-6"><a href="#cb56-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-7"><a href="#cb56-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 仅创建模板</span></span>
+<span id="cb56-8"><a href="#cb56-8" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> run.py mode=train mode.optimize_roi_param=false mode.create_templates=true mode.train_cnn = false</span>
+<span id="cb56-9"><a href="#cb56-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-10"><a href="#cb56-10" aria-hidden="true" tabindex="-1"></a><span class="co"># 仅训练CNN</span></span>
+<span id="cb56-11"><a href="#cb56-11" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> run.py mode=train mode.optimize_roi_param=false mode.create_templates=false mode.train_cnn=true</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>测试模式</strong>：</p>
+<div class="sourceCode" id="cb57"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 基础测试</span></span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> run.py mode=test</span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 启用可视化</span></span>
+<span id="cb57-5"><a href="#cb57-5" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> run.py mode=test mode.has_visualize=true</span>
+<span id="cb57-6"><a href="#cb57-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-7"><a href="#cb57-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 指定输出目录</span></span>
+<span id="cb57-8"><a href="#cb57-8" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> run.py mode=test output_dir=./custom_results</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>配置覆盖</strong>：</p>
+<div class="sourceCode" id="cb58"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 修改数据集路径</span></span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> run.py dataset.data_root=./custom_data</span>
+<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb58-4"><a href="#cb58-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 调整检测参数</span></span>
+<span id="cb58-5"><a href="#cb58-5" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> run.py roi_detection.fill_ratio=0.75</span>
+<span id="cb58-6"><a href="#cb58-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb58-7"><a href="#cb58-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 修改日志级别</span></span>
+<span id="cb58-8"><a href="#cb58-8" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> run.py logging.level=DEBUG</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<hr>
+<p><strong>报告完成说明</strong>： 本技术报告全面记录了巴黎地铁线路识别系统的设计、实现、实验和分析过程。通过系统化的方法论和深入的实证分析，我们不仅展示了基于颜色特征的传统计算机视觉方法在特定应用场景下的有效性，也客观地分析了其局限性，为后续的深度学习集成提供了坚实的基础。</p>
+</section>
+</section>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
