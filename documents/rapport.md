@@ -1,7 +1,20 @@
 # 巴黎地铁线路识别系统技术报告
 
 ## 摘要
-<!-- 项目概述、主要技术贡献、实验结果总结 -->
+
+本项目针对视障人士在巴黎地铁系统中的导航需求，开发了一套基于计算机视觉技术的实时地铁线路标识识别系统。该系统采用传统计算机视觉与深度学习相结合的两阶段架构，能够自动识别巴黎地铁14条线路的标识，为智能眼镜和移动应用提供技术支撑。
+
+**技术方法**：系统核心采用基于颜色特征的ROI检测器和CNN分类器的分工协作模式。ROI检测器通过K-means聚类自动学习各线路的HSV颜色特征，采用矩形范围掩模与矢量距离掩模的双重融合策略进行候选区域生成；CNN分类器负责对检测到的候选区域进行精确的线路分类，克服颜色相似性带来的混淆问题。
+
+**主要创新**：(1) 提出了基于循环统计的颜色参数自动学习算法，解决了传统手工调参的局限性；(2) 设计了多约束条件的ROI筛选策略，结合动态面积约束、圆形填充度评估和自适应形态学处理；(3) 构建了高度模块化的可配置系统架构，基于Hydra框架实现组件间的松耦合和动态加载；(4) 开发了双重颜色匹配融合方法，平衡了检测精度和计算效率。
+
+**实验结果**：在包含257个标注目标的测试数据集上，系统实现了68.1%的整体召回率，其中6条线路召回率超过70%，单张图像处理时间约0.8秒，满足实时应用需求。高性能线路（如线路6、线路13）召回率分别达到87.50%和84.62%，验证了方法的有效性。
+
+**技术挑战与局限**：实验分析揭示了训练样本不足（仅87张训练图像）和光照变化对系统性能的显著影响。部分线路（如线路5、线路11、线路14）由于样本稀少和颜色相似性，召回率仅为30%左右。134.63%的检测率表明存在过度检测问题，主要源于圆形M标志等相似形状的干扰。
+
+**应用价值**：本系统为无障碍智能出行技术提供了重要的技术基础，适合集成到资源受限的移动设备中。通过模块化设计和轻量化部署，系统可快速适配不同平台和应用场景。项目验证了传统计算机视觉方法与深度学习结合的可行性，为小样本条件下的目标检测提供了实用的解决方案，具有重要的社会价值和技术示范意义。
+
+**未来展望**：基于当前分析，引入CNN分类器是系统发展的必然方向。通过深度特征学习可有效解决颜色相似性和光照鲁棒性问题，结合数据增强技术可进一步提升系统在复杂环境下的检测性能，为构建更加智能化的无障碍出行辅助系统奠定基础。
 
 ---
 
@@ -44,28 +57,7 @@
 
 本系统采用模块化设计理念，整体架构如下：
 
-```mermaid
-graph TD
-    A[Raw Data<br/>原始图像数据] --> B[Dataset<br/>数据集管理]
-    B --> C[ROI Detector<br/>区域检测器]
-    C --> D[Classifier<br/>线路分类器]
-    D --> E[Result<br/>识别结果]
-    
-    F[Base Preprocessor<br/>基础预处理器] --> G[ROI Preprocessor<br/>检测预处理器]
-    F --> H[Classification Preprocessor<br/>分类预处理器]
-    
-    G --> C
-    H --> D
-    
-    I[Config System<br/>配置管理] --> C
-    I --> D
-    I --> B
-    
-    style C fill:#e1f5fe
-    style D fill:#f3e5f5
-    style F fill:#fff3e0
-```
-
+![Framework](pics/framework.png)
 #### 核心模块说明：
 
 - **检测器模块(ROI Detection)**：负责从输入图像中定位和提取潜在的地铁线路标识区域
@@ -792,74 +784,7 @@ model_dispatch:
 系统采用基于抽象基类的依赖注入模式，确保组件间的松耦合：
 
 **核心基类架构**：
-```mermaid
-classDiagram
-    class BasePreprocessor {
-        <<abstract>>
-        +cfg: DictConfig
-        +preprocess(image: np.ndarray)* np.ndarray
-        +resize(image: np.ndarray, target_size: Tuple) np.ndarray
-    }
-    
-    class BaseDetector {
-        <<abstract>>
-        +cfg: DictConfig
-        +logger: Logger
-        +preprocessor: BasePreprocessor
-        +detect(image: np.ndarray)* List[Dict]
-        +save_params(params: Dict)* bool
-        +set_preprocessor(preprocessor: BasePreprocessor)
-    }
-    
-    class BaseClassifier {
-        <<abstract>>
-        +cfg: DictConfig
-        +logger: Logger
-        +preprocessor: BasePreprocessor
-        +predict(image: np.ndarray)* Tuple[int, float]
-        +train(X_train: np.ndarray, y_train: np.ndarray)* Dict
-        +save(path: str)*
-        +load(path: str)*
-    }
-    
-    class ROIParamOptimizerPreprocessor {
-        +use_color_constancy: bool
-        +color_constancy_method: str
-        +preprocess(image: np.ndarray) np.ndarray
-        +ebner_color_constancy(image: np.ndarray) np.ndarray
-        +gray_world(image: np.ndarray) np.ndarray
-    }
-    
-    class TemplatePreprocessor {
-        +color_space: str
-        +use_clache: bool
-        +preprocess(image: np.ndarray) np.ndarray
-    }
-    
-    class MultiColorDetector {
-        +color_params: Dict
-        +threshold_error_dict: Dict
-        +detect(image: np.ndarray) List[Dict]
-        +optimize_color_parameters(dataset: MetroDataset) Dict
-        +extract_dominant(roi: np.ndarray) Tuple[int, int, int]
-    }
-    
-    class TemplateClassifier {
-        +templates: Dict
-        +template_size: Tuple
-        +threshold: float
-        +predict(image: np.ndarray) Tuple[int, float]
-        +train(X_train: np.ndarray, y_train: np.ndarray)
-    }
-    
-    BasePreprocessor <|-- ROIParamOptimizerPreprocessor
-    BasePreprocessor <|-- TemplatePreprocessor
-    BaseDetector <|-- MultiColorDetector
-    BaseClassifier <|-- TemplateClassifier
-    BaseDetector --> BasePreprocessor : uses
-    BaseClassifier --> BasePreprocessor : uses
-```
-
+![Basic_Classes](pics/classes.png)
 **依赖注入机制**：
 ```python
 # 组件初始化和依赖注入示例
@@ -882,32 +807,7 @@ def _init_components(self):
 #### 6.2.1 训练管道架构
 
 `MetroTrainPipeline`实现了完整的训练流程管理：
-**这里template训练部分最后需要改为CNN**
-```mermaid
-flowchart TD
-    A[开始训练流程] --> B[加载配置文件]
-    B --> C[初始化组件]
-    C --> D[加载训练数据集]
-    D --> E[加载验证数据集]
-    E --> F{是否优化ROI参数?}
-    
-    F -->|是| G[ROI参数优化]
-    F -->|否| H[跳过ROI参数优化]
-    G --> I{是否创建模板?}
-    H --> I
-    
-    I -->|是| J[提取训练ROI]
-    I -->|否| K[跳过模板创建]
-    J --> L[预处理ROI]
-    L --> M[创建分类模板]
-    M --> N[保存模板]
-    N --> O[训练完成]
-    K --> O
-    
-    style G fill:#e1f5fe
-    style M fill:#f3e5f5
-    style O fill:#e8f5e8
-```
+![MetroTrainPipeline](pics/train_pipeline.png)
 
 **训练流程核心代码**：
 ```python
@@ -932,29 +832,7 @@ class MetroTrainPipeline:
 
 ROI检测器的颜色参数学习是训练流程的核心环节：
 
-```mermaid
-flowchart LR
-    A[训练数据集] --> B[遍历图像]
-    B --> C[提取标注ROI]
-    C --> D[预处理转换HSV]
-    D --> E[K-means主导色提取]
-    E --> F[按线路ID分组]
-    F --> G[线路特定过滤]
-    G --> H[计算统计参数]
-    H --> I[生成颜色范围]
-    I --> J[保存参数文件]
-    
-    K[颜色样本] --> L[循环均值计算]
-    L --> M[循环标准差计算]
-    M --> N[HSV上下界]
-    
-    F --> K
-    H --> L
-    
-    style E fill:#fff3e0
-    style H fill:#e1f5fe
-    style J fill:#e8f5e8
-```
+![RoiTrainner](pics/roi_detector.png)
 
 **关键优化步骤**：
 1. **主导色提取**：使用K-means聚类提取每个ROI的主导颜色
@@ -973,36 +851,7 @@ flowchart LR
 #### 6.3.1 测试管道设计
 
 `MetroTestPipeline`实现了完整的测试评估流程：
-
-```mermaid
-flowchart TD
-    A[开始测试流程] --> B[加载测试数据集]
-    B --> C[初始化检测器和分类器]
-    C --> D[遍历测试图像]
-    D --> E[ROI检测]
-    E --> F[区域分类]
-    F --> G[结果收集]
-    G --> H{是否处理完所有图像?}
-    
-    H -->|否| D
-    H -->|是| I[计算评估指标]
-    I --> J[生成混淆矩阵]
-    J --> K[可视化结果]
-    K --> L[保存检测结果]
-    L --> M[测试完成]
-    
-    subgraph "单图像处理流程"
-        E1[图像预处理] --> E2[多线路并行检测]
-        E2 --> E3[NMS去重]
-        E3 --> E4[置信度排序]
-    end
-    
-    E --> E1
-    
-    style I fill:#e1f5fe
-    style K fill:#f3e5f5
-    style M fill:#e8f5e8
-```
+![TestPipeline](pics/test_pipeline.png)
 
 **测试流程核心实现**：
 ```python
@@ -1076,43 +925,7 @@ def _visualize_results(self, image: np.ndarray, detections: List[Tuple],
 ### 6.4 数据管理系统
 
 `MetroDataset`类提供了统一的数据管理接口，支持多种数据格式：
-
-```mermaid
-classDiagram
-    class MetroDataset {
-        +cfg: DictConfig
-        +mode: str
-        +data_root: Path
-        +data_format: str
-        +df: DataFrame
-        +annotations: DataFrame
-        
-        +__init__(cfg, mode, logger)
-        +_load_excel_data()
-        +_load_mat_data()
-        +_split_train_val(df, mode) DataFrame
-        +_resolve_image_path(image_id) str
-        +__getitem__(idx) Tuple
-        +get_all() Tuple[List, np.ndarray]
-        +get_image_with_annotations(idx) Tuple
-        +get_class_balance_weights() Dict
-    }
-    
-    class DataLoader {
-        +excel_support: bool
-        +mat_support: bool
-        +image_formats: List[str]
-    }
-    
-    class ValidationUtils {
-        +validate_bbox(bbox, image_shape) bool
-        +check_image_exists(path) bool
-        +verify_annotations(df) bool
-    }
-    
-    MetroDataset --> DataLoader : uses
-    MetroDataset --> ValidationUtils : uses
-```
+![MetroDataset](pics/metro_dataset.png)
 
 **多格式数据支持**：
 
@@ -1152,75 +965,7 @@ def _load_mat_to_df(self, path: Path) -> pd.DataFrame:
 - **异常数据清理**：自动移除已知的异常标注
 
 **系统整体数据流**：
-```mermaid
-flowchart TB
-    subgraph "Couche d'entrée de données"
-        A1[Fichier d'annotation Excel]
-        A2[Fichier d'annotation MATLAB]
-        A3[Fichiers image]
-    end
-    
-    subgraph "Couche de gestion des données"
-        B1[MetroDataset]
-        B2[Validation des données]
-        B3[Conversion de format]
-        B4[Stratégie de partitionnement]
-    end
-    
-    subgraph "Couche de prétraitement"
-        C1[Préprocesseur ROI]
-        C2[Préprocesseur de classification]
-    end
-    
-    subgraph "Couche algorithmique"
-        D1[Détecteur multi-couleurs]
-        D2[Classifieur à base de modèles]
-    end
-    
-    subgraph "Couche de gestion du flux"
-        E1[Pipeline d'entraînement]
-        E2[Pipeline de test]
-        E3[Gestion de configuration]
-    end
-    
-    subgraph "Couche de sortie"
-        F1[Résultats de détection]
-        F2[Métriques d'évaluation]
-        F3[Visualisation]
-    end
-    
-    A1 --> B1
-    A2 --> B1
-    A3 --> B1
-    B1 --> B2
-    B2 --> B3
-    B3 --> B4
-    
-    B4 --> C1
-    B4 --> C2
-    
-    C1 --> D1
-    C2 --> D2
-    
-    D1 --> E1
-    D2 --> E1
-    D1 --> E2
-    D2 --> E2
-    
-    E3 --> E1
-    E3 --> E2
-    
-    E1 --> F1
-    E2 --> F1
-    E2 --> F2
-    E2 --> F3
-    
-    style B1 fill:#e1f5fe
-    style D1 fill:#fff3e0
-    style D2 fill:#f3e5f5
-    style E1 fill:#e8f5e8
-    style E2 fill:#e8f5e8
-```
+![Data_Flow](pics/data_flow.png)
 通过以上系统化的集成设计，我们实现了一个高度模块化、可配置、易扩展的地铁标志识别系统。系统支持灵活的配置管理、完善的流程控制、多格式数据处理和全面的结果评估，为研究和实际应用提供了坚实的技术基础。
 
 ---
@@ -1427,26 +1172,7 @@ Les résultats des tests réels montrent que les performances de détection vari
 
 训练样本不足导致的最严重问题是HSV色域重叠，特别体现在以下线路组合：
 
-```mermaid
-graph TD
-    A[光照变化] --> B[HSV色域偏移]
-    B --> C[线路间色域重叠]
-    C --> D[误检和漏检]
-    
-    E[线路3 浅黄] --> F[色域重叠区域]
-    G[线路11 棕色] --> F
-    F --> H[混淆率 30%+]
-    
-    I[线路2 蓝色] --> J[蓝色系混淆]
-    K[线路6 浅蓝] --> J
-    L[线路14 深蓝] --> J
-    J --> M[低光照下失效]
-    
-    style F fill:#ffcccc
-    style J fill:#ffcccc
-    style H fill:#ff9999
-    style M fill:#ff9999
-```
+![Color_Space_Analysis](pics/color_space_ana.png)
 
 **统计学增强的局限性**：
 
@@ -1476,29 +1202,7 @@ hsv_upper = [min(180, int(avg_h + 2 * std_h)),
 
 我们的分析表明，87张训练图像对于14条线路的识别任务严重不足：
 
-```mermaid
-flowchart TD
-    A[训练样本不足<br/>87张图像] --> B[统计参数不可靠]
-    B --> C[色域范围不准确]
-    C --> D[检测性能下降]
-    
-    A --> E[光照条件覆盖不全]
-    E --> F[HSV转换误差]
-    F --> G[色域重叠严重]
-    G --> D
-    
-    A --> H[线路样本不平衡]
-    H --> I[弱势线路性能差]
-    I --> D
-    
-    D --> J[召回率: 30%-87%]
-    D --> K[误检率: 34.6%]
-    
-    style A fill:#ffcccc
-    style D fill:#ff9999
-    style J fill:#ffffcc
-    style K fill:#ffffcc
-```
+![Data_Analysis](pics/data_ana.png)
 
 **典型失败案例分析**：
 
@@ -1561,22 +1265,7 @@ flowchart TD
 
 **系统集成策略**：
 
-```mermaid
-flowchart LR
-    A[输入图像] --> B[颜色ROI检测器]
-    B --> C[候选区域生成<br/>召回率导向]
-    C --> D[CNN分类器]
-    D --> E[精确线路分类<br/>精度导向]
-    E --> F[最终检测结果]
-    
-    G[参数优化] --> B
-    G --> H[圆形填充率<br/>形状约束<br/>颜色阈值]
-    H --> B
-    
-    style C fill:#e1f5fe
-    style E fill:#f3e5f5
-    style F fill:#e8f5e8
-```
+![New_System](pics/framework_with_CNN.png)
 
 这种分工明确的两阶段架构充分发挥了各自的优势：
 - **ROI检测器**: 快速、高召回率的候选区域生成
@@ -1928,35 +1617,21 @@ enhanced_constraints = {
 
 ## 参考文献
 
-[1] Dalal, N., & Triggs, B. (2005). Histograms of oriented gradients for human detection. *2005 IEEE computer society conference on computer vision and pattern recognition (CVPR'05)*, 1, 886-893.
+[1] R. C. Gonzalez and R. E. Woods, Digital Image Processing, 4th ed. New York, NY, USA: Pearson Education, 2018.
 
-[2] Viola, P., & Jones, M. (2001). Rapid object detection using a boosted cascade of simple features. *Proceedings of the 2001 IEEE computer society conference on computer vision and pattern recognition. CVPR 2001*, 1, I-I.
+[2] A. Gijsenij, T. Gevers, and J. van de Weijer, “Computational color constancy: survey and experiments,” IEEE Transactions on Image Processing, vol. 20, no. 9, pp. 2475–2489, 2011.
 
-[3] Redmon, J., Divvala, S., Girshick, R., & Farhadi, A. (2016). You only look once: Unified, real-time object detection. *Proceedings of the IEEE conference on computer vision and pattern recognition*, 779-788.
+[3] J. S. Lee, “Digital image smoothing and the sigma filter,” Computer Vision, Graphics, and Image Processing, vol. 24, no. 2, pp. 255–269, 1983.
 
-[4] Liu, W., Anguelov, D., Erhan, D., Szegedy, C., Reed, S., Fu, C. Y., & Berg, A. C. (2016). Ssd: Single shot multibox detector. *European conference on computer vision*, 21-37.
+[4] R. M. Haralick, S. R. Sternberg, and X. Zhuang, “Image analysis using mathematical morphology,” IEEE Transactions on Pattern Analysis and Machine Intelligence, vol. 9, no. 4, pp. 532–550, 1987.
 
-[5] Girshick, R., Donahue, J., Darrell, T., & Malik, J. (2014). Rich feature hierarchies for accurate object detection and semantic segmentation. *Proceedings of the IEEE conference on computer vision and pattern recognition*, 580-587.
+[5] R. Adams and L. Bischof, “Seeded region growing,” IEEE Transactions on Pattern Analysis and Machine Intelligence, vol. 16, no. 6, pp. 641–647, 1994.
 
-[6] Howard, A. G., Zhu, M., Chen, B., Kalenichenko, D., Wang, W., Weyand, T., ... & Adam, H. (2017). Mobilenets: Efficient convolutional neural networks for mobile vision applications. *arXiv preprint arXiv:1704.04861*.
+[6] G. Borgefors, “Distance transformations in digital images,” Computer Vision, Graphics, and Image Processing, vol. 34, no. 3, pp. 344–371, 1986.
 
-[7] Stallkamp, J., Schlipsing, M., Salmen, J., & Igel, C. (2012). Man vs. computer: Benchmarking machine learning algorithms for traffic sign recognition. *Neural networks*, 32, 323-332.
+[7] G. Bradski and A. Kaehler, Learning OpenCV: Computer Vision with the OpenCV Library. Sebastopol, CA, USA: O’Reilly Media, 2008.
 
-[8] Sermanet, P., & LeCun, Y. (2011). Traffic sign recognition with multi-scale convolutional networks. *The 2011 international joint conference on neural networks*, 2809-2813.
-
-[9] Buchner, M., & Zauner, G. (2006). Real-time detection and recognition of road traffic signs. *IEEE Transactions on Intelligent Transportation Systems*, 7(2), 213-222.
-
-[10] Land, E. H. (1977). The retinex theory of color vision. *Scientific American*, 237(6), 108-128.
-
-[11] Ebner, F. (1998). Color constancy based on local space average color. *Machine Vision and Applications*, 11(5), 283-301.
-
-[12] Arthur, D., & Vassilvitskii, S. (2007). k-means++: The advantages of careful seeding. *Proceedings of the eighteenth annual ACM-SIAM symposium on Discrete algorithms*, 1027-1035.
-
-[13] Suzuki, S., & Abe, K. (1985). Topological structural analysis of digitized binary images by border following. *Computer vision, graphics, and image processing*, 30(1), 32-46.
-
-[14] Hydra Framework Documentation. Facebook Research. https://hydra.cc/
-
-[15] Bradski, G. (2000). The OpenCV Library. *Dr. Dobb's Journal of Software Tools*.
+[8] C. Shorten and T. M. Khoshgoftaar, “A survey on image data augmentation for deep learning,” Journal of Big Data, vol. 6, no. 1, pp. 1–48, 2019.
 
 ---
 
