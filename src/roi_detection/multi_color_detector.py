@@ -30,7 +30,7 @@ class MultiColorDetector(BaseDetector):
 
     def _load_color_params(self, cfg: DictConfig) -> Dict:
         params_dir = cfg.get("params_dir", "")
-        params_path = os.path.join(params_dir, "no_gray_with_filter.json")
+        params_path = os.path.join(params_dir, "color_params.json")
         if params_path and os.path.exists(params_path):
             try:
                 self.logger.info(f"Loading color parameters from {params_path}")
@@ -195,7 +195,7 @@ class MultiColorDetector(BaseDetector):
         boxes = []
         height, width = mask.shape[:2]
         image_area = height * width
-        dynamic_min_area = max(self.min_area, int(image_area * 0.001))  # at least 1% of the image
+        dynamic_min_area = max(self.min_area, int(image_area * 0.0008))  # at least 1% of the image
         dynamic_max_area = min(self.max_area, int(image_area * 0.05))   # at most 10% of the image
 
         for cnt in contours:
@@ -643,7 +643,7 @@ def visualize_detection_steps(detector: MultiColorDetector, image: np.ndarray):
     axes[2].set_title("3. Preprocessed HSV")
     axes[2].axis('off')
 
-    line_id = "12" if "12" in detector.color_params else list(detector.color_params.keys())[0]
+    line_id = "14" if "14" in detector.color_params else list(detector.color_params.keys())[0]
     
     params = detector.color_params[line_id]
     lower = np.maximum(0, np.array(params["hsv_lower"]) - detector.threshold_error_dict.get(line_id, 0))
