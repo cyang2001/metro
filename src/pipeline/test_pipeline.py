@@ -12,7 +12,8 @@ from src.data.dataset import MetroDataset
 from src.preprocessing.roi_preprocessor import ROIParamOptimizerPreprocessor
 from src.preprocessing.template_preprocessor import TemplatePreprocessor
 from src.roi_detection.multi_color_detector import MultiColorDetector, visualize_detection_steps
-from src.classification.template_classifier import TemplateClassifier
+from src.preprocessing.CNN_preprocessor import CNNPreprocessor
+from src.classification.CNN_classifier import CNNClassifier
 from utils.utils import get_logger, ensure_dir, save_confusion_matrix, visualize_detection
 
 class MetroTestPipeline:
@@ -53,11 +54,12 @@ class MetroTestPipeline:
                 cfg=self.cfg.roi_detection
             )
 
-            self.template_classifier = TemplateClassifier(
-                cfg=self.cfg.classification
-            )
-            
-            self.template_classifier.set_preprocessor(self.template_preprocessor)
+            # CNN components
+            self.cnn_preprocessor = CNNPreprocessor(cfg=self.cfg.preprocessing.cnn)
+            self.cnn_classifier = CNNClassifier(cfg=self.cfg.classification.cnn)
+            self.cnn_classifier.set_preprocessor(self.cnn_preprocessor)
+
+            # Link preprocessors
             self.multi_color_detector.set_preprocessor(self.roi_param_optimizer_preprocessor)
 
             self.logger.info("Test components initialized")
@@ -90,8 +92,8 @@ class MetroTestPipeline:
                         desc="Processing images", unit="img"):
             image, annotations, image_id = test_dataset.get_image_with_annotations(idx)
             self.logger.info(f"Processing image ID: {image_id}")
-            if image_id != 22:
-                continue
+            #if image_id != 22:
+            #    continue
             gt_classes = [(ann[4], ann[:4]) for ann in annotations]
             #if not any(cls == 13 for cls, _ in gt_classes):
             #    continue
@@ -103,25 +105,24 @@ class MetroTestPipeline:
                 detected_rois = self.multi_color_detector.detect(image, has_visualize=has_visualize)
             self.logger.info(f"Detected {len(detected_rois)} ROIs")
 
-            visualize_detection_steps(self.multi_color_detector, image)
+            #visualize_detection_steps(self.multi_color_detector, image)
             detected_classes = []
             for roi in detected_rois:
                 x1, y1, x2, y2 = roi['bbox']
-                detected_classes.append((roi['line_id'], roi['bbox'], roi['confidence']))
 
-                #roi_img = image[y1:y2, x1:x2]
-                
-                #if roi_img.size == 0 or roi_img.shape[0] == 0 or roi_img.shape[1] == 0:
-                #    self.logger.warning(f"Invalid ROI: {roi}")
-                #    continue
-                
-                #class_id, confidence = self.template_classifier.predict(roi_img)
-                #if class_id == -1:
-                #    continue
-                #detected_classes.append((class_id, roi['bbox'], confidence))
+                roi_img = image[y1:y2, x1:x2]
+                if roi_img.size == 0 or roi_img.shape[0] == 0 or roi_img.shape[1] == 0:
+                    self.logger.warning(f"Invalid ROI: {roi}")
+                    continue
 
-            
-            
+                class_id, confidence = self.cnn_classifier.predict(roi_img)
+                if class_id == -1:
+                    continue
+                detected_classes.append((class_id, roi['bbox'], confidence))
+
+            # Remove duplicates by IoU & confidence
+            detected_classes = self._filter_duplicate_rois(detected_classes)
+
             image_result = {
                 'image_id': int(image_id),
                 'detected': [(cls, bbox, conf) for cls, bbox, conf in detected_classes],
@@ -315,6 +316,47 @@ class MetroTestPipeline:
                 
         except Exception as e:
             self.logger.error(f"Error saving results: {e}")
+
+    # -----------------------------------------------------------------
+    def _filter_duplicate_rois(self, detections: List[Tuple[int, Tuple[int,int,int,int], float]], iou_thresh: float = 0.5):
+        """Apply simple NMS based on CNN confidence to keep one ROI per overlapping area."""
+        if not detections:
+            return detections
+        # Convert to list of dicts for convenience
+        dets = [
+            {
+                "class_id": cls,
+                "bbox": bbox,
+                "conf": conf
+            }
+            for cls, bbox, conf in detections
+        ]
+
+        picked = []
+        while dets:
+            # pick max conf
+            dets.sort(key=lambda x: x["conf"], reverse=True)
+            best = dets.pop(0)
+            picked.append((best["class_id"], best["bbox"], best["conf"]))
+
+            dets = [d for d in dets if self._iou(d["bbox"], best["bbox"]) < iou_thresh]
+        return picked
+
+    def _iou(self, box_a, box_b):
+        x1_a, y1_a, x2_a, y2_a = box_a
+        x1_b, y1_b, x2_b, y2_b = box_b
+        inter_x1 = max(x1_a, x1_b)
+        inter_y1 = max(y1_a, y1_b)
+        inter_x2 = min(x2_a, x2_b)
+        inter_y2 = min(y2_a, y2_b)
+        inter_area = max(0, inter_x2 - inter_x1) * max(0, inter_y2 - inter_y1)
+
+        area_a = (x2_a - x1_a) * (y2_a - y1_a)
+        area_b = (x2_b - x1_b) * (y2_b - y1_b)
+        union = area_a + area_b - inter_area
+        if union == 0:
+            return 0.0
+        return inter_area / union
 
 def main(cfg: DictConfig):
     """
