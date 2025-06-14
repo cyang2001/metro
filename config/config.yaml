@@ -2,11 +2,12 @@ defaults:
   - mode: train
   - dataset: default
   - roi_detection: multi_color
-  - classification: template_classification
-
+  - classification/template: default
+  - classification/cnn: default
   - preprocessing/template: default
   - preprocessing/roi_param_optimizer: default
-
+  - preprocessing/cnn: default
+  - roi_dataset: default
   - _self_
 
 

@@ -1,0 +1,21 @@
+name: "cnn_classification"
+
+# Path to save / load keras model
+model_path: "${base_dir}/models/cnn_classifier.h5"
+
+# Input image shape (height, width, channels)
+input_shape: [64, 64, 1]
+
+# Training hyper-parameters
+epochs: 200
+batch_size: 32
+learning_rate: 0.001
+
+# Regularization
+l2_reg: 0.00001
+dropout_rate: 0.5
+
+# Callback settings
+reduce_lr_patience: 10
+reduce_lr_factor: 0.5
+early_stopping_patience: 30

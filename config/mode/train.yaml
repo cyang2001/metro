@@ -1,4 +1,5 @@
 name: "train"
 
-optimize_roi_param: true
+optimize_roi_param: false
 create_templates: false
+train_cnn: true
