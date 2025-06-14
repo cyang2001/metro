@@ -11,7 +11,7 @@ from src.preprocessing.base_preprocessor import BasePreprocessor
 
 
 class CNNPreprocessor(BasePreprocessor):
-    """CNN专用预处理器 (英文文档)
+    """CNN Preprocessor
 
     Converts input ROI images to grayscale, resizes them to a fixed size, and normalizes
     pixel values to the range [0, 1]. Optionally applies histogram equalization.
@@ -41,9 +41,7 @@ class CNNPreprocessor(BasePreprocessor):
         # CLAHE object is created once to save time when equalize_hist is enabled
         self._clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8, 8)) if self.equalize_hist else None
 
-    # ---------------------------------------------------------
-    # BasePreprocessor interface implementation
-    # ---------------------------------------------------------
+
     def preprocess(self, image: np.ndarray) -> np.ndarray:  # type: ignore[override]
         """Preprocess an ROI for CNN inference.
 

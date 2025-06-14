@@ -17,5 +17,5 @@
 **/**/logs
 **/**/checkpoints
 **/**/cache
-**/**/data
+**/data
 **/**/outputs
