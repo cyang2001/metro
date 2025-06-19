@@ -1,0 +1,1796 @@
+[
+  {
+    "bbox": [
+      596,
+      661,
+      661,
+      727
+    ],
+    "class_id": 1,
+    "confidence": 1.0,
+    "roi_confidence": 0.8700401111203278,
+    "line_id": 1,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (10).JPG"
+  },
+  {
+    "bbox": [
+      668,
+      662,
+      732,
+      726
+    ],
+    "class_id": 14,
+    "confidence": 1.0,
+    "roi_confidence": 0.862537344905983,
+    "line_id": 14,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (10).JPG"
+  },
+  {
+    "bbox": [
+      599,
+      576,
+      662,
+      641
+    ],
+    "class_id": 4,
+    "confidence": 1.0,
+    "roi_confidence": 0.8705420614650956,
+    "line_id": 4,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (10).JPG"
+  },
+  {
+    "bbox": [
+      595,
+      746,
+      660,
+      813
+    ],
+    "class_id": 7,
+    "confidence": 1.0,
+    "roi_confidence": 0.8748652255731724,
+    "line_id": 7,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (10).JPG"
+  },
+  {
+    "bbox": [
+      473,
+      525,
+      523,
+      575
+    ],
+    "class_id": 1,
+    "confidence": 1.0,
+    "roi_confidence": 0.8487449742380737,
+    "line_id": 1,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (242).JPG"
+  },
+  {
+    "bbox": [
+      492,
+      592,
+      546,
+      646
+    ],
+    "class_id": 12,
+    "confidence": 1.0,
+    "roi_confidence": 0.8577729189418962,
+    "line_id": 12,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (242).JPG"
+  },
+  {
+    "bbox": [
+      1021,
+      552,
+      1072,
+      605
+    ],
+    "class_id": 8,
+    "confidence": 1.0,
+    "roi_confidence": 0.8716722439144431,
+    "line_id": 8,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (242).JPG"
+  },
+  {
+    "bbox": [
+      608,
+      511,
+      691,
+      594
+    ],
+    "class_id": 8,
+    "confidence": 1.0,
+    "roi_confidence": 0.8857326310862212,
+    "line_id": 8,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (239).JPG"
+  },
+  {
+    "bbox": [
+      818,
+      581,
+      939,
+      701
+    ],
+    "class_id": 8,
+    "confidence": 1.0,
+    "roi_confidence": 0.8712233660946491,
+    "line_id": 8,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (84).JPG"
+  },
+  {
+    "bbox": [
+      573,
+      527,
+      710,
+      662
+    ],
+    "class_id": 2,
+    "confidence": 1.0,
+    "roi_confidence": 0.9110173510899056,
+    "line_id": 2,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (167).JPG"
+  },
+  {
+    "bbox": [
+      235,
+      424,
+      411,
+      594
+    ],
+    "class_id": 1,
+    "confidence": 1.0,
+    "roi_confidence": 0.9031527169435843,
+    "line_id": 1,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (171).JPG"
+  },
+  {
+    "bbox": [
+      704,
+      574,
+      768,
+      637
+    ],
+    "class_id": 13,
+    "confidence": 1.0,
+    "roi_confidence": 0.8747179027539694,
+    "line_id": 13,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (235).JPG"
+  },
+  {
+    "bbox": [
+      437,
+      600,
+      509,
+      672
+    ],
+    "class_id": 12,
+    "confidence": 1.0,
+    "roi_confidence": 0.8835005124800956,
+    "line_id": 12,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (30).JPG"
+  },
+  {
+    "bbox": [
+      1019,
+      584,
+      1091,
+      655
+    ],
+    "class_id": 12,
+    "confidence": 1.0,
+    "roi_confidence": 0.8743002618850442,
+    "line_id": 12,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (30).JPG"
+  },
+  {
+    "bbox": [
+      536,
+      398,
+      689,
+      540
+    ],
+    "class_id": 6,
+    "confidence": 1.0,
+    "roi_confidence": 0.8665154608698996,
+    "line_id": 6,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (31).JPG"
+  },
+  {
+    "bbox": [
+      516,
+      602,
+      600,
+      683
+    ],
+    "class_id": 8,
+    "confidence": 1.0,
+    "roi_confidence": 0.8757874878322747,
+    "line_id": 8,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (234).JPG"
+  },
+  {
+    "bbox": [
+      568,
+      517,
+      669,
+      614
+    ],
+    "class_id": 2,
+    "confidence": 1.0,
+    "roi_confidence": 0.8821874442632048,
+    "line_id": 2,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (170).JPG"
+  },
+  {
+    "bbox": [
+      649,
+      514,
+      742,
+      607
+    ],
+    "class_id": 2,
+    "confidence": 1.0,
+    "roi_confidence": 0.8965285336186213,
+    "line_id": 2,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (166).JPG"
+  },
+  {
+    "bbox": [
+      531,
+      391,
+      602,
+      459
+    ],
+    "class_id": 13,
+    "confidence": 1.0,
+    "roi_confidence": 0.8467781482762068,
+    "line_id": 13,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (238).JPG"
+  },
+  {
+    "bbox": [
+      580,
+      620,
+      643,
+      684
+    ],
+    "class_id": 1,
+    "confidence": 1.0,
+    "roi_confidence": 0.880946982625898,
+    "line_id": 1,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (9).JPG"
+  },
+  {
+    "bbox": [
+      650,
+      704,
+      712,
+      767
+    ],
+    "class_id": 11,
+    "confidence": 1.0,
+    "roi_confidence": 0.8459466000579744,
+    "line_id": 11,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (9).JPG"
+  },
+  {
+    "bbox": [
+      649,
+      620,
+      712,
+      683
+    ],
+    "class_id": 14,
+    "confidence": 1.0,
+    "roi_confidence": 0.8694631869984226,
+    "line_id": 14,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (9).JPG"
+  },
+  {
+    "bbox": [
+      582,
+      539,
+      643,
+      600
+    ],
+    "class_id": 4,
+    "confidence": 1.0,
+    "roi_confidence": 0.873301480371658,
+    "line_id": 4,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (9).JPG"
+  },
+  {
+    "bbox": [
+      579,
+      703,
+      643,
+      768
+    ],
+    "class_id": 7,
+    "confidence": 1.0,
+    "roi_confidence": 0.8750381731565002,
+    "line_id": 7,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (9).JPG"
+  },
+  {
+    "bbox": [
+      769,
+      460,
+      836,
+      526
+    ],
+    "class_id": 14,
+    "confidence": 1.0,
+    "roi_confidence": 0.8639862888123123,
+    "line_id": 14,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (107).JPG"
+  },
+  {
+    "bbox": [
+      432,
+      572,
+      515,
+      653
+    ],
+    "class_id": 4,
+    "confidence": 1.0,
+    "roi_confidence": 0.8870877526690788,
+    "line_id": 4,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (11).JPG"
+  },
+  {
+    "bbox": [
+      1449,
+      765,
+      1503,
+      819
+    ],
+    "class_id": 13,
+    "confidence": 0.9999723434448242,
+    "roi_confidence": 0.8355920233994922,
+    "line_id": 13,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (11).JPG"
+  },
+  {
+    "bbox": [
+      606,
+      529,
+      666,
+      589
+    ],
+    "class_id": 1,
+    "confidence": 1.0,
+    "roi_confidence": 0.8622123190582036,
+    "line_id": 1,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (243).JPG"
+  },
+  {
+    "bbox": [
+      599,
+      607,
+      672,
+      683
+    ],
+    "class_id": 11,
+    "confidence": 1.0,
+    "roi_confidence": 0.8347141549649821,
+    "line_id": 11,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (243).JPG"
+  },
+  {
+    "bbox": [
+      522,
+      548,
+      592,
+      612
+    ],
+    "class_id": 10,
+    "confidence": 1.0,
+    "roi_confidence": 0.8209193505960742,
+    "line_id": 10,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (248).JPG"
+  },
+  {
+    "bbox": [
+      340,
+      307,
+      421,
+      396
+    ],
+    "class_id": 2,
+    "confidence": 1.0,
+    "roi_confidence": 0.8385621991965639,
+    "line_id": 2,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (177).JPG"
+  },
+  {
+    "bbox": [
+      591,
+      728,
+      733,
+      874
+    ],
+    "class_id": 1,
+    "confidence": 1.0,
+    "roi_confidence": 0.9039720467145865,
+    "line_id": 1,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (120).JPG"
+  },
+  {
+    "bbox": [
+      826,
+      606,
+      886,
+      665
+    ],
+    "class_id": 1,
+    "confidence": 1.0,
+    "roi_confidence": 0.8594671996228394,
+    "line_id": 1,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (20).JPG"
+  },
+  {
+    "bbox": [
+      891,
+      681,
+      950,
+      739
+    ],
+    "class_id": 11,
+    "confidence": 1.0,
+    "roi_confidence": 0.868340674313161,
+    "line_id": 11,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (20).JPG"
+  },
+  {
+    "bbox": [
+      890,
+      606,
+      949,
+      664
+    ],
+    "class_id": 14,
+    "confidence": 1.0,
+    "roi_confidence": 0.8532069630715429,
+    "line_id": 14,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (20).JPG"
+  },
+  {
+    "bbox": [
+      826,
+      680,
+      887,
+      740
+    ],
+    "class_id": 7,
+    "confidence": 1.0,
+    "roi_confidence": 0.867888447497505,
+    "line_id": 7,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (20).JPG"
+  },
+  {
+    "bbox": [
+      528,
+      590,
+      630,
+      688
+    ],
+    "class_id": 8,
+    "confidence": 1.0,
+    "roi_confidence": 0.8744478953912885,
+    "line_id": 8,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (77).JPG"
+  },
+  {
+    "bbox": [
+      351,
+      390,
+      448,
+      484
+    ],
+    "class_id": 1,
+    "confidence": 1.0,
+    "roi_confidence": 0.8846602774256835,
+    "line_id": 1,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (98).JPG"
+  },
+  {
+    "bbox": [
+      800,
+      229,
+      882,
+      312
+    ],
+    "class_id": 8,
+    "confidence": 1.0,
+    "roi_confidence": 0.8903223706890956,
+    "line_id": 8,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (233).JPG"
+  },
+  {
+    "bbox": [
+      538,
+      462,
+      611,
+      534
+    ],
+    "class_id": 1,
+    "confidence": 1.0,
+    "roi_confidence": 0.8710096789756101,
+    "line_id": 1,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (244).JPG"
+  },
+  {
+    "bbox": [
+      536,
+      553,
+      615,
+      629
+    ],
+    "class_id": 12,
+    "confidence": 1.0,
+    "roi_confidence": 0.8506238120621965,
+    "line_id": 12,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (244).JPG"
+  },
+  {
+    "bbox": [
+      587,
+      787,
+      642,
+      842
+    ],
+    "class_id": 1,
+    "confidence": 1.0,
+    "roi_confidence": 0.8622569830708025,
+    "line_id": 1,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (16).JPG"
+  },
+  {
+    "bbox": [
+      646,
+      857,
+      700,
+      911
+    ],
+    "class_id": 11,
+    "confidence": 1.0,
+    "roi_confidence": 0.8324828807361029,
+    "line_id": 11,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (16).JPG"
+  },
+  {
+    "bbox": [
+      588,
+      718,
+      641,
+      771
+    ],
+    "class_id": 4,
+    "confidence": 1.0,
+    "roi_confidence": 0.8635976441289974,
+    "line_id": 4,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (16).JPG"
+  },
+  {
+    "bbox": [
+      586,
+      856,
+      643,
+      912
+    ],
+    "class_id": 7,
+    "confidence": 1.0,
+    "roi_confidence": 0.8609247276616443,
+    "line_id": 7,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (16).JPG"
+  },
+  {
+    "bbox": [
+      646,
+      788,
+      700,
+      841
+    ],
+    "class_id": 11,
+    "confidence": 0.9999998807907104,
+    "roi_confidence": 0.811674129998419,
+    "line_id": 11,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (16).JPG"
+  },
+  {
+    "bbox": [
+      600,
+      389,
+      677,
+      466
+    ],
+    "class_id": 10,
+    "confidence": 1.0,
+    "roi_confidence": 0.885640774595643,
+    "line_id": 10,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (252).JPG"
+  },
+  {
+    "bbox": [
+      534,
+      490,
+      586,
+      541
+    ],
+    "class_id": 2,
+    "confidence": 1.0,
+    "roi_confidence": 0.8662670038039801,
+    "line_id": 2,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (157).JPG"
+  },
+  {
+    "bbox": [
+      666,
+      491,
+      731,
+      557
+    ],
+    "class_id": 1,
+    "confidence": 1.0,
+    "roi_confidence": 0.8715822903375606,
+    "line_id": 1,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (100).JPG"
+  },
+  {
+    "bbox": [
+      860,
+      621,
+      982,
+      754
+    ],
+    "class_id": 1,
+    "confidence": 1.0,
+    "roi_confidence": 0.8521637364572066,
+    "line_id": 1,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (116).JPG"
+  },
+  {
+    "bbox": [
+      368,
+      645,
+      453,
+      728
+    ],
+    "class_id": 1,
+    "confidence": 1.0,
+    "roi_confidence": 0.8642413267057775,
+    "line_id": 1,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (82).JPG"
+  },
+  {
+    "bbox": [
+      583,
+      459,
+      664,
+      541
+    ],
+    "class_id": 12,
+    "confidence": 1.0,
+    "roi_confidence": 0.8871275562891845,
+    "line_id": 12,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (245).JPG"
+  },
+  {
+    "bbox": [
+      514,
+      641,
+      590,
+      715
+    ],
+    "class_id": 4,
+    "confidence": 1.0,
+    "roi_confidence": 0.8699784984664509,
+    "line_id": 4,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (17).JPG"
+  },
+  {
+    "bbox": [
+      754,
+      404,
+      849,
+      499
+    ],
+    "class_id": 5,
+    "confidence": 0.9999988079071045,
+    "roi_confidence": 0.894175952333973,
+    "line_id": 5,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (232).JPG"
+  },
+  {
+    "bbox": [
+      627,
+      512,
+      706,
+      588
+    ],
+    "class_id": 5,
+    "confidence": 1.0,
+    "roi_confidence": 0.8367471903750598,
+    "line_id": 5,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (99).JPG"
+  },
+  {
+    "bbox": [
+      628,
+      411,
+      705,
+      486
+    ],
+    "class_id": 1,
+    "confidence": 1.0,
+    "roi_confidence": 0.8164150399902355,
+    "line_id": 1,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (99).JPG"
+  },
+  {
+    "bbox": [
+      625,
+      614,
+      705,
+      693
+    ],
+    "class_id": 8,
+    "confidence": 1.0,
+    "roi_confidence": 0.8816046747993911,
+    "line_id": 8,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (99).JPG"
+  },
+  {
+    "bbox": [
+      478,
+      488,
+      628,
+      634
+    ],
+    "class_id": 3,
+    "confidence": 1.0,
+    "roi_confidence": 0.8978440143894026,
+    "line_id": 3,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (176).JPG"
+  },
+  {
+    "bbox": [
+      491,
+      484,
+      570,
+      559
+    ],
+    "class_id": 10,
+    "confidence": 1.0,
+    "roi_confidence": 0.851976606154115,
+    "line_id": 10,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (249).JPG"
+  },
+  {
+    "bbox": [
+      487,
+      578,
+      571,
+      660
+    ],
+    "class_id": 12,
+    "confidence": 1.0,
+    "roi_confidence": 0.8363553023716723,
+    "line_id": 12,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (249).JPG"
+  },
+  {
+    "bbox": [
+      504,
+      748,
+      597,
+      837
+    ],
+    "class_id": 6,
+    "confidence": 1.0,
+    "roi_confidence": 0.8481540322017382,
+    "line_id": 6,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (34).JPG"
+  },
+  {
+    "bbox": [
+      506,
+      636,
+      594,
+      724
+    ],
+    "class_id": 13,
+    "confidence": 1.0,
+    "roi_confidence": 0.8956686682224563,
+    "line_id": 13,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (34).JPG"
+  },
+  {
+    "bbox": [
+      672,
+      419,
+      776,
+      524
+    ],
+    "class_id": 8,
+    "confidence": 1.0,
+    "roi_confidence": 0.9033948749680696,
+    "line_id": 8,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (231).JPG"
+  },
+  {
+    "bbox": [
+      456,
+      442,
+      550,
+      540
+    ],
+    "class_id": 2,
+    "confidence": 1.0,
+    "roi_confidence": 0.8888787457627343,
+    "line_id": 2,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (159).JPG"
+  },
+  {
+    "bbox": [
+      614,
+      521,
+      773,
+      679
+    ],
+    "class_id": 1,
+    "confidence": 1.0,
+    "roi_confidence": 0.902785154524737,
+    "line_id": 1,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (22).JPG"
+  },
+  {
+    "bbox": [
+      1138,
+      521,
+      1289,
+      673
+    ],
+    "class_id": 14,
+    "confidence": 1.0,
+    "roi_confidence": 0.8851744596583762,
+    "line_id": 14,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (22).JPG"
+  },
+  {
+    "bbox": [
+      791,
+      520,
+      948,
+      677
+    ],
+    "class_id": 7,
+    "confidence": 1.0,
+    "roi_confidence": 0.9016286622329295,
+    "line_id": 7,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (22).JPG"
+  },
+  {
+    "bbox": [
+      541,
+      507,
+      671,
+      642
+    ],
+    "class_id": 2,
+    "confidence": 1.0,
+    "roi_confidence": 0.8913086720910317,
+    "line_id": 2,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (163).JPG"
+  },
+  {
+    "bbox": [
+      577,
+      441,
+      725,
+      579
+    ],
+    "class_id": 4,
+    "confidence": 1.0,
+    "roi_confidence": 0.8679937098127974,
+    "line_id": 4,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (18).JPG"
+  },
+  {
+    "bbox": [
+      600,
+      480,
+      713,
+      593
+    ],
+    "class_id": 5,
+    "confidence": 1.0,
+    "roi_confidence": 0.9020560476631909,
+    "line_id": 5,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (80).JPG"
+  },
+  {
+    "bbox": [
+      602,
+      632,
+      710,
+      742
+    ],
+    "class_id": 8,
+    "confidence": 1.0,
+    "roi_confidence": 0.8364547135291494,
+    "line_id": 8,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (80).JPG"
+  },
+  {
+    "bbox": [
+      729,
+      590,
+      834,
+      694
+    ],
+    "class_id": 14,
+    "confidence": 1.0,
+    "roi_confidence": 0.9010287953107381,
+    "line_id": 14,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (114).JPG"
+  },
+  {
+    "bbox": [
+      599,
+      504,
+      790,
+      695
+    ],
+    "class_id": 1,
+    "confidence": 1.0,
+    "roi_confidence": 0.9246233328116764,
+    "line_id": 1,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (79).JPG"
+  },
+  {
+    "bbox": [
+      528,
+      409,
+      627,
+      507
+    ],
+    "class_id": 10,
+    "confidence": 1.0,
+    "roi_confidence": 0.8975018747221531,
+    "line_id": 10,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (250).JPG"
+  },
+  {
+    "bbox": [
+      529,
+      539,
+      629,
+      640
+    ],
+    "class_id": 12,
+    "confidence": 1.0,
+    "roi_confidence": 0.9017690368245224,
+    "line_id": 12,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (250).JPG"
+  },
+  {
+    "bbox": [
+      414,
+      619,
+      508,
+      715
+    ],
+    "class_id": 12,
+    "confidence": 1.0,
+    "roi_confidence": 0.8743942004681082,
+    "line_id": 12,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (246).JPG"
+  },
+  {
+    "bbox": [
+      581,
+      533,
+      674,
+      637
+    ],
+    "class_id": 3,
+    "confidence": 1.0,
+    "roi_confidence": 0.8467914678415902,
+    "line_id": 3,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (180).JPG"
+  },
+  {
+    "bbox": [
+      427,
+      248,
+      534,
+      360
+    ],
+    "class_id": 12,
+    "confidence": 1.0,
+    "roi_confidence": 0.8061521557373177,
+    "line_id": 12,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (247).JPG"
+  },
+  {
+    "bbox": [
+      599,
+      188,
+      683,
+      272
+    ],
+    "class_id": 3,
+    "confidence": 1.0,
+    "roi_confidence": 0.8900562687922489,
+    "line_id": 3,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (178).JPG"
+  },
+  {
+    "bbox": [
+      1385,
+      154,
+      1465,
+      237
+    ],
+    "class_id": 2,
+    "confidence": 1.0,
+    "roi_confidence": 0.8851310280833922,
+    "line_id": 2,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (178).JPG"
+  },
+  {
+    "bbox": [
+      395,
+      484,
+      505,
+      594
+    ],
+    "class_id": 10,
+    "confidence": 1.0,
+    "roi_confidence": 0.90443119961427,
+    "line_id": 10,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (251).JPG"
+  },
+  {
+    "bbox": [
+      386,
+      628,
+      503,
+      740
+    ],
+    "class_id": 12,
+    "confidence": 1.0,
+    "roi_confidence": 0.8744068758069481,
+    "line_id": 12,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (251).JPG"
+  },
+  {
+    "bbox": [
+      504,
+      499,
+      598,
+      592
+    ],
+    "class_id": 1,
+    "confidence": 1.0,
+    "roi_confidence": 0.8860716035084564,
+    "line_id": 1,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (78).JPG"
+  },
+  {
+    "bbox": [
+      816,
+      569,
+      880,
+      629
+    ],
+    "class_id": 5,
+    "confidence": 1.0,
+    "roi_confidence": 0.8572155690354055,
+    "line_id": 5,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (81).JPG"
+  },
+  {
+    "bbox": [
+      815,
+      494,
+      878,
+      552
+    ],
+    "class_id": 1,
+    "confidence": 1.0,
+    "roi_confidence": 0.8403611237809138,
+    "line_id": 1,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (81).JPG"
+  },
+  {
+    "bbox": [
+      524,
+      304,
+      666,
+      430
+    ],
+    "class_id": 4,
+    "confidence": 1.0,
+    "roi_confidence": 0.8165666260459647,
+    "line_id": 4,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (19).JPG"
+  },
+  {
+    "bbox": [
+      1271,
+      461,
+      1371,
+      568
+    ],
+    "class_id": 1,
+    "confidence": 1.0,
+    "roi_confidence": 0.8848811619560945,
+    "line_id": 1,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (162).JPG"
+  },
+  {
+    "bbox": [
+      398,
+      294,
+      511,
+      406
+    ],
+    "class_id": 2,
+    "confidence": 1.0,
+    "roi_confidence": 0.8967936153615461,
+    "line_id": 2,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (162).JPG"
+  },
+  {
+    "bbox": [
+      229,
+      147,
+      372,
+      304
+    ],
+    "class_id": 3,
+    "confidence": 1.0,
+    "roi_confidence": 0.8818069181665251,
+    "line_id": 3,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (174).JPG"
+  },
+  {
+    "bbox": [
+      435,
+      608,
+      563,
+      735
+    ],
+    "class_id": 1,
+    "confidence": 1.0,
+    "roi_confidence": 0.9016885206331269,
+    "line_id": 1,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (23).JPG"
+  },
+  {
+    "bbox": [
+      1020,
+      959,
+      1112,
+      1050
+    ],
+    "class_id": 14,
+    "confidence": 1.0,
+    "roi_confidence": 0.8888746196877788,
+    "line_id": 14,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (23).JPG"
+  },
+  {
+    "bbox": [
+      579,
+      606,
+      707,
+      732
+    ],
+    "class_id": 14,
+    "confidence": 1.0,
+    "roi_confidence": 0.8185990498228166,
+    "line_id": 14,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (23).JPG"
+  },
+  {
+    "bbox": [
+      546,
+      963,
+      639,
+      1057
+    ],
+    "class_id": 2,
+    "confidence": 1.0,
+    "roi_confidence": 0.8963620340155039,
+    "line_id": 2,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (23).JPG"
+  },
+  {
+    "bbox": [
+      438,
+      442,
+      565,
+      566
+    ],
+    "class_id": 4,
+    "confidence": 1.0,
+    "roi_confidence": 0.892318122907333,
+    "line_id": 4,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (23).JPG"
+  },
+  {
+    "bbox": [
+      431,
+      777,
+      562,
+      908
+    ],
+    "class_id": 7,
+    "confidence": 1.0,
+    "roi_confidence": 0.885848296657778,
+    "line_id": 7,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (23).JPG"
+  },
+  {
+    "bbox": [
+      761,
+      961,
+      856,
+      1054
+    ],
+    "class_id": 9,
+    "confidence": 0.9999998807907104,
+    "roi_confidence": 0.8937298491535692,
+    "line_id": 9,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (23).JPG"
+  },
+  {
+    "bbox": [
+      723,
+      268,
+      853,
+      394
+    ],
+    "class_id": 9,
+    "confidence": 0.9999785423278809,
+    "roi_confidence": 0.8942807629407867,
+    "line_id": 9,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (23).JPG"
+  },
+  {
+    "bbox": [
+      809,
+      455,
+      973,
+      615
+    ],
+    "class_id": 12,
+    "confidence": 1.0,
+    "roi_confidence": 0.8858817426945855,
+    "line_id": 12,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (1).JPG"
+  },
+  {
+    "bbox": [
+      417,
+      276,
+      558,
+      417
+    ],
+    "class_id": 5,
+    "confidence": 1.0,
+    "roi_confidence": 0.914318518020035,
+    "line_id": 5,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (86).JPG"
+  },
+  {
+    "bbox": [
+      421,
+      466,
+      560,
+      606
+    ],
+    "class_id": 8,
+    "confidence": 1.0,
+    "roi_confidence": 0.9114954126933827,
+    "line_id": 8,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (86).JPG"
+  },
+  {
+    "bbox": [
+      401,
+      339,
+      559,
+      500
+    ],
+    "class_id": 1,
+    "confidence": 1.0,
+    "roi_confidence": 0.915081985243512,
+    "line_id": 1,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (90).JPG"
+  },
+  {
+    "bbox": [
+      406,
+      573,
+      563,
+      731
+    ],
+    "class_id": 5,
+    "confidence": 1.0,
+    "roi_confidence": 0.9119419941984723,
+    "line_id": 5,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (90).JPG"
+  },
+  {
+    "bbox": [
+      414,
+      787,
+      566,
+      936
+    ],
+    "class_id": 8,
+    "confidence": 1.0,
+    "roi_confidence": 0.8726805616340267,
+    "line_id": 8,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (90).JPG"
+  },
+  {
+    "bbox": [
+      502,
+      621,
+      644,
+      761
+    ],
+    "class_id": 1,
+    "confidence": 1.0,
+    "roi_confidence": 0.8986502920979096,
+    "line_id": 1,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (12).JPG"
+  },
+  {
+    "bbox": [
+      659,
+      816,
+      801,
+      952
+    ],
+    "class_id": 11,
+    "confidence": 1.0,
+    "roi_confidence": 0.8501290945991382,
+    "line_id": 11,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (12).JPG"
+  },
+  {
+    "bbox": [
+      663,
+      619,
+      805,
+      757
+    ],
+    "class_id": 14,
+    "confidence": 1.0,
+    "roi_confidence": 0.8952526919246473,
+    "line_id": 14,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (12).JPG"
+  },
+  {
+    "bbox": [
+      500,
+      438,
+      639,
+      572
+    ],
+    "class_id": 4,
+    "confidence": 1.0,
+    "roi_confidence": 0.8826920303628301,
+    "line_id": 4,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (12).JPG"
+  },
+  {
+    "bbox": [
+      496,
+      809,
+      641,
+      954
+    ],
+    "class_id": 7,
+    "confidence": 1.0,
+    "roi_confidence": 0.9029118682729793,
+    "line_id": 7,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (12).JPG"
+  },
+  {
+    "bbox": [
+      630,
+      341,
+      783,
+      489
+    ],
+    "class_id": 5,
+    "confidence": 1.0,
+    "roi_confidence": 0.8974039904507345,
+    "line_id": 5,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (240).JPG"
+  },
+  {
+    "bbox": [
+      634,
+      553,
+      784,
+      699
+    ],
+    "class_id": 13,
+    "confidence": 1.0,
+    "roi_confidence": 0.9070163550040782,
+    "line_id": 13,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (240).JPG"
+  },
+  {
+    "bbox": [
+      629,
+      480,
+      724,
+      575
+    ],
+    "class_id": 2,
+    "confidence": 1.0,
+    "roi_confidence": 0.9009327898889423,
+    "line_id": 2,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (169).JPG"
+  },
+  {
+    "bbox": [
+      457,
+      541,
+      581,
+      679
+    ],
+    "class_id": 12,
+    "confidence": 1.0,
+    "roi_confidence": 0.8316454366827124,
+    "line_id": 12,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (32).JPG"
+  },
+  {
+    "bbox": [
+      444,
+      716,
+      581,
+      850
+    ],
+    "class_id": 13,
+    "confidence": 1.0,
+    "roi_confidence": 0.8386230157472732,
+    "line_id": 13,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (32).JPG"
+  },
+  {
+    "bbox": [
+      464,
+      391,
+      591,
+      515
+    ],
+    "class_id": 6,
+    "confidence": 1.0,
+    "roi_confidence": 0.8459145973779938,
+    "line_id": 6,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (32).JPG"
+  },
+  {
+    "bbox": [
+      341,
+      275,
+      421,
+      355
+    ],
+    "class_id": 13,
+    "confidence": 1.0,
+    "roi_confidence": 0.8824910991926815,
+    "line_id": 13,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (237).JPG"
+  },
+  {
+    "bbox": [
+      656,
+      404,
+      841,
+      585
+    ],
+    "class_id": 4,
+    "confidence": 1.0,
+    "roi_confidence": 0.9093900165901383,
+    "line_id": 4,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (24).JPG"
+  },
+  {
+    "bbox": [
+      408,
+      514,
+      552,
+      664
+    ],
+    "class_id": 2,
+    "confidence": 1.0,
+    "roi_confidence": 0.8842003575733517,
+    "line_id": 2,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (164).JPG"
+  },
+  {
+    "bbox": [
+      392,
+      448,
+      564,
+      619
+    ],
+    "class_id": 3,
+    "confidence": 1.0,
+    "roi_confidence": 0.8985912110489416,
+    "line_id": 3,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (172).JPG"
+  },
+  {
+    "bbox": [
+      182,
+      448,
+      368,
+      626
+    ],
+    "class_id": 11,
+    "confidence": 0.9800808429718018,
+    "roi_confidence": 0.8823258096079143,
+    "line_id": 11,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (172).JPG"
+  },
+  {
+    "bbox": [
+      720,
+      474,
+      868,
+      622
+    ],
+    "class_id": 5,
+    "confidence": 1.0,
+    "roi_confidence": 0.9058930881395382,
+    "line_id": 5,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (7).JPG"
+  },
+  {
+    "bbox": [
+      782,
+      572,
+      846,
+      633
+    ],
+    "class_id": 9,
+    "confidence": 1.0,
+    "roi_confidence": 0.8405430266525629,
+    "line_id": 9,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (109).JPG"
+  },
+  {
+    "bbox": [
+      718,
+      650,
+      780,
+      712
+    ],
+    "class_id": 14,
+    "confidence": 1.0,
+    "roi_confidence": 0.8687817823588593,
+    "line_id": 14,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (109).JPG"
+  },
+  {
+    "bbox": [
+      509,
+      490,
+      667,
+      658
+    ],
+    "class_id": 12,
+    "confidence": 1.0,
+    "roi_confidence": 0.8267786224893816,
+    "line_id": 12,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (33).JPG"
+  },
+  {
+    "bbox": [
+      515,
+      314,
+      669,
+      456
+    ],
+    "class_id": 6,
+    "confidence": 1.0,
+    "roi_confidence": 0.8083288456841633,
+    "line_id": 6,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (33).JPG"
+  },
+  {
+    "bbox": [
+      504,
+      505,
+      576,
+      586
+    ],
+    "class_id": 2,
+    "confidence": 1.0,
+    "roi_confidence": 0.8526878534573403,
+    "line_id": 2,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (168).JPG"
+  },
+  {
+    "bbox": [
+      447,
+      666,
+      571,
+      788
+    ],
+    "class_id": 1,
+    "confidence": 1.0,
+    "roi_confidence": 0.8988488780089927,
+    "line_id": 1,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (13).JPG"
+  },
+  {
+    "bbox": [
+      587,
+      827,
+      711,
+      952
+    ],
+    "class_id": 11,
+    "confidence": 1.0,
+    "roi_confidence": 0.8930160075672753,
+    "line_id": 11,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (13).JPG"
+  },
+  {
+    "bbox": [
+      586,
+      663,
+      709,
+      784
+    ],
+    "class_id": 14,
+    "confidence": 1.0,
+    "roi_confidence": 0.8992205880524757,
+    "line_id": 14,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (13).JPG"
+  },
+  {
+    "bbox": [
+      446,
+      508,
+      567,
+      626
+    ],
+    "class_id": 4,
+    "confidence": 1.0,
+    "roi_confidence": 0.8947888105810706,
+    "line_id": 4,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (13).JPG"
+  },
+  {
+    "bbox": [
+      446,
+      830,
+      568,
+      953
+    ],
+    "class_id": 7,
+    "confidence": 1.0,
+    "roi_confidence": 0.8930977291989238,
+    "line_id": 7,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (13).JPG"
+  },
+  {
+    "bbox": [
+      555,
+      449,
+      631,
+      525
+    ],
+    "class_id": 1,
+    "confidence": 1.0,
+    "roi_confidence": 0.8870669754440939,
+    "line_id": 1,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (241).JPG"
+  },
+  {
+    "bbox": [
+      555,
+      548,
+      632,
+      626
+    ],
+    "class_id": 12,
+    "confidence": 1.0,
+    "roi_confidence": 0.8904764254774329,
+    "line_id": 12,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (241).JPG"
+  },
+  {
+    "bbox": [
+      322,
+      357,
+      515,
+      545
+    ],
+    "class_id": 9,
+    "confidence": 1.0,
+    "roi_confidence": 0.9077703006313507,
+    "line_id": 9,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (191).JPG"
+  },
+  {
+    "bbox": [
+      101,
+      361,
+      298,
+      555
+    ],
+    "class_id": 3,
+    "confidence": 0.6310960650444031,
+    "roi_confidence": 0.9061075056286706,
+    "line_id": 3,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (191).JPG"
+  },
+  {
+    "bbox": [
+      589,
+      594,
+      672,
+      679
+    ],
+    "class_id": 12,
+    "confidence": 1.0,
+    "roi_confidence": 0.8731560105691669,
+    "line_id": 12,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (29).JPG"
+  },
+  {
+    "bbox": [
+      595,
+      485,
+      676,
+      567
+    ],
+    "class_id": 6,
+    "confidence": 1.0,
+    "roi_confidence": 0.8663859068551882,
+    "line_id": 6,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (29).JPG"
+  },
+  {
+    "bbox": [
+      584,
+      705,
+      669,
+      794
+    ],
+    "class_id": 13,
+    "confidence": 1.0,
+    "roi_confidence": 0.8846633944558735,
+    "line_id": 13,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (29).JPG"
+  },
+  {
+    "bbox": [
+      450,
+      167,
+      576,
+      294
+    ],
+    "class_id": 1,
+    "confidence": 1.0,
+    "roi_confidence": 0.9073426235737648,
+    "line_id": 1,
+    "image_path": "/Users/gregyoungforever/Downloads/metro/BD_CHALLENGE/IM (87).JPG"
+  }
+]

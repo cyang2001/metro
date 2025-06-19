@@ -10,12 +10,14 @@ from typing import List, Optional, Tuple, Dict, Any, Union
 import cv2
 from PIL import Image
 import time
+import re, scipy.io as sio, json
 
-from src.classification.template_classifier import TemplateClassifier
 from src.roi_detection.multi_color_detector import MultiColorDetector
 from src.data.dataset import MetroDataset
 from src.preprocessing.roi_preprocessor import ROIParamOptimizerPreprocessor
 from utils.utils import get_logger, ensure_dir
+from src.preprocessing.CNN_preprocessor import CNNPreprocessor
+from src.classification.CNN_classifier import CNNClassifier
 
 class MetroDemoPipeline:
     """
@@ -65,10 +67,14 @@ class MetroDemoPipeline:
 
             self.roi_detector.set_preprocessor(self.roi_preprocessor)
 
-            #ToDo 分类器
-            self.classifier = TemplateClassifier(
-                cfg=self.cfg.classification
+            # CNN classifier components
+            self.cnn_preprocessor = CNNPreprocessor(
+                cfg=self.cfg.preprocessing.cnn
             )
+            self.cnn_classifier = CNNClassifier(
+                cfg=self.cfg.classification.cnn
+            )
+            self.cnn_classifier.set_preprocessor(self.cnn_preprocessor)
 
             self.logger.info("Demo components initialized")
         except Exception as e:
@@ -111,26 +117,20 @@ class MetroDemoPipeline:
             image = self._load_image(image_path)
             roi_results = self.roi_detector.detect(image)
             detection_time = time.time() - start_time
-            self.logger.info(f"Detected {len(roi_results)} potential metro signs")
+            #self.logger.info(f"Detected {len(roi_results)} potential metro signs")
             
-            # 转换结果格式以匹配test pipeline
-            results = []
-            for roi in roi_results:
-                results.append({
-                    'bbox': roi['bbox'],
-                    'line_id': roi['line_id'],
-                    'confidence': roi['confidence']
-                })
-
+            # Classification stage
             processing_times = {
                 'detection': detection_time,
             }
-            
-            #ToDo 分类器
 
-            #临时
-            results = roi_results
+            cls_start = time.time()
+            class_results = self._classify_rois(image, roi_results)
+            # Remove duplicates
+            class_results = self._filter_duplicate_rois(class_results)
+            processing_times['classification'] = time.time() - cls_start
 
+            results = class_results
 
             if self.view_images:
                 self._visualize_results(image, results, os.path.basename(image_path), processing_times)
@@ -203,8 +203,8 @@ class MetroDemoPipeline:
                     self.logger.warning(f"Empty ROI: ({x1}, {y1}, {x2}, {y2})")
                     continue
                 
-                #ToDo 分类器
-                class_id, confidence = self.classifier.predict(roi_img)
+                # CNN classifier prediction
+                class_id, confidence = self.cnn_classifier.predict(roi_img)
                 
                 if class_id != -1:
                     result = {
@@ -212,10 +212,10 @@ class MetroDemoPipeline:
                         'class_id': class_id,
                         'confidence': confidence,
                         'roi_confidence': roi.get('confidence', 0.0),
-                        'line_id': roi.get('line_id', '')
+                        'line_id': class_id
                     }
                     results.append(result)
-                    self.logger.info(f"Detected metro line {class_id} with confidence {confidence:.4f}")
+                    #self.logger.info(f"Detected metro line {class_id} with confidence {confidence:.4f}")
             except Exception as e:
                 self.logger.error(f"Error classifying ROI: {e}")
                 
@@ -261,6 +261,7 @@ class MetroDemoPipeline:
                 self.logger.error(f"Error processing image {image_path}: {e}")
         
         self._generate_summary(all_results)
+        self._save_results(all_results)
     
     def _visualize_results(self, image: np.ndarray, results: List[Dict], title: str = "", processing_times: Optional[Dict] = None):
         """
@@ -307,6 +308,8 @@ class MetroDemoPipeline:
         
         if processing_times is not None and self.show_debug_info:
             info_text = f"Detection: {processing_times['detection']:.3f}s"
+            if 'classification' in processing_times:
+                info_text += f", Class: {processing_times['classification']:.3f}s"
             plt.figtext(0.02, 0.02, info_text, color='black', 
                        backgroundcolor='white', fontsize=9)
         
@@ -379,7 +382,53 @@ class MetroDemoPipeline:
         plt.close()
         
         self.logger.info(f"Visualization saved to {output_path}")
-    
+
+    def _save_results(self, results: List[Dict]):
+        """
+        Save detection results.
+        
+        Args:
+            results: List of detection results per image
+        """
+        try:
+            # Determine output directory (fallback to current working dir)
+            out_dir = self.cfg.mode.demo.get("output_path") or os.getcwd()
+            ensure_dir(out_dir)
+
+            # Build BD rows: [n, x1, x2, y1, y2, class]
+            pattern = re.compile(r"\((\d+)\)")
+            bd_rows: List[List[float]] = []
+            for r in results:
+                img_path = r.get("image_path", "")
+                m = pattern.search(os.path.basename(img_path))
+                if m is None:
+                    self.logger.warning(f"Skip '{img_path}': filename does not match '(n)' pattern")
+                    continue
+
+                n_val = int(m.group(1))
+                x1, y1, x2, y2 = map(float, r["bbox"])
+                class_id = int(r["class_id"])
+                bd_rows.append([n_val, y1, y2, x1, x2, class_id])
+
+            if not bd_rows:
+                self.logger.error("_save_results: No BD rows produced, mat file not written")
+                return
+
+            bd_array = np.asarray(bd_rows, dtype=np.float64)
+
+            mat_path = os.path.join(out_dir, "teams25.mat")
+            sio.savemat(mat_path, {"BD": bd_array})
+            self.logger.info(f"Saved {bd_array.shape[0]} detections to {mat_path}")
+
+            # Optional JSON for inspection
+            json_path = os.path.join(out_dir, "teams25.json")
+            with open(json_path, "w") as f:
+                json.dump(results, f, indent=2, default=lambda o: o if isinstance(o, (int, float, str)) else str(o))
+            self.logger.info(f"Raw results saved to {json_path}")
+                
+        except Exception as e:
+            self.logger.error(f"Error saving results: {e}")
+
     def _save_detection_data(self, results: List[Dict], output_path: str):
         """
         Save detection data to JSON file.
@@ -537,6 +586,40 @@ class MetroDemoPipeline:
                 
             self.logger.info(f"Summary data saved to {summary_json_path}")
 
+    # -----------------------------------------------------------------
+    def _filter_duplicate_rois(self, detections: List[Dict], iou_thresh: float = 0.5) -> List[Dict]:
+        """Apply simple NMS based on classifier confidence to keep one ROI per overlapping area."""
+        if not detections:
+            return detections
+
+        # Sort detections by confidence (desc)
+        dets = sorted(detections, key=lambda x: x['confidence'], reverse=True)
+        picked: List[Dict] = []
+
+        while dets:
+            best = dets.pop(0)
+            picked.append(best)
+            dets = [d for d in dets if self._iou(d['bbox'], best['bbox']) < iou_thresh]
+
+        return picked
+
+    def _iou(self, box_a: Tuple[int, int, int, int], box_b: Tuple[int, int, int, int]) -> float:
+        """Compute Intersection over Union of two bounding boxes."""
+        x1_a, y1_a, x2_a, y2_a = box_a
+        x1_b, y1_b, x2_b, y2_b = box_b
+
+        inter_x1 = max(x1_a, x1_b)
+        inter_y1 = max(y1_a, y1_b)
+        inter_x2 = min(x2_a, x2_b)
+        inter_y2 = min(y2_a, y2_b)
+        inter_area = max(0, inter_x2 - inter_x1) * max(0, inter_y2 - inter_y1)
+
+        area_a = (x2_a - x1_a) * (y2_a - y1_a)
+        area_b = (x2_b - x1_b) * (y2_b - y1_b)
+        union = area_a + area_b - inter_area
+        if union == 0:
+            return 0.0
+        return inter_area / union
 
 def main(cfg: DictConfig):
     """

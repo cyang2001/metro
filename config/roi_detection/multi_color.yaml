@@ -8,19 +8,19 @@ min_area: 1900
 max_area: 30000
 min_aspect_ratio: 0.8
 max_aspect_ratio: 1.2
-fill_ratio: 0.85
+fill_ratio: 0.8
 threshold_error_dict:
-  "1": 2
-  "2": 2
+  "1": 5
+  "2": 10
   "3": 5
   "4": 5
   "5": 15
   "6": 10
   "7": 10
-  "8": 5
+  "8": 15
   "9": 5
   "10": 5
-  "11": 25
+  "11": 15
   "12": 2
   "13": 5
   "14": 5

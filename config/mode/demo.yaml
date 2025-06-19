@@ -10,11 +10,11 @@ demo:
   file_pattern: "*.JPG"                   # Pattern for image files in batch mode
 
   # Visualization settings
-  view_images: true                       # Whether to display results interactively
+  view_images: false                       # Whether to display results interactively
   save_results: false                      # Whether to save results to disk
   output_format: "png"                    # Format for saved visualizations
   show_debug_info: true                   # Whether to show detailed detection info
-
+  output_path: "${base_dir}/results"      # Path to save results
   # Confidence thresholds
   detection_threshold: 0.5                # Minimum confidence for detection
   classification_threshold: 0.5           # Minimum confidence for classification
